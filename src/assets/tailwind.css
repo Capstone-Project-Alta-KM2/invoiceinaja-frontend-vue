@@ -3,3 +3,24 @@
 @tailwind components;
 
 @tailwind utilities;
+
+@layer base{
+    .button{
+        @apply px-4 py-3 text-xl rounded-lg font-semibold focus:outline-none   
+    }
+    .button-primary{
+        @apply disabled:bg-blue-200 bg-blue-600 hover:bg-blue-400 text-white transition-all duration-300
+    }
+    .form{
+        @apply p-4 w-96 placeholder:text-lg mx-auto rounded-lg transition-all duration-300 block border-2 focus:outline-0 focus:border-blue-400
+    }
+    .alert{
+        @apply px-4 leading-3 rounded-sm
+    }
+    .alert-success{
+        @apply bg-green-200 text-green-500
+    }
+    .alert-failed{
+        @apply bg-pink-200 text-red-600
+    }
+}
