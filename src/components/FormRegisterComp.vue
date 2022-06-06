@@ -1,5 +1,5 @@
 <template>
-  <section class="flex flex-row">
+  <section class="flex flex-row bg-white">
     <div>
       <img src="../assets/images/Background.png" class="w-[470px]" alt="" />
     </div>
