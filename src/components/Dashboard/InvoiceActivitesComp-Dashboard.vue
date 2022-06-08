@@ -44,7 +44,12 @@
 
             <tbody>
               <tr
-                class="text-left hover:bg-gray-200 transition-all duration-300"
+                class="
+                  text-left
+                  hover:bg-soft-purple-outline-hover
+                  transition-all
+                  duration-300
+                "
                 v-for="invoiceData in dataInvoiceActivity"
                 :key="invoiceData.invoiceId"
               >
@@ -99,10 +104,11 @@
                     font-light
                     px-6
                     py-4
+                    text-center
                     whitespace-nowrap
                   "
                 >
-                  <span class="inline-block p-2 status">
+                  <span class="inline-block w-16 leading-8 status">
                     {{ invoiceData.Status }}
                   </span>
                 </td>
@@ -164,10 +170,12 @@ export default {
     }
     for (let i = 0; i < status.length; i++) {
       if (status[i].textContent.match("Paid")) {
-        status[i].classList.add("bg-green-400");
+        status[i].classList.add("bg-[rgba(135,228,96,0.2)]");
+        status[i].classList.add("text-paid-color");
       }
       if (status[i].textContent.match("Unpaid")) {
-        status[i].classList.add("bg-yellow-400");
+        status[i].classList.add("bg-[rgba(255,204,0,0.2)]");
+        status[i].classList.add("text-unpaid-color");
         //   console.log("Unpaid");
       }
     }

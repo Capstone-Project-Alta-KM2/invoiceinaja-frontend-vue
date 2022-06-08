@@ -15,6 +15,7 @@ function validationPassword(){
     } else {
         letter.classList.remove("valid");
         letter.classList.add("invalid");
+        return false
     }
  
   // Validate numbers
@@ -25,6 +26,7 @@ function validationPassword(){
   } else {
     number.classList.remove("valid");
     number.classList.add("invalid");
+    return false
   }
   
   // Validate length
@@ -34,6 +36,7 @@ function validationPassword(){
   } else {
     length.classList.remove("valid");
     length.classList.add("invalid");
+    return false
   }
 }
 function showHint() {

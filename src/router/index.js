@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import RegisterPage from '../views/RegisterPage.vue'
 import HomeView from '../views/HomeView.vue'
 import DashboardPage from '../views/DashboardPage.vue'
+import AddInvoicePage from '../views/AddInvoicePage.vue'
 
 Vue.use(VueRouter)
 
@@ -15,12 +16,18 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    component: RegisterPage
+    component: RegisterPage,
+    
   },
   {
     path: '/dashboard',
     name: 'dashboard',
     component: DashboardPage
+  },
+  {
+    path: '/addInvoice',
+    name: 'newInvoice',
+    component: AddInvoicePage
   },
  
 ]

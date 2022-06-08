@@ -1,7 +1,15 @@
 <template>
   <section class="flex flex-row bg-white">
-    <div>
-      <img src="../assets/images/Background.png" class="w-[470px]" alt="" />
+    <div
+      class="
+        bg-[url('../assets/images/Register-Background.png')]
+        bg-no-repeat
+        bg-center
+        w-96
+        min-h-screen
+      "
+    >
+      <!-- <img src="../assets/images/Background.png" class="w-[470px]" alt="" /> -->
     </div>
     <div class="w-full p-10">
       <div class="my-3" v-if="pesanSuccess !== ''">
@@ -125,6 +133,9 @@
               d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z"
             />
           </svg>
+          <div v-if="pesanPassword">
+            {{ pesanPassword }}
+          </div>
           <div
             id="message"
             class="
@@ -139,7 +150,7 @@
               transition-all
             "
           >
-            <h3>Password harus mengandung :</h3>
+            <h3 class="text-xl">Password harus mengandung :</h3>
             <p id="letter" class="invalid">
               Huruf <b>kecil</b> dan <b>kapital</b>
             </p>
@@ -231,7 +242,15 @@
             "
             name=""
             id=""
-            :disabled="checkNulls || isLoading"
+            :disabled="
+              nama_lengkap == '' ||
+              nama_bisnis == '' ||
+              email == '' ||
+              kata_sandi == '' ||
+              kata_sandi_konfirmasi == '' ||
+              no_hp == '' ||
+              isLoading == true
+            "
           >
             <span class="mr-2" v-if="isLoading">
               <simple-loading />
@@ -240,6 +259,14 @@
           </button>
         </div>
       </form>
+      <input
+        type="file"
+        name=""
+        @change="changePhotoProf"
+        id=""
+        accept=".img,.png,.jpeg"
+        ref="photoInput"
+      />
     </div>
   </section>
 </template>
@@ -274,29 +301,15 @@ export default {
 
       isLoading: false,
       isDisabled: true,
+      pesanPassword: "",
     };
   },
-  computed: {
-    checkNulls() {
-      let disab = this.isDisabled;
-      if (this.isLoading === true) {
-        disab = true;
-      } else if (
-        this.nama_lengkap == "" ||
-        this.email == "" ||
-        this.nama_bisnis == "" ||
-        this.kata_sandi == "" ||
-        this.kata_sandi_konfirmasi == "" ||
-        this.no_hp == ""
-      ) {
-        disab = true;
-      } else {
-        disab = false;
-      }
-      return disab;
-    },
-  },
+  computed: {},
   methods: {
+    changePhotoProf() {
+      let a = this.$refs.photoInput.files[0].name;
+      console.log(`/files/${a}`);
+    },
     hideHint() {
       hideHint();
     },
@@ -304,7 +317,8 @@ export default {
       showHint();
     },
     validatePassword() {
-      validationPassword();
+      let a = validationPassword();
+      console.log(a);
       // if (this.kata_sandi.length < 8) {
       //   this.pesanValidatePass = "Password setidaknya 8 karakter";
       // } else {
@@ -334,31 +348,36 @@ export default {
       }
     },
     async register() {
+      let hasilValidate = validationPassword();
+      console.log("a :", hasilValidate);
       this.isLoading = true;
-      this.checkNulls = true;
-      const userData = {
-        nama_lengkap: this.nama_lengkap,
-        email: this.email,
-        nama_bisnis: this.nama_bisnis,
-        kata_sandi: this.kata_sandi,
-      };
-      await axios
-        .post("/api/v1/users", userData)
-        .then((res) => {
-          this.pesanSuccess = res.data.data.status;
-          this.pesanFailed = "";
-          this.isLoading = false;
-          this.checkNulls = false;
-        })
-        .catch((err) => {
-          this.pesanFailed = err.response.data.meta.message;
-          this.pesanSuccess = "";
-          this.isLoading = false;
-          this.checkNulls = false;
-
-          console.log(err.response.data);
-          // console.log("Error : ", err);
-        });
+      if (hasilValidate == false) {
+        this.pesanPassword = "Mohon disesuaikan dengan formatnya";
+        this.isLoading = false;
+      } else {
+        this.pesanPassword = "";
+        const userData = {
+          nama_lengkap: this.nama_lengkap,
+          email: this.email,
+          no_tlpn: this.no_hp,
+          nama_bisnis: this.nama_bisnis,
+          kata_sandi: this.kata_sandi,
+        };
+        await axios
+          .post("/api/v1/users", userData)
+          .then((res) => {
+            this.pesanSuccess = res.data.data.status;
+            this.pesanFailed = "";
+            this.isLoading = false;
+          })
+          .catch((err) => {
+            // this.pesanFailed = err.response.data.meta.message;
+            // this.pesanSuccess = "";
+            // this.isLoading = false;
+            // console.log(err.response.data);
+            console.log("Error : ", err);
+          });
+      }
     },
   },
 };
