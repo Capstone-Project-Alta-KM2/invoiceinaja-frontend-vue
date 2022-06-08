@@ -48,7 +48,7 @@
         name=""
         id=""
         ref="city"
-        class="form-add-invoice w-72"
+        class="form-add-invoice w-72 text-black"
         @input="fillForm()"
         :value="value.city"
       />
@@ -87,6 +87,7 @@ export default {
     fillForm() {
       this.$emit("input", {
         invoiceTo: this.$refs.invoiceTo.value,
+        city: this.$refs.city.value,
         email: this.$refs.email.value,
         address: this.$refs.address.value,
         zipCode: this.$refs.zipCode.value,

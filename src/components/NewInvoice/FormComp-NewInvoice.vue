@@ -296,6 +296,7 @@ export default {
         dateInvoiceAndNo: this.dateInvoiceAndNo,
         clientInformation: this.clients,
         invoices: this.invoices,
+        status: "Unpaid",
       };
       console.log(invoicesData);
     },
