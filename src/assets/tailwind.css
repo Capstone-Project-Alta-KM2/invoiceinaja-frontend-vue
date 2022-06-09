@@ -11,7 +11,7 @@
     .button-primary{
         @apply disabled:bg-soft-purple-disabled bg-soft-purple hover:bg-soft-purple-hover text-white transition-all duration-300
     }
-    .button-outline-soft-purple{
+    .button-outline-primary{
         @apply disabled:bg-soft-purple-disabled border-soft-purple border-2 hover:bg-soft-purple-outline-hover  text-soft-purple transition-all duration-300
     }
     .form{
@@ -19,7 +19,7 @@
         border focus:outline-0 focus:border-soft-purple border-[rgba(0,0,0,0.6)]
     }
     .form-add-invoice{
-        @apply p-2 placeholder:text-xl rounded-lg transition-all duration-300 block 
+        @apply px-3 py-2 placeholder:text-base rounded-lg transition-all duration-300 block 
         border focus:outline-0 focus:border-soft-purple border-[rgba(0,0,0,0.6)]
     }
     .alert{
@@ -30,6 +30,10 @@
     }
     .alert-failed{
         @apply bg-pink-200 text-red-600
+    }
+    .form-checkbox-modif{
+        @apply form-checkbox w-6 h-6 border  rounded-md 
+        transition-all duration-300 focus:ring-0 text-soft-purple
     }
 }
 

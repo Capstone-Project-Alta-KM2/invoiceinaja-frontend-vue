@@ -231,7 +231,7 @@
         <div class="col-span-2 w-full">
           <button
             type="submit"
-            v-ripple="'rgba(255, 255, 255, 0.35)'"
+            v-ripple
             class="
               button
               flex

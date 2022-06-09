@@ -22,7 +22,7 @@
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
           <div class="overflow-hidden">
             <table class="min-w-full">
-              <thead class="border-b bg-[rgba(217,217,217,0.5)]">
+              <thead class="border-b bg-[rgba(155,109,255,0.1)]">
                 <tr>
                   <th
                     scope="col"
@@ -80,7 +80,7 @@
               </thead>
               <tbody>
                 <tr
-                  class="bg-white border-b"
+                  class="border-b odd:bg-white even:bg-[rgba(155,109,255,0.1)]"
                   v-for="(invoice, index) in invoices"
                   :key="index"
                 >
@@ -215,7 +215,7 @@
               <button
                 class="button button-primary w-96"
                 type="button"
-                v-ripple="'rgba(255,255,255,0.5)'"
+                v-ripple
                 @click="addInvoiceField"
               >
                 Add Product
@@ -228,17 +228,17 @@
 
     <div class="text-right px-4">
       <button
-        v-ripple="'rgba(255,255,255,0.5)'"
+        v-ripple
         type="submit"
         name=""
         id=""
-        class="button button-outline-soft-purple"
+        class="button button-outline-primary"
       >
         Save as Draft
       </button>
       <button
         type="button"
-        v-ripple="'rgba(255,255,255,0.5)'"
+        v-ripple
         class="button button-primary ml-5 ripple-effect"
       >
         Preview Invoice

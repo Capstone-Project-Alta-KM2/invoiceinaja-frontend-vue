@@ -1,27 +1,23 @@
 <template>
-    <div class="client-page">
-        <div class="container bg-white rounded-md border-2 my-10">
-            <div class="mt-3 mb-5">
-                <h4 class="text-left text-xl fw-bolder text-black">Invoices</h4>
-            </div>
-            <simple-tab/>
-            <simple-pagination/>
-        </div>
+  <div class="client-page">
+    <div class="container bg-white rounded-md border-2 my-10">
+      <h4 class="text-left px-5 pt-5 text-2xl font-bold text-black">
+        Invoices
+      </h4>
+      <simple-tab />
     </div>
+  </div>
 </template>
 
 <script>
-import SimplePagination from '../Pagination/SimplePagination.vue'
-import SimpleTab from './SimpleTab.vue'
+import SimpleTab from "./SimpleTab.vue";
 export default {
-    name: 'InvoiceCard',
-    components: {
-        SimplePagination,
-        SimpleTab,
-    }
-}
+  name: "InvoiceCard",
+  components: {
+    SimpleTab,
+  },
+};
 </script>
 
 <style>
-
 </style>
