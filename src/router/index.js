@@ -4,6 +4,7 @@ import RegisterPage from '../views/RegisterPage.vue'
 import HomeView from '../views/HomeView.vue'
 import DashboardPage from '../views/DashboardPage.vue'
 import AddInvoicePage from '../views/AddInvoicePage.vue'
+import ClientPage from '../views/ClientPage.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
     path: '/addInvoice',
     name: 'newInvoice',
     component: AddInvoicePage
+  },
+  {
+    path: '/client',
+    name: 'client',
+    component: ClientPage
   },
  
 ]
