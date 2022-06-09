@@ -5,6 +5,7 @@ import HomeView from '../views/HomeView.vue'
 import DashboardPage from '../views/DashboardPage.vue'
 import AddInvoicePage from '../views/AddInvoicePage.vue'
 import ClientPage from '../views/ClientPage.vue'
+import InvoicePage from '../views/InvoicePage.vue'
 
 Vue.use(VueRouter)
 
@@ -35,8 +36,11 @@ const routes = [
     name: 'client',
     component: ClientPage
   },
- 
-]
+    path: '/invoice',
+    name: 'invoice',
+    component: InvoicePage
+  },
+
 
 const router = new VueRouter({
   mode: 'history',
