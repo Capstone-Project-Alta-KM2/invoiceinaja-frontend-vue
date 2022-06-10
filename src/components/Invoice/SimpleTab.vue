@@ -90,6 +90,7 @@
         <div class="my-auto">
           <button
             v-ripple
+            @click="$router.push('/addInvoice')"
             class="button button-primary ml-4 px-3 py-2 text-base"
           >
             + Add New

@@ -1,6 +1,10 @@
 <template>
   <div class="text-left mb-5">
-    <button class="button button-primary flex items-center" v-ripple>
+    <button
+      class="button button-primary flex items-center"
+      @click="$router.push('/invoice')"
+      v-ripple
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="h-6 w-6 mr-2"
