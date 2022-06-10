@@ -1,9 +1,7 @@
 <template>
   <div class="client-page">
     <div class="container relative rounded-md border-2 my-3 bg-white">
-      <div class="mt-3 mb-5">
-        <h4 class="text-left text-xl fw-bolder text-black">Clients</h4>
-      </div>
+      <h4 class="text-left px-3 pt-5 text-2xl font-bold text-black">Clients</h4>
       <client-table @showDialog="changeShow()" />
       <div
         v-if="showing"
