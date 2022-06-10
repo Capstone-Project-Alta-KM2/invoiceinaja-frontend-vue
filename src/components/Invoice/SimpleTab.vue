@@ -29,7 +29,7 @@
         <li class="mr-2" role="presentation">
           <button
             v-ripple
-            :class="currentShow == 'paid' ? ActiveClassPaid : inActiveClass"
+            :class="currentShow == 'paid' ? ActiveClass : inActiveClass"
             id="paid"
             type="button"
             role="tab"
@@ -43,9 +43,7 @@
         <li class="mr-2" role="presentation">
           <button
             v-ripple
-            :class="
-              currentShow == 'overdue' ? ActiveClassOverdue : inActiveClass
-            "
+            :class="currentShow == 'overdue' ? ActiveClass : inActiveClass"
             id="overdue"
             type="button"
             @click="changeActive('overdue')"
@@ -56,9 +54,7 @@
         <li role="presentation">
           <button
             v-ripple
-            :class="
-              currentShow == 'pending' ? ActiveClassPending : inActiveClass
-            "
+            :class="currentShow == 'pending' ? ActiveClass : inActiveClass"
             id="pending"
             type="button"
             @click="changeActive('pending')"
@@ -69,7 +65,7 @@
         <li role="presentation">
           <button
             v-ripple
-            :class="currentShow == 'draft' ? ActiveClassDraft : inActiveClass"
+            :class="currentShow == 'draft' ? ActiveClass : inActiveClass"
             id="draft"
             type="button"
             @click="changeActive('draft')"
