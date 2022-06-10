@@ -7,8 +7,10 @@ import './assets/tailwind.css'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import Ripple from 'vue-ripple-directive'
 import './axios'
+import VuePaginate from 'vue-paginate'
+Vue.use(VuePaginate)
 
-Ripple.color = 'rgba(255, 255, 255, 0.35)';
+Ripple.color = 'rgba(208, 186, 255, 0.2)';
 Ripple.zIndex = 55;
 Vue.directive('ripple', Ripple);
 // Import Bootstrap and BootstrapVue CSS files (order is important)
