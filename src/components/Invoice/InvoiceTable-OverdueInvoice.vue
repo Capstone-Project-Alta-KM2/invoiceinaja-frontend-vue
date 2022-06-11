@@ -198,6 +198,7 @@
         ],
       }"
       for="invoices"
+      :hide-single-page="true"
       :limit="3"
     ></paginate-links>
   </div>

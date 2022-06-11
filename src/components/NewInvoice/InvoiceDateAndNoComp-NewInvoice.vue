@@ -20,7 +20,7 @@
             border-soft-purple
             block
             border-[6px]
-            focus:outline-0
+            focus:border-soft-purple focus:outline-0
           "
         />
       </div>

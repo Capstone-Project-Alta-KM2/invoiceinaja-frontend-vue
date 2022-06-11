@@ -35,12 +35,13 @@ const routes = [
     path: '/client',
     name: 'client',
     component: ClientPage
-  },
+  },{
     path: '/invoice',
     name: 'invoice',
     component: InvoicePage
-  },
 
+  }
+]
 
 const router = new VueRouter({
   mode: 'history',

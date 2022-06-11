@@ -9,7 +9,8 @@ import Ripple from 'vue-ripple-directive'
 import './axios'
 import VuePaginate from 'vue-paginate'
 Vue.use(VuePaginate)
-
+import VueExcelXlsx from "vue-excel-xlsx";
+Vue.use(VueExcelXlsx);
 Ripple.color = 'rgba(208, 186, 255, 0.2)';
 Ripple.zIndex = 55;
 Vue.directive('ripple', Ripple);

@@ -154,6 +154,7 @@
                       @input="validateNumber"
                       id=""
                       class="
+                        w-12
                         form-add-invoice
                         mx-auto
                         text-center
@@ -178,20 +179,21 @@
                       items-center
                     "
                   >
-                    <input
-                      type="text"
-                      readonly
-                      name=""
-                      id=""
+                    <p
                       class="
                         form-add-invoice
                         mx-auto
                         rounded-none
+                        leading-6
+                        my-2
                         text-center
                         border-dashed
+                        w-44
+                        total
                       "
-                      :value="(invoice.total = invoice.price * invoice.qty)"
-                    />
+                    >
+                      Rp. {{ (invoice.total = invoice.price * invoice.qty) }}
+                    </p>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       class="h-8 w-8 cursor-pointer text-soft-purple"
@@ -226,6 +228,23 @@
       </div>
     </div>
 
+    <div
+      class="
+        text-2xl
+        font-semibold
+        flex
+        justify-end
+        items-center
+        px-10
+        pt-3
+        border-y-4 border-y-[#B0B0B0]
+        mb-5
+      "
+    >
+      <p>Total :</p>
+      <p class="pl-16">Rp. {{ totalAllInvoices }}</p>
+    </div>
+
     <div class="text-right px-4">
       <button
         v-ripple
@@ -257,6 +276,7 @@ export default {
   },
   data() {
     return {
+      totalAllInvoices: 0,
       invoices: [
         {
           item_name: "",
@@ -281,8 +301,6 @@ export default {
       },
     };
   },
-
-  computed: {},
   methods: {
     addInvoiceField() {
       this.invoices.push({ price: 0, qty: 0 });
@@ -293,10 +311,11 @@ export default {
     },
     addInvoices() {
       const invoicesData = {
-        dateInvoiceAndNo: this.dateInvoiceAndNo,
-        clientInformation: this.clients,
-        invoices: this.invoices,
-        status: "Unpaid",
+        no_and_date_invoice: this.dateInvoiceAndNo,
+        client_information: this.clients,
+        invoices_information: this.invoices,
+        total_all_invoices: this.totalAllInvoices,
+        status_invoice: "Unpaid",
       };
       console.log(invoicesData);
     },
@@ -311,6 +330,14 @@ export default {
         }
       }
     },
+  },
+  updated() {
+    let total = 0;
+    this.invoices.forEach((invoice) => {
+      return (total += invoice.total);
+    });
+    this.totalAllInvoices = total;
+    console.log("perubahan total : ", total);
   },
 };
 </script>

@@ -126,7 +126,16 @@
               <tr
                 v-for="(item, index) in paginated('invoices')"
                 :key="index"
-                class="text-left row py-3 my-10 shadow-invoicein"
+                class="
+                  text-left
+                  row
+                  py-3
+                  my-10
+                  shadow-invoicein
+                  hover:bg-[#e3daf7]
+                  duration-300
+                  transition-all
+                "
               >
                 <td class="w-12 text-center col">
                   <input type="checkbox" class="form-checkbox-modif" />
@@ -199,6 +208,7 @@
       }"
       for="invoices"
       :limit="3"
+      :hide-single-page="true"
     ></paginate-links>
   </div>
 </template>
@@ -220,7 +230,6 @@ export default {
       overdueColor:
         "inline-block w-20 leading-8 bg-[rgba(255,48,76,0.2)] text-overdue-color",
       draftColor: "inline-block w-20 leading-8 bg-gray-200 text-gray-400",
-      paginateNumber: [1],
       paginate: ["invoices"],
       items: [
         {
@@ -470,9 +479,6 @@ export default {
           status: "Paid",
         },
       ],
-      page: 1,
-      perPage: 5,
-      pages: [],
     };
   },
   computed: {
