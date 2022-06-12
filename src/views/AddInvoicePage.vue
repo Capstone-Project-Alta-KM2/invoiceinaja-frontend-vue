@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-white my-10 p-4">
+  <div class="container bg-white my-10 p-4 rounded-lg">
     <back-comp />
     <form-invoice />
   </div>

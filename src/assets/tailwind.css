@@ -15,11 +15,11 @@
         @apply disabled:bg-soft-purple-disabled border-soft-purple border-2 hover:bg-soft-purple-outline-hover  text-soft-purple transition-all duration-300
     }
     .form{
-        @apply p-4 w-96 placeholder:text-lg mx-auto rounded-lg transition-all duration-300 block 
-        border focus:outline-0 focus:border-soft-purple border-[#666666]
+        @apply p-4 w-96 placeholder:text-lg mx-auto rounded-lg   hover:ring-4 hover:placeholder:opacity-0 hover:ring-[#e6daff] transition-all duration-300 block 
+        border focus:outline-0 focus:border-soft-purple focus:ring-[#d3bfff] focus:ring-4 border-[#666666]
     }
     .form-add-invoice{
-        @apply py-2 placeholder:text-base rounded-lg transition-all duration-300 block 
+        @apply py-2 placeholder:text-base rounded-lg  hover:ring-4 hover:placeholder:opacity-0 transition-all duration-300 block 
         border focus:outline-0 focus:border-soft-purple  border-[#666666]
     }
     .alert{

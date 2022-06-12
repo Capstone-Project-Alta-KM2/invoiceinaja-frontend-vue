@@ -1,9 +1,20 @@
 <template>
   <div id="app">
-    <router-view />
+    <component :is="layout">
+      <router-view />
+    </component>
   </div>
 </template>
 
+<script>
+export default {
+  computed: {
+    layout() {
+      return this.$route.meta.layout + "-layout";
+    },
+  },
+};
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -23,6 +34,11 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #7c40ff;
+  background-color: #e5d9ff;
+}
+nav a.router-link-exact-active > svg > path[fill="red"] {
+  color: #7c40ff;
+  background-color: #e5d9ff;
 }
 </style>

@@ -94,7 +94,7 @@
               top-[52px]
               right-4
               cursor-pointer
-              text-blue-500
+              text-soft-purple
             "
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -117,7 +117,7 @@
               top-[52px]
               right-4
               cursor-pointer
-              text-blue-500
+              text-soft-purple
             "
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -184,7 +184,7 @@
               top-[52px]
               right-4
               cursor-pointer
-              text-blue-500
+              text-soft-purple
             "
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -207,7 +207,7 @@
               top-[52px]
               right-4
               cursor-pointer
-              text-blue-500
+              text-soft-purple
             "
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -255,18 +255,24 @@
             <span class="mr-2" v-if="isLoading">
               <simple-loading />
             </span>
-            Daftar Sekarang
+            Create Account
           </button>
         </div>
       </form>
-      <input
-        type="file"
-        name=""
-        @change="changePhotoProf"
-        id=""
-        accept=".img,.png,.jpeg"
-        ref="photoInput"
-      />
+      <div class="flex justify-center space-x-3">
+        <p class="font-semibold">Sudah Punya Akun ?</p>
+        <router-link
+          to="/login"
+          class="
+            text-[#7c40ff]
+            font-semibold
+            hover:text-[#9b6dff]
+            transition-all
+            duration-300
+          "
+          >Sign in</router-link
+        >
+      </div>
     </div>
   </section>
 </template>
@@ -306,10 +312,6 @@ export default {
   },
   computed: {},
   methods: {
-    changePhotoProf() {
-      let a = this.$refs.photoInput.files[0].name;
-      console.log(`/files/${a}`);
-    },
     hideHint() {
       hideHint();
     },
@@ -319,11 +321,6 @@ export default {
     validatePassword() {
       let a = validationPassword();
       console.log(a);
-      // if (this.kata_sandi.length < 8) {
-      //   this.pesanValidatePass = "Password setidaknya 8 karakter";
-      // } else {
-      //   this.pesanValidatePass = "";
-      // }
     },
     async emailChecker() {
       await axios
