@@ -7,6 +7,7 @@ import AddInvoicePage from '../views/AddInvoicePage.vue'
 import ClientPage from '../views/ClientPage.vue'
 import InvoicePage from '../views/InvoicePage.vue'
 import VerifyEmailViews from '../views/VerifyEmailViews.vue'
+import PreviewInvoicePage from '../views/PreviewInvoicePage.vue'
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,13 @@ const routes = [
     meta:{layout:"sidenavbar"},
 
     component: AddInvoicePage
+  },
+  {
+    path: '/:no_invoice/previewInvoice',
+    name: 'previewInvoice',
+    meta:{layout:"sidenavbar"},
+
+    component: PreviewInvoicePage
   },
   {
     path: '/client',
