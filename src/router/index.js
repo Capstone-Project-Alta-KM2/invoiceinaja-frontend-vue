@@ -6,6 +6,7 @@ import DashboardPage from '../views/DashboardPage.vue'
 import AddInvoicePage from '../views/AddInvoicePage.vue'
 import ClientPage from '../views/ClientPage.vue'
 import InvoicePage from '../views/InvoicePage.vue'
+import VerifyEmailViews from '../views/VerifyEmailViews.vue'
 
 Vue.use(VueRouter)
 
@@ -35,11 +36,16 @@ const routes = [
     path: '/client',
     name: 'client',
     component: ClientPage
-  },{
+  },
+  {
     path: '/invoice',
     name: 'invoice',
     component: InvoicePage
-
+  },
+  {
+    path: '/verif-email',
+    name: 'verif-email',
+    component: VerifyEmailViews
   }
 ]
 
