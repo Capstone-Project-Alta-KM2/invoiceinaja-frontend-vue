@@ -2,7 +2,8 @@
   <div class="text-left mb-5">
     <button
       class="button button-primary flex items-center"
-      v-ripple="'rgba(255,255,255,0.4)'"
+      @click="$router.push('/invoice')"
+      v-ripple
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

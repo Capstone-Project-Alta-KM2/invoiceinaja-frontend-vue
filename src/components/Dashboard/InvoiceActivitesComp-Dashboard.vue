@@ -108,7 +108,7 @@
                     whitespace-nowrap
                   "
                 >
-                  <span class="inline-block w-16 leading-8 status">
+                  <span class="inline-block w-20 leading-8 status">
                     {{ invoiceData.Status }}
                   </span>
                 </td>
@@ -145,6 +145,13 @@ export default {
           Jumlah: 350000,
           Status: "Unpaid",
         },
+        {
+          invoiceId: "0001236",
+          clientName: "Ilham Ganteng",
+          DateInvoice: "Juni 08, 2022",
+          Jumlah: 350000,
+          Status: "Overdue",
+        },
       ],
     };
   },
@@ -163,11 +170,7 @@ export default {
     //   console.log("aaaaaa : ", status[i]);
     // }
     let status = document.querySelectorAll(".status");
-    let a = status[0].textContent;
-    console.log("content : ", a);
-    if (a.match("Paid")) {
-      console.log("Yeah");
-    }
+
     for (let i = 0; i < status.length; i++) {
       if (status[i].textContent.match("Paid")) {
         status[i].classList.add("bg-[rgba(135,228,96,0.2)]");
@@ -176,6 +179,11 @@ export default {
       if (status[i].textContent.match("Unpaid")) {
         status[i].classList.add("bg-[rgba(255,204,0,0.2)]");
         status[i].classList.add("text-unpaid-color");
+        //   console.log("Unpaid");
+      }
+      if (status[i].textContent.match("Overdue")) {
+        status[i].classList.add("bg-[rgba(255,48,76,0.2)]");
+        status[i].classList.add("text-overdue-color");
         //   console.log("Unpaid");
       }
     }
