@@ -6,7 +6,11 @@ import DashboardPage from '../views/DashboardPage.vue'
 import AddInvoicePage from '../views/AddInvoicePage.vue'
 import ClientPage from '../views/ClientPage.vue'
 import InvoicePage from '../views/InvoicePage.vue'
+
+import LoginPage from '../views/LoginPage.vue'
+
 import VerifyEmailViews from '../views/VerifyEmailViews.vue'
+
 
 Vue.use(VueRouter)
 
@@ -43,10 +47,17 @@ const routes = [
     component: InvoicePage
   },
   {
+
+    path: '/login',
+    name: 'login',
+    component: LoginPage
+  },
+
     path: '/verif-email',
     name: 'verif-email',
     component: VerifyEmailViews
   }
+
 ]
 
 const router = new VueRouter({
