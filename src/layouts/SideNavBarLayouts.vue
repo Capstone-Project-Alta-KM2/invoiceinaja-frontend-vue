@@ -22,7 +22,7 @@
             >
               <path
                 d="M5.33333 17.3333H13.3333C14.0667 17.3333 14.6667 16.7333 14.6667 16V5.33333C14.6667 4.6 14.0667 4 13.3333 4H5.33333C4.6 4 4 4.6 4 5.33333V16C4 16.7333 4.6 17.3333 5.33333 17.3333ZM5.33333 28H13.3333C14.0667 28 14.6667 27.4 14.6667 26.6667V21.3333C14.6667 20.6 14.0667 20 13.3333 20H5.33333C4.6 20 4 20.6 4 21.3333V26.6667C4 27.4 4.6 28 5.33333 28ZM18.6667 28H26.6667C27.4 28 28 27.4 28 26.6667V16C28 15.2667 27.4 14.6667 26.6667 14.6667H18.6667C17.9333 14.6667 17.3333 15.2667 17.3333 16V26.6667C17.3333 27.4 17.9333 28 18.6667 28ZM17.3333 5.33333V10.6667C17.3333 11.4 17.9333 12 18.6667 12H26.6667C27.4 12 28 11.4 28 10.6667V5.33333C28 4.6 27.4 4 26.6667 4H18.6667C17.9333 4 17.3333 4.6 17.3333 5.33333Z"
-                :fill="$route.path == '/dashboard' ? '#9B6DFF' : '#131313'"
+                :fill="$route.path == '/dashboard' ? '#9B6DFF' : '#717171'"
               />
             </svg>
             <span class="font-semibold">Dashboard</span>
@@ -39,6 +39,64 @@
             "
           >
             <svg
+              width="32"
+              height="32"
+              class="mr-5"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M1 7V8V25C1 26.6 2.33333 27 3 27H29C30.6 27 31 25.6667 31 25V7C31 5.4 29.6667 5 29 5H3C1.4 5 1 6.33333 1 7Z"
+                :fill="
+                  $route.path == '/invoice' || $route.path == '/addInvoice'
+                    ? '#9B6DFF'
+                    : '#717171'
+                "
+              />
+              <path
+                d="M7 10C6.2 10 6 10.6667 6 11C6 11.8 6.66667 12 7 12H25C25.3333 12 26 11.8 26 11C26 10.2 25.3333 10 25 10H7Z"
+                :fill="
+                  $route.path == '/invoice' || $route.path == '/addInvoice'
+                    ? '#e5d9ff'
+                    : 'white'
+                "
+              />
+              <path
+                d="M7 16C6.2 16 6 16.6667 6 17C6 17.8 6.66667 18 7 18H18C18.3333 18 19 17.8 19 17C19 16.2 18.3333 16 18 16H7Z"
+                :fill="
+                  $route.path == '/invoice' || $route.path == '/addInvoice'
+                    ? '#e5d9ff'
+                    : 'white'
+                "
+              />
+              <path
+                d="M7 20C6.2 20 6 20.6667 6 21C6 21.8 6.66667 22 7 22H14C14.3333 22 15 21.8 15 21C15 20.2 14.3333 20 14 20H7Z"
+                :fill="
+                  $route.path == '/invoice' || $route.path == '/addInvoice'
+                    ? '#e5d9ff'
+                    : 'white'
+                "
+              />
+              <path
+                d="M24 16C23.2 16 23 16.6667 23 17C23 17.8 23.6667 18 24 18H25C25.3333 18 26 17.8 26 17C26 16.2 25.3333 16 25 16H24Z"
+                :fill="
+                  $route.path == '/invoice' || $route.path == '/addInvoice'
+                    ? '#e5d9ff'
+                    : 'white'
+                "
+              />
+              <path
+                d="M24 20C23.2 20 23 20.6667 23 21C23 21.8 23.6667 22 24 22H25C25.3333 22 26 21.8 26 21C26 20.2 25.3333 20 25 20H24Z"
+                :fill="
+                  $route.path == '/invoice' || $route.path == '/addInvoice'
+                    ? '#e5d9ff'
+                    : 'white'
+                "
+              />
+            </svg>
+
+            <!-- <svg
               v-if="$route.path == '/invoice' || $route.path == '/addInvoice'"
               class="mr-5"
               width="32"
@@ -100,7 +158,7 @@
                   xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAABmJLR0QA/wD/AP+gvaeTAAACoklEQVR4nO3cwYrTUBQG4P9G0QFdmN4sHOsii65U9EX6BIK4HMQHmI0u1I3UJxg3IqM+gb6EIIwgrroUhSEJUmZInEWvm6wk9zad5py28f+2Nz05/KShnAMFiIiIiIiIiIiIiP5rZtEFaZruzGazPWPMfQC3AVyRb2srnAL4BuBDHMcH0+n0T+jiYNCDweBmFEWfnHN3u+ywb5xzXwGMi6L44bsm8h2kabrDkNsxxtwD8HE0Gl32XXPBdxBF0WMADyUa6yNjzPWqqo7LsvzcdO59out3Mi3Hm5k3aAC3BBrpuzu+g1DQVwUa6TtvZqGgqUMMWgmDVsKglTBoJReF6p4ZY54AeJdl2S+he3QqSZJd59wDAC8AXOq6vlTQT7MseyVUW0T9QEystQbAy67ri7w6jDGHEnU1RFH0VqSuRFG0GL9uqvl87p3/rEIk6Ppdt61Eepd6Rz+31sIYc5hl2U+he3QqSZIb9QPyTKK+9yturXUSN+y7PM8bM+XvaCUMWgmDVsKglTBoJQxaCYNWwqCVMGglDFoJg1ay9RuWc2xGGnuT3rBIDZX28zyfrPD5pVlr99FuMxLsbYk6jVSHSuvYsLTdjCzqjRuWBZbYjAR744ZlsVb3bNEbNyxNzrEZaeyNG5Ytww3LmjFoJQxaCYNWwqCVbPSsQ2j+wFlHoJeV5g//4KzDp8v5A2cdAR3PHzjrCOisHmcdDYTmD5x19AFnHWvGoJUwaCUMWgmDVhIK+kSti/6Y+Q5CQX8XaKTvvJmFgn4v0EjfeTPzBh3H8UH9f27UgnPuKM/z175zb9D1PxOOGfZizrkjY8wYwJnvmuCkqizL2XA4fFNV1TGAGMA1CAzFt9QJgC8AJkVRPCrL8ve6GyIiIiIiIiIiIiLaYH8B8ycPNuTUUaoAAAAASUVORK5CYII="
                 />
               </defs>
-            </svg>
+            </svg> -->
 
             <span class="font-semibold">Invoices</span>
           </button>

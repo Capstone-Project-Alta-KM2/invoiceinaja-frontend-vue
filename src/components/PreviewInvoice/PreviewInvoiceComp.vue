@@ -263,6 +263,7 @@
           duration-300
           absolute
           -top-[19rem]
+          -right-10
           overflow-hidden
           bg-white
           flex-col
