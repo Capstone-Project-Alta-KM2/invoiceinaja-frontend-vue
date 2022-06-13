@@ -1,4 +1,4 @@
-<template>
+  <template>
   <section class="flex flex-row bg-white">
     <div
       class="

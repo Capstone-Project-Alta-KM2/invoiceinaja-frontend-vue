@@ -31,6 +31,14 @@
     .alert-failed{
         @apply bg-pink-200 text-red-600
     }
+
+    .alert-animation-hide{
+        @apply relative text-left origin-top overflow-hidden duration-300 max-h-0 scale-0
+    } 
+
+    .alert-animation-show{
+        @apply relative text-left origin-top overflow-hidden duration-300 scale-100 max-h-full mt-2 transition-all
+    }
 }
 
 @layer utilities {
