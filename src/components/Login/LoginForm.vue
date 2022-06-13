@@ -35,7 +35,7 @@
                     >
                         <div class="flex flex-column">
                             <div class="flex flex-col">
-                                <label class="mb-2 font-semibold mt-4">Email</label>
+                                <label class="mb-2 font-semibold mt-3">Email</label>
                                 <input 
                                     type="email" 
                                     v-model="email"
@@ -49,7 +49,7 @@
                                 <p :class="this.isEmailValid ? 'alert-animation-hide': 'alert-animation-show invalid'">Format email salah!</p>
                             </div>
                             <div class="flex flex-col relative">
-                                <label class="mb-2 font-semibold mt-4">Password</label>
+                                <label class="mb-2 font-semibold mt-3">Password</label>
                                 <input 
                                     id="psw"
                                     :type="!isShowPass ? 'password':'text'"
