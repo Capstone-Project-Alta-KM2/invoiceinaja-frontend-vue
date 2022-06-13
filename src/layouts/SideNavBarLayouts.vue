@@ -25,7 +25,7 @@
                 :fill="$route.path == '/dashboard' ? '#9B6DFF' : '#717171'"
               />
             </svg>
-            <span class="font-semibold">Dashboard</span>
+            <span>Dashboard</span>
           </button>
 
           <button
@@ -96,71 +96,7 @@
               />
             </svg>
 
-            <!-- <svg
-              v-if="$route.path == '/invoice' || $route.path == '/addInvoice'"
-              class="mr-5"
-              width="32"
-              height="32"
-              viewBox="0 0 32 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-            >
-              <rect width="32" height="32" fill="url(#pattern0)" />
-              <defs>
-                <pattern
-                  id="pattern0"
-                  patternContentUnits="objectBoundingBox"
-                  width="1"
-                  height="1"
-                >
-                  <use
-                    xlink:href="#image0_412_327"
-                    transform="scale(0.0111111)"
-                  />
-                </pattern>
-                <image
-                  id="image0_412_327"
-                  width="90"
-                  height="90"
-                  xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAABmJLR0QA/wD/AP+gvaeTAAACm0lEQVR4nO3czWoTYRQG4PeY1AaM3XSleAVadOlNZO1CKBRsm41T3HWj4M9G6kZMNpkiRaq9Ay/CXUPFKxDdS6U/ST1uIrjI9800fuekGd9nOzNnDi+TIZwDAxARERERERERERH916TohJ0VbQyaaIvgPoBbAK7YtzUTforiswr2joDeRkdOYidHg97O9AaAjwBup+ywahToC9Ba68jX0DnBoHdWtDG8ik9gyKUo0D8G7oae7EuhCwdNtMGQSxPgTkOwHjoeDHr0TqZzEA1nFgwawE2DXqpuKXQgFnTToJGqC2YWC5oSYtBOGLQTBu2EQTupG9U9BfD4Vw3v26/lu9E9kuo90mu1IZZV8ALA5dT1TYIWxZPVrryyqG1l9EBs5ZmKAC9T1zd5dZzVsWtR18PcGd5Z1DUJuj4sHr9eVMfzqFnUtXmiBcsWdT3UBza927yjged5pqgpdh905ZvFPVJ7+1Cvjx6QZxb1gz/x7UzV4oZVt9aRsZnyf7QTBu2EQTth0E4YtBMG7YRBO2HQThi0EwbthEE7mfkNywSbkbG9WW9YTIZKothc7crWpNdPIs90s8xmpKi3snVCXIdK09iwlN2MFPXGDUuBspuRot64YSlQdjNS1Bs3LAHn3YyEeuOGZcZwwzJlDNoJg3bCoJ0waCcXetZhNH/grCPkX+cPf+OsIyLl/IGzjoiU8wfOOiJSzh846xjDYv7AWUdFcNYxZQzaCYN2wqCdMGgnsaAP3bqoCAV+hI7Fgv5i0EulSSSzWNAfDHqpNIlkFgz6COgp0LdpqYIU+wuLyEOHg0FvdOREgBbDLkGxP5xD695TOQ2dUjhle5PpfEOwPvrU2BL4Uas/DgEcCLC3sIg8FjIRERERERERERER4TcGyf7aoceKagAAAABJRU5ErkJggg=="
-                />
-              </defs>
-            </svg>
-
-            <svg
-              v-else
-              class="mr-5"
-              width="32"
-              height="32"
-              viewBox="0 0 32 32"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-            >
-              <rect width="32" height="32" fill="url(#pattern0)" />
-              <defs>
-                <pattern
-                  id="pattern0"
-                  patternContentUnits="objectBoundingBox"
-                  width="1"
-                  height="1"
-                >
-                  <use
-                    xlink:href="#image0_414_518"
-                    transform="scale(0.0111111)"
-                  />
-                </pattern>
-                <image
-                  id="image0_414_518"
-                  width="90"
-                  height="90"
-                  xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAABmJLR0QA/wD/AP+gvaeTAAACoklEQVR4nO3cwYrTUBQG4P9G0QFdmN4sHOsii65U9EX6BIK4HMQHmI0u1I3UJxg3IqM+gb6EIIwgrroUhSEJUmZInEWvm6wk9zad5py28f+2Nz05/KShnAMFiIiIiIiIiIiIiP5rZtEFaZruzGazPWPMfQC3AVyRb2srnAL4BuBDHMcH0+n0T+jiYNCDweBmFEWfnHN3u+ywb5xzXwGMi6L44bsm8h2kabrDkNsxxtwD8HE0Gl32XXPBdxBF0WMADyUa6yNjzPWqqo7LsvzcdO59out3Mi3Hm5k3aAC3BBrpuzu+g1DQVwUa6TtvZqGgqUMMWgmDVsKglTBoJReF6p4ZY54AeJdl2S+he3QqSZJd59wDAC8AXOq6vlTQT7MseyVUW0T9QEystQbAy67ri7w6jDGHEnU1RFH0VqSuRFG0GL9uqvl87p3/rEIk6Ppdt61Eepd6Rz+31sIYc5hl2U+he3QqSZIb9QPyTKK+9yturXUSN+y7PM8bM+XvaCUMWgmDVsKglTBoJQxaCYNWwqCVMGglDFoJg1ay9RuWc2xGGnuT3rBIDZX28zyfrPD5pVlr99FuMxLsbYk6jVSHSuvYsLTdjCzqjRuWBZbYjAR744ZlsVb3bNEbNyxNzrEZaeyNG5Ytww3LmjFoJQxaCYNWwqCVbPSsQ2j+wFlHoJeV5g//4KzDp8v5A2cdAR3PHzjrCOisHmcdDYTmD5x19AFnHWvGoJUwaCUMWgmDVhIK+kSti/6Y+Q5CQX8XaKTvvJmFgn4v0EjfeTPzBh3H8UH9f27UgnPuKM/z175zb9D1PxOOGfZizrkjY8wYwJnvmuCkqizL2XA4fFNV1TGAGMA1CAzFt9QJgC8AJkVRPCrL8ve6GyIiIiIiIiIiIiLaYH8B8ycPNuTUUaoAAAAASUVORK5CYII="
-                />
-              </defs>
-            </svg> -->
-
-            <span class="font-semibold">Invoices</span>
+            <span>Invoices</span>
           </button>
 
           <button
@@ -184,7 +120,7 @@
               />
             </svg>
 
-            <span class="font-semibold">Clients</span>
+            <span>Clients</span>
           </button>
           <button
             v-ripple="'rgba(255,255,255,0.3)'"
@@ -193,7 +129,7 @@
             :class="$route.path == '/settings' ? activeClass : ''"
           >
             <svg
-              class="mr-5"
+              class="mr-5 -ml-1"
               width="32"
               height="32"
               viewBox="0 0 32 32"
@@ -215,12 +151,12 @@
                   height="1"
                 >
                   <use
-                    xlink:href="#image0_412_185"
+                    xlink:href="#image0_332_341"
                     transform="scale(0.0111111)"
                   />
                 </pattern>
                 <image
-                  id="image0_412_185"
+                  id="image0_332_341"
                   width="90"
                   height="90"
                   xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAABmJLR0QA/wD/AP+gvaeTAAANvklEQVR4nO2da5AcVRXH/6d7ZuPMZHYzfXs2MS4QJAoSoADBgIKoBUUJgorGoDx9AZaAFEUpSgUsBEULUCAqyAeBEAUCKsqjVBRE3q9SkfDWEJINm+k7M8lkp7PLdB8/TG/cbLqnbz92Fsv5VeVL33PPPXP2dt/HOfcG6NGjR48ePXr06LE9fUKI7wshhoUQ64UQlwHom2mjVNFn2gBVhBCXAvgGgKL375B8Pt9n2/Z9M2uZGtpMNWwYxk6mab4X6r3yJMVnO7Bw4cJZpmkeUCqVdlY2MGVmwtFZIcRKIlrLzE8JIV4RQiwOqwNgvs/z+V5ZIIZhvL9Wq73KzE9qmvaaEOJmAJmYtsem6442TfMcAJ+b9GgnALcsWLDgbUF1hBD7dyjbN6hsaGgoR0S/BPCOSY9PMAzj7Agmp0LXHc3Mh/s8XtBoNL7mJ18ul2cT0eVB+ojoynK5PNuvzLbtcwHs8LnQNM3Phmml668QgA0Bzy8VQsxm5l8SETPz3gAOdF13Kdq93hdmPoSZV5umucp13SeI6B/MrBHRCQC+HlDnjeQ/IxrU7QYNw/gMEd3a7XYnw8xLqtXq7d1scyYGw+dmoM3t0DTtH11vs9sNAthjBtrcDmbes9ttprZgEUIsLhQKxxQKhXyz2XzNT6ZcLs8DcBMAM612Y7JPsVi8Y3R0dNSv0DTND+dyuaNyuZxu2/a6NBpM5RttmuYVzHzuNqVEq/r6+k4dHh5uTpI5mpl/Bv/58EywXtO00yqVyj0TD+bPn58fGxu7CcCnJp4R0Q8tyzrXV0MEEjvaW2w85lP0IjNfC6BBRB8HcEzStqaJ3zLznQAGiOh0ALv7yCyWUj6RpJHE0zsi2peZ/Yp2J6IfJtXfBY4lomM7CRDRfgASOTqNwfCFFHS8pXEcJ/FMKa1v9G3MvCQNXZN4g5nvB/A4gBd0XX91fHxcbtq0aQsAHhgYKM6aNctotVq7EdEezHwwEX0QKY8BRHSrZVnHJ9aThjHeIPI0kk/dGgBuBLAi5jeRDMNYrGnaUmY+BUApoT2rc7ncAevWrbMT6klnetdoNN7M5XJ9RHRkQlXjRLRUSvliXAW2ba9rNpu/7+/vX+667gYA+wPw3QtR4JKRkZGH49oymTQXLJtS0FFk5u+loAcjIyOjUsrlmqa9C8D3ALRiqEnjNwFI0dFE9ImIVdyA5ycJId6X1J4JKpXKFinlt4joYEQfuI9Ly45UHG2a5tGINk/+EzMfAuDNAJuuQsobXpZlPUVE7wPwmwjVjhVCRO1AviT+RpfL5XnMfBfacTwVfi6lPN627dfy+bwAcJCPzFChUHi52Ww+m9S+yTSbzXHbtlcVCoV3oP3tVuHQYrG4Mmi5ropqr8kahnGWpmlHMPMbzHw3ET0H4D0ALoX6bONmKeUp8D4bAwMDpWw2+xIz++19rM9kMruPjIwk+oEBkGEY1xLRaYryzzPzMrQ/PYuI6GgA84joD5ZlXQ3/N3P7BlVaEUKsxPbhp8gw893VavUTmDIomaZ5BjP/NKDaJVLKZUna7YBuGMadntOSsFJKeWKYUKijS6XSzpqm+e7GRWCN4zj71ev1uk+ZbprmM8y8j0+Z7TjOnvV6fU3C9n0xTbPIzM8AWJhEDzPvXK1WX+8kEzoY6rpeTmIE2q/V0gAnA4AD4JyAslwmk/lBwvYDsSyrgfabGvrqd0LX9dBt31BHz5kz558AYu/JEtHysFWeZVn3A/iVXxkzLzFN87C47YchpXySma9OoGJtpVIJ3QsJdfQrr7wy5u1jxPl8bGy1WherCLZarfMAbPUrc133R5jerKqLAYzEqLcGwBIA42GCSsbbtr1u7ty5146Pj48C+DAU59/MvKxWqz2gIjs2NlbP5/N5AIdOLSOieYVCYX2z2XxaRVdUbNseKxQKBOAIxSotAN8sFosnb9iwQakDRl4UCCEuAXCBguhmZt6pWq1uVtVdLpdnu677Ivx34CqO47y7w7c+Ed7AuBbAnDBZIvqOZVkXRtEfeWXIzL9QFL0hipOB9nIZwDcDisuZTCbSj4uCZVkNZlZKg4jgg23EWYIrvQWu666KoRtSyhVo70HvADOfaZqmX6gpFZh5haJc5PEisqM1TdtbQWxjrVZ7NKpuDyair8J/0ynLzNfE1BtKrVZ7lIgsBdFFUXXH6dEHKsjch/b8OBaWZT0NYGVA8RFCiKoQ4hHTNE9DusnoLjOrDN4qPtiOSI72BozPhMkR0d+iGuKj43wAWwKKSwAOZubrhBAPmqb59qTtTeIpBduWBCVWBqHq6KyXVnAvgKEwYdd1E6dcWZY1jPaGfRiLmflXSKlna5qmsmO4CzPf6+2bd8zPnqBTukGfEOI7aGfVvx0AAtIKdkDX9X8pCYZARJZimwcJIcbSaNN1g+IR2+Ptpz8uhACAYbTjnBciYPES2KOFEBejnfYa+bXUNC2VEBAzn5qGni4wH8A3PJ/50unTcXLcVovFYlqxtvekpKdbnBJU0MnRat+JHpMJnGl1crTS5N2PRqMxELfuFFanpKdbBPoscIVj2/aD+Xy+D8A7oR4PnOD6ZrNZjVhnBwqFgo63bnLkZIYB/ERKeRECenWnWce4lPJ8AOejPb3bl4iu9EbbjjiOsxuAl+NYPBlmnqso+piU8jAobFeGUS6Xj3Jd9+4wOWb+q6Zp51qW9XcoBA5U59FvSimfJKKPAlgbqlRtmd4RwzCG0P4jh/EYER2HFJwMAK7rqti+Vtf1oyzLegqK0ZlIK8NKpbKFmW8Lk2PmwLN/qhDRZQAKAcU1InqYiE6TUh5mWVbQSa84hC6vieh2b6dRmTj50U8qyByJ9vc/1n6HYRgHIzjqfpeUcrq+2zragY2OuK4bOQEzzqaSSq6wKJVKfokxKmhEFJSpNE5E58XUG4pnsxEmx8yR86UjO5qIlNaomqYtjaobAIQQJyPg9SWi5ZZlxc40DYOIlBZpmqZFflPj9OgTFOVOLZVKkebTpmkWAXw3oHij4zhKgd44mKZZJCLVzqF0q8JklB29YMGCtwkhJqZ7KhSJ6ItRjGHmbyFgb4WIltVqtdTSaH3a/goA1Y7xdSHEBUNDQzlV/UphKcMwDvJuCVigqthDOaA6ODi4m3dWZNbUMmb+W7VaPQAJggmdMAyjn4heAqA6b5/gdWY+vlqtPhImGNqjFy5cOIuIbkN0JwPtgOpFKoKO41wOHycDgKZp52CanOzp/zaiOxkAdiKiVZ2uwNjWRphAvV5fhA63C4TBzGcahtFxBiKEOByAbx4yEa2yLOsvcdsPQwixmJnPSqBifqPRCF3khDradd1KAiMAIENEtwwMDAQd3MkACDqPaLdaLd+rINLAMIx+tGOTic5bOo6zMUwm1NFelmRQoFSVXXRdvxk+YR8hxOkA9gqod8V0ZZICyGiadguA3RLqWVmv10OzlZQT0U3TPBvA4cw8wsz3ENGzaCegXwr1DfpfSClPgpdK0N/fb2Sz2ZcACB/ZdZlMZo9pSkTXTNP8GTOrzopWA7iAiJ5n5kUAjvY2vO6rVqvLoXAQKfE5kcHBwbmO4zyN7e8t6sSNUsovA3hTCHENgDN9DSM60bKspG+SH5oQ4noAX1CUH9Z1ff+NGzfGSYLcRioHclS3Frc1SvQQEV3guu598I8iPyql/ABSjvJ46RIrAHw8QrVPSimjHDDyJbWTT0KIOwF0PLw+BRf+Y4QL4CAppcrmlTJeusRNAN4dodrvpJRRflMgqZ0zZOaof/Wgtlek6WTDMPoNw/gBgIcQzclg5l+nZUeat4SlESdsEFFQNmkkTNMsuq77JU9f3OMhoSm8qqSSRT80NJRrtVrXI/kVPuMA+nO5XM227fUx6lOpVPpAoVA4D8CN3oUsQcGDcGVEu/b39/98dHQ00RkXIL1rJG5VycmLyEYiesB13ccAPK9p2r/Hx8crmzdvnrhGYnY2mx10XXdXAHtomvZ+Zj4UwLyU7bhDSvnppEoSO7pcLn/Qdd1pWyK/FSCiDyXdBkg8GDLz/1o2URwS/8bEgyEzB6XoTlxetYmIPom3bn7GnQB+jfZgfgZ8nOod+kzEtFzHBuD2TCZz6uTls2maxzDzdYiRNDlNrCei0y3L2rbQGhoaym3duvWGyeMNM19RrVYTxynTXLAsBrC/pmnPVSqVB/1kyuXyPNd1/4yZT15crev6R4KW1eVy+VBm3pOZn0lrTt/1S2CFEMcBuKPb7U7hOCllaosRFbp+N6l3/cRM83y3G5yJi7ojn2iaBhv8blKYVmbitt2PBTx3AHyXmfdi5kVE9FkiuhJAx+sZPF5j5suZeSmAPb0/5iUIiDN6OYRdpes3ohPRvIBzKRdKKSfndKwGcEu5XL7IcZx7iGiHM+IAwMwPZrPZo3wCBMuEEFsAXOZnQ1z749L1Hu3tQU/l9Vwu5xs3rFQqWzqlgRHReUFRmGKxeBXaNxBMteGPqvamRddnHWjnWt+A/yYxrveugu900jYrhPBNy5VS9qFD6qw37VyF/0byb5ZSfh7x7sGLzUw4GgAwZ86cXXRdHywWi8+uWbPG956OyQgh1mPHWw+GpZQqIbQ+0zT3cl23EnYlz3QxY/+F09atWzfZtj1cr9eVelY+nx8EMPW0wY9t2/6TQnWn2WxusG070m0LafI/839lTTlT00DImZEePXr06NGjR4//T/4DoiD/mZhifR4AAAAASUVORK5CYII="
@@ -228,14 +164,18 @@
               </defs>
             </svg>
 
-            <span class="font-semibold">Settings</span>
+            <span>Settings</span>
           </button>
         </nav>
       </div>
-      <div class="px-3">
-        <button v-ripple class="flex w-full items-center button button-primary">
-          <i class="bx bxs-log-out bx-md mr-3"></i>
-          <span>Logout</span>
+      <div class="px-4">
+        <button
+          v-ripple
+          class="flex w-full items-center button button-primary py-2"
+        >
+          <img src="../assets/images/Logout.png" alt="" class="mr-5" />
+
+          <span class="font-normal text-base">Logout</span>
         </button>
       </div>
     </div>
