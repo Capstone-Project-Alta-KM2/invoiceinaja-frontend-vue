@@ -1,23 +1,22 @@
 <template>
-  <div class="container grid grid-cols-12 gap-4 my-10">
-    <div class="col-span-12 py-4 bg-white rounded-xl">
+  <div class="container flex flex-col space-y-10 my-10">
+    <div class="py-4 bg-white rounded-xl">
       <total-invoice />
     </div>
-    <div
-      class="
-        col-span-8
-        bg-white
-        rounded-xl
-        drop-shadow-[4px_5px_8px_rgba(0,0,0,0.1)]
-      "
-    >
-      <graph />
-    </div>
-    <div class="col-span-4 bg-white rounded-xl">
-      <recent-activity />
-    </div>
-    <div class="col-span-8 overflow-hidden bg-white rounded-xl">
-      <invoice-activity />
+    <div class="flex space-x-10">
+      <div class="flex flex-col space-y-10">
+        <div
+          class="bg-white rounded-xl drop-shadow-[4px_5px_8px_rgba(0,0,0,0.1)]"
+        >
+          <graph />
+        </div>
+        <div class="overflow-hidden bg-white rounded-xl">
+          <invoice-activity />
+        </div>
+      </div>
+      <div class="bg-white rounded-xl mb-5">
+        <recent-activity />
+      </div>
     </div>
   </div>
 </template>

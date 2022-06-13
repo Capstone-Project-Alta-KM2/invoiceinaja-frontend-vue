@@ -21,6 +21,8 @@ module.exports = {
         'soft-purple-hover': '#AA83FF',
         'soft-purple-outline-hover': '#EFE8FF',
         'soft-purple-disabled': '#CEB7FF',
+
+        'light-purple':"#7C40FF",
         
         'overdue-color':'#FF304C',
         'overdue-color-hover':'rgba(255,48,76,0.5)',

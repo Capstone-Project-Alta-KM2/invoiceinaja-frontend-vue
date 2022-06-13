@@ -10,6 +10,7 @@ import InvoicePage from '../views/InvoicePage.vue'
 import LoginPage from '../views/LoginPage.vue'
 
 import VerifyEmailViews from '../views/VerifyEmailViews.vue'
+import PreviewInvoicePage from '../views/PreviewInvoicePage.vue'
 
 
 Vue.use(VueRouter)
@@ -18,34 +19,56 @@ const routes = [
   {
     path: '/',
     name: 'home',
+    meta:{layout:"navbar"},
     component: HomeView
   },
   {
     path: '/register',
     name: 'register',
+    meta:{layout:"blank"},
     component: RegisterPage,
-    
+  },
+  {
+    path: '/verif-email',
+    name: 'verif-email',
+    meta:{layout:"blank"},
+    component: VerifyEmailViews
   },
   {
     path: '/dashboard',
     name: 'dashboard',
+    meta:{layout:"sidenavbar"},
     component: DashboardPage
   },
   {
     path: '/addInvoice',
     name: 'newInvoice',
+    meta:{layout:"sidenavbar"},
+
     component: AddInvoicePage
+  },
+  {
+    path: '/:no_invoice/previewInvoice',
+    name: 'previewInvoice',
+    meta:{layout:"sidenavbar"},
+
+    component: PreviewInvoicePage
   },
   {
     path: '/client',
     name: 'client',
+    meta:{layout:"sidenavbar"},
+
     component: ClientPage
   },
   {
     path: '/invoice',
     name: 'invoice',
+    meta:{layout:"sidenavbar"},
+
     component: InvoicePage
   },
+
   {
 
     path: '/login',
