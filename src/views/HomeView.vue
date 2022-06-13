@@ -25,7 +25,7 @@ export default {
   async created() {
     const response = await axios.get('/api/v1/users', {
       headers: {
-        Authorization: 'Bearer' + this.testToken
+        Authorization: 'Bearer' + this.userToken
       }
     });
 
