@@ -190,7 +190,7 @@ export default {
             isPasswordValid: true,
 
             isShowPass: false,
-            passFormatStyle: "relative text-left origin-top overflow-hidden max-h-0 scale-0",
+            passFormatStyle: "alert-animation-hide",
 
             isChecked: false,
         };

@@ -11,6 +11,7 @@ import LoginPage from '../views/LoginPage.vue'
 
 import VerifyEmailViews from '../views/VerifyEmailViews.vue'
 import PreviewInvoicePage from '../views/PreviewInvoicePage.vue'
+import ForgetPasswordPage from '../views/ForgetPasswordPage.vue'
 
 
 Vue.use(VueRouter)
@@ -75,10 +76,15 @@ const routes = [
     name: 'login',
     component: LoginPage
   },
-
+  {
     path: '/verif-email',
     name: 'verif-email',
     component: VerifyEmailViews
+  },
+  {
+    path: '/forget-password',
+    name: 'forget-password',
+    component: ForgetPasswordPage
   }
 
 ]
