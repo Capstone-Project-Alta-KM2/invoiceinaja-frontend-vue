@@ -75,7 +75,7 @@ const routes = [
     name: 'login',
     component: LoginPage
   },
-
+{
     path: '/verif-email',
     name: 'verif-email',
     component: VerifyEmailViews

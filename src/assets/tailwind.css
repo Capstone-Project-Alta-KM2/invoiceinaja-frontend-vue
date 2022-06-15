@@ -39,7 +39,7 @@
 
     .alert-animation-show{
         @apply relative text-left origin-top overflow-hidden duration-300 scale-100 max-h-full mt-2 transition-all
-
+    }
     .form-checkbox-modif{
         @apply form-checkbox w-6 h-6 border  rounded-md 
         transition-all duration-300 focus:ring-0 text-soft-purple
