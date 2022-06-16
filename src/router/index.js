@@ -59,21 +59,19 @@ const routes = [
     path: '/client',
     name: 'client',
     meta:{layout:"sidenavbar"},
-
     component: ClientPage
   },
   {
     path: '/invoice',
     name: 'invoice',
     meta:{layout:"sidenavbar"},
-
     component: InvoicePage
   },
 
   {
-
     path: '/login',
     name: 'login',
+     meta:{layout:"blank"},
     component: LoginPage
   },
   {
