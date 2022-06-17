@@ -341,21 +341,7 @@ export default {
         this.pesanPassword = "";
       }
     },
-    async emailChecker() {
-      await axios
-        .post("/api/v1/email_checkers", {
-          email: this.email,
-        })
-        .then(() => {
-          this.pesanCheckerEmail200 = "Email dapat digunakan";
-          this.pesanCheckerEmail422 = "";
-        })
-        .catch(() => {
-          this.pesanCheckerEmail200 = "";
-          this.pesanCheckerEmail422 =
-            "Format email harus mengandung @gmail.com";
-        });
-    },
+
     confirmPass() {
       if (this.kata_sandi !== this.kata_sandi_konfirmasi) {
         this.pesanConfirmPass = "Password tidak sama";
