@@ -2,21 +2,117 @@
   <form
     action=""
     @submit.prevent="addInvoices"
-    class="text-left border border-black py-5 px-3 rounded-lg"
+    class="text-left px-3 rounded-lg"
   >
-    <invoice-date-and-no-comp v-model="dateInvoiceAndNo" />
-
-    <div class="my-5">
-      <h3 class="font-semibold text-lg">From</h3>
-      <div class="mt-3">
-        <p class="leading-3">Indah Aisyah</p>
-        <p class="leading-3gaa">Jl. Kebangn</p>
-        <p class="leading-3">Jakarta</p>
+    <h1 class="text-2xl font-semibold mb-5">New Invoice</h1>
+    <!-- <invoice-date v-model="dateInvoiceAndNo" /> -->
+    <div class="flex space-x-10 mb-5">
+      <div>
+        <h3 class="font-semibold text-lg">From</h3>
+        <div class="mt-3">
+          <p class="leading-3">Indah Aisyah</p>
+          <p class="leading-3gaa">Jl. Kebangn</p>
+          <p class="leading-3">Jakarta</p>
+        </div>
+      </div>
+      <div>
+        <label for="" class="font-semibold mb-2">Invoice Date</label>
+        <input
+          type="date"
+          name=""
+          id=""
+          v-model="invoice_date"
+          ref="dateInvoice"
+          class="form-add-invoice"
+        />
+      </div>
+      <div>
+        <label for="" class="font-semibold mb-2">Due Date</label>
+        <input
+          type="date"
+          name=""
+          id=""
+          v-model="invoice_due"
+          ref="dueDate"
+          class="form-add-invoice"
+        />
       </div>
     </div>
 
-    <form-data-client v-model="clients" />
-
+    <!-- <form-data-client v-model="clients" /> -->
+    <div class="grid grid-cols-3 gap-y-8">
+      <div class="">
+        <label for="" class="font-semibold mb-2">Invoice To</label>
+        <input
+          type="text"
+          list="clientList"
+          name=""
+          v-model="clients.invoiceTo"
+          ref="invoiceTo"
+          id=""
+          class="form-add-invoice w-72"
+        />
+        <datalist id="clientList">
+          <option value="Client 1"></option>
+          <option value="Client 2"></option>
+        </datalist>
+      </div>
+      <div class="">
+        <label for="" class="font-semibold mb-2">Email</label>
+        <input
+          type="email"
+          name=""
+          id=""
+          ref="email"
+          class="form-add-invoice w-72"
+          v-model="clients.email"
+        />
+      </div>
+      <div class="">
+        <label for="" class="font-semibold mb-2">Street Address</label>
+        <input
+          type="text"
+          name=""
+          id=""
+          ref="address"
+          class="form-add-invoice w-72"
+          v-model="clients.address"
+        />
+      </div>
+      <div class="">
+        <label for="" class="font-semibold mb-2">City</label>
+        <input
+          type="text"
+          name=""
+          id=""
+          ref="city"
+          class="form-add-invoice w-72 text-black"
+          v-model="clients.city"
+        />
+      </div>
+      <div class="">
+        <label for="" class="font-semibold mb-2">Zip Code</label>
+        <input
+          type="text"
+          name=""
+          id=""
+          ref="zipCode"
+          class="form-add-invoice w-72"
+          v-model="clients.zipCode"
+        />
+      </div>
+      <div class="">
+        <label for="" class="font-semibold mb-2">Company</label>
+        <input
+          type="text"
+          name=""
+          ref="company"
+          id=""
+          class="form-add-invoice w-72"
+          v-model="clients.company"
+        />
+      </div>
+    </div>
     <div class="flex flex-col mt-5 mb-3">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -61,7 +157,7 @@
                       text-center
                     "
                   >
-                    Qty
+                    quantity
                   </th>
                   <th
                     scope="col"
@@ -150,7 +246,7 @@
                     <input
                       type="number"
                       name=""
-                      v-model="invoice.qty"
+                      v-model="invoice.quantity"
                       @input="validateNumber"
                       id=""
                       class="
@@ -192,7 +288,8 @@
                         total
                       "
                     >
-                      Rp. {{ (invoice.total = invoice.price * invoice.qty) }}
+                      Rp.
+                      {{ (invoice.total = invoice.price * invoice.quantity) }}
                     </p>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -267,12 +364,12 @@
 </template>
 
 <script>
-import InvoiceDateAndNoComp from "./InvoiceDateAndNoComp-NewInvoice.vue";
-import FormDataClient from "./DataClientFormComp.vue";
+// import InvoiceDate from "./InvoiceDate-NewInvoice.vue";
+// import FormDataClient from "./DataClientFormComp.vue";
 export default {
   components: {
-    InvoiceDateAndNoComp,
-    FormDataClient,
+    // InvoiceDate,
+    // FormDataClient,
   },
   data() {
     return {
@@ -281,16 +378,13 @@ export default {
         {
           item_name: "",
           price: 0,
-          qty: 0,
+          quantity: 0,
           total: 0,
         },
       ],
       validateMessage: "",
-      dateInvoiceAndNo: {
-        noInvoice: "",
-        dateInvoice: "",
-        dueDate: "",
-      },
+      invoice_date: "",
+      invoice_due: "",
       clients: {
         invoiceTo: "",
         email: "",
@@ -303,7 +397,7 @@ export default {
   },
   methods: {
     addInvoiceField() {
-      this.invoices.push({ price: 0, qty: 0 });
+      this.invoices.push({ price: 0, quantity: 0 });
     },
     deleteField(index) {
       console.log(index);
@@ -311,11 +405,13 @@ export default {
     },
     addInvoices() {
       const invoicesData = {
-        no_and_date_invoice: this.dateInvoiceAndNo,
-        client_information: this.clients,
-        invoices_information: this.invoices,
-        total_all_invoices: this.totalAllInvoices,
-        status_invoice: "Unpaid",
+        invoice: {
+          client_id: 4,
+          total_amount: this.totalAllInvoices,
+          invoice_date: this.invoice_date,
+          invoice_due: this.invoice_due,
+        },
+        detail_invoice: this.invoices,
       };
       console.log(invoicesData);
     },
