@@ -168,7 +168,7 @@
           <span class="mr-2" v-if="isLoading">
             <simple-loading />
           </span>
-          Create Account
+          Change Password
         </button>
       </div>
     </form>
