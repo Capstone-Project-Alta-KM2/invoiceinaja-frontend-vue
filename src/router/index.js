@@ -82,6 +82,7 @@ const routes = [
   {
     path: '/forget-password',
     name: 'forget-password',
+    meta:{layout:"blank"},
     component: ForgetPasswordPage
   }
 
