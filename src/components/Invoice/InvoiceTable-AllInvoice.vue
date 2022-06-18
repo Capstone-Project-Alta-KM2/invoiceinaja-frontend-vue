@@ -41,34 +41,6 @@
             v-ripple
             class="
               button
-              flex
-              px-3
-              py-2
-              text-base text-soft-purple
-              items-center
-              shadow-invoicein
-            "
-          >
-            <svg
-              width="18"
-              class="mr-3"
-              height="16"
-              viewBox="0 0 18 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M14.4676 9.68297C16.0509 9.68297 17.3333 10.9438 17.3333 12.4993C17.3333 14.054 16.0509 15.3148 14.4676 15.3148C12.8852 15.3148 11.6018 14.054 11.6018 12.4993C11.6018 10.9438 12.8852 9.68297 14.4676 9.68297ZM7.4027 11.2983C8.09621 11.2983 8.65917 11.8514 8.65917 12.5327C8.65917 13.2132 8.09621 13.7672 7.4027 13.7672H1.9231C1.22959 13.7672 0.666626 13.2132 0.666626 12.5327C0.666626 11.8514 1.22959 11.2983 1.9231 11.2983H7.4027ZM3.53235 0.5C5.11567 0.5 6.39808 1.76082 6.39808 3.31547C6.39808 4.87102 5.11567 6.13184 3.53235 6.13184C1.94995 6.13184 0.666626 4.87102 0.666626 3.31547C0.666626 1.76082 1.94995 0.5 3.53235 0.5ZM16.0777 2.08194C16.7703 2.08194 17.3333 2.63502 17.3333 3.31547C17.3333 3.99682 16.7703 4.54991 16.0777 4.54991H10.5981C9.90463 4.54991 9.34167 3.99682 9.34167 3.31547C9.34167 2.63502 9.90463 2.08194 10.5981 2.08194H16.0777Z"
-                fill="#9B6DFF"
-              />
-            </svg>
-
-            Filter
-          </button>
-          <button
-            v-ripple
-            class="
-              button
               ml-4
               flex
               px-3
@@ -99,14 +71,7 @@
       <div class="mt-12">
         <div class="lg:overflow-x-hidden overflow-x-auto">
           <table class="min-w-full">
-            <tr class="text-left border-y-2 py-4 row mb-5">
-              <th class="w-12 text-center col">
-                <input
-                  type="checkbox"
-                  @click="checkAll(this, $event)"
-                  class="form-checkbox-modif"
-                />
-              </th>
+            <tr class="text-left px-3 border-y-2 py-4 row mb-5">
               <td class="col">invoice#</td>
               <td class="col">Client</td>
               <td class="col">Date</td>
@@ -130,6 +95,7 @@
                   text-left
                   row
                   py-3
+                  px-3
                   my-10
                   shadow-invoicein
                   hover:bg-[#e3daf7]
@@ -137,9 +103,6 @@
                   transition-all
                 "
               >
-                <td class="w-12 text-center col">
-                  <input type="checkbox" class="form-checkbox-modif" />
-                </td>
                 <td class="col">{{ item.invoice }}</td>
                 <td class="col">{{ item.client_name }}</td>
                 <td class="col">{{ item.date_invoice }}</td>
@@ -495,22 +458,6 @@ export default {
     },
   },
   methods: {
-    checkAll(bx, event) {
-      let chkbx = document.getElementsByTagName("input");
-      if (event.target.checked) {
-        for (let i = 0; i < chkbx.length; i++) {
-          if (chkbx[i].type == "checkbox") {
-            chkbx[i].checked = true;
-          }
-        }
-      } else {
-        for (let i = 0; i < chkbx.length; i++) {
-          if (chkbx[i].type == "checkbox") {
-            chkbx[i].checked = false;
-          }
-        }
-      }
-    },
     searchDataInvoice() {
       this.items = this.items.filter((data) => {
         return data.first_name

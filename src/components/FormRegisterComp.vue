@@ -63,7 +63,6 @@
             placeholder="Email Anda"
             class="form"
             v-model="email"
-            @input="emailChecker"
           />
           <div v-if="pesanCheckerEmail200">
             <p class="alert alert-success">{{ pesanCheckerEmail200 }}</p>
@@ -80,6 +79,7 @@
             :type="isShowPass ? 'text' : 'password'"
             placeholder="Buat Password"
             class="form peer"
+            @mousedown="validatePassword"
             @input="validatePassword"
             v-model="kata_sandi"
             title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
@@ -136,32 +136,22 @@
           <div v-if="pesanPassword">
             {{ pesanPassword }}
           </div>
-          <div
-            id="message"
-            class="
-              relative
-              max-h-0
-              origin-top
-              duration-300
-              scale-0
-              overflow-hidden
-              peer-focus:scale-100 peer-focus:max-h-full
-              mt-4
-              transition-all
-            "
-          >
-            <h3 class="text-xl">Password harus mengandung :</h3>
-            <p id="letter" class="invalid">
-              Huruf <b>kecil</b> dan <b>kapital</b>
-            </p>
-
-            <p id="number" class="invalid">A <b>number</b></p>
-            <p id="length" class="invalid">Minimum <b>8 characters</b></p>
+          <div v-if="pesanPassword">
+            {{ pesanPassword }}
           </div>
 
-          <!-- <div v-if="pesanValidatePass">
-            <p class="alert alert-failed">{{ pesanValidatePass }}</p>
-          </div> -->
+          <div v-if="pesanPassLength">
+            <p class="alert alert-failed">{{ pesanPassLength }}</p>
+          </div>
+          <div v-if="pesanPassUppercase">
+            <p class="alert alert-failed">{{ pesanPassUppercase }}</p>
+          </div>
+          <div v-if="pesanPassLowercase">
+            <p class="alert alert-failed">{{ pesanPassLowercase }}</p>
+          </div>
+          <div v-if="pesanPassNumber">
+            <p class="alert alert-failed">{{ pesanPassNumber }}</p>
+          </div>
         </div>
         <div class="relative">
           <label for="confirmPass" class="font-semibold mb-2"
@@ -280,7 +270,6 @@
 <script>
 import SimpleLoading from "./SimpleLoadingAnimation.vue";
 import axios from "axios";
-import { validationPassword, showHint, hideHint } from "../validation";
 export default {
   components: {
     SimpleLoading,
@@ -297,7 +286,6 @@ export default {
       pesanFailed: "",
 
       pesanConfirmPass: "",
-      pesanValidatePass: "",
 
       pesanCheckerEmail200: "",
       pesanCheckerEmail422: "",
@@ -308,35 +296,52 @@ export default {
       isLoading: false,
       isDisabled: true,
       pesanPassword: "",
+      classPassInvalid: "border-2 border-pink-500",
+      pesanPassLength: null,
+      pesanPassUppercase: "",
+      pesanPassLowercase: "",
+      pesanPassNumber: "",
     };
   },
   computed: {},
   methods: {
-    hideHint() {
-      hideHint();
-    },
-    showHint() {
-      showHint();
-    },
     validatePassword() {
-      let a = validationPassword();
-      console.log(a);
+      let uppercase = /[A-Z]/g;
+      let lowercase = /[a-z]/g;
+      let number = /[0-9]/g;
+      if (this.kata_sandi.length < 8) {
+        this.pesanPassLength = "Harus lebih besar dari 8";
+      } else {
+        this.pesanPassLength = "";
+      }
+      if (!this.kata_sandi.match(uppercase)) {
+        this.pesanPassUppercase = "Harus ada Huruf besar";
+      } else {
+        this.pesanPassUppercase = "";
+      }
+
+      if (!this.kata_sandi.match(lowercase)) {
+        this.pesanPassLowercase = "Harus ada Huruf kecil";
+      } else {
+        this.pesanPassLowercase = "";
+      }
+
+      if (!this.kata_sandi.match(number)) {
+        this.pesanPassNumber = "Harus ada angka";
+      } else {
+        this.pesanPassNumber = "";
+      }
+
+      if (
+        this.pesanPassLength != "" ||
+        this.pesanPassUppercase != "" ||
+        this.pesanPassLowercase != "" ||
+        this.pesanPassNumber != ""
+      ) {
+        this.pesanPassword = "";
+      }
     },
-    async emailChecker() {
-      await axios
-        .post("/api/v1/email_checkers", {
-          email: this.email,
-        })
-        .then(() => {
-          this.pesanCheckerEmail200 = "Email dapat digunakan";
-          this.pesanCheckerEmail422 = "";
-        })
-        .catch(() => {
-          this.pesanCheckerEmail200 = "";
-          this.pesanCheckerEmail422 =
-            "Format email harus mengandung @gmail.com";
-        });
-    },
+
     confirmPass() {
       if (this.kata_sandi !== this.kata_sandi_konfirmasi) {
         this.pesanConfirmPass = "Password tidak sama";
@@ -345,11 +350,18 @@ export default {
       }
     },
     async register() {
-      let hasilValidate = validationPassword();
-      console.log("a :", hasilValidate);
       this.isLoading = true;
-      if (hasilValidate == false) {
+      if (
+        this.pesanPassLength != "" ||
+        this.pesanPassUppercase != "" ||
+        this.pesanPassLowercase != "" ||
+        this.pesanPassNumber != ""
+      ) {
         this.pesanPassword = "Mohon disesuaikan dengan formatnya";
+        this.isLoading = false;
+      } else if (this.pesanConfirmPass != "") {
+        this.pesanConfirmPass = "Password tidak sama";
+
         this.isLoading = false;
       } else {
         this.pesanPassword = "";
@@ -368,11 +380,10 @@ export default {
             this.isLoading = false;
           })
           .catch((err) => {
-            // this.pesanFailed = err.response.data.meta.message;
-            // this.pesanSuccess = "";
-            // this.isLoading = false;
-            // console.log(err.response.data);
-            console.log("Error : ", err);
+            this.pesanFailed = err.response.data.meta.message;
+            this.pesanSuccess = "";
+            this.isLoading = false;
+            console.log(err.response.data);
           });
       }
     },
