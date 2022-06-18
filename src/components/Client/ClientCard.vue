@@ -1,20 +1,32 @@
 <template>
   <div class="client-page">
-    <div class="container relative rounded-md border-2 my-3 bg-white">
-      <h4 class="text-left px-3 pt-5 text-2xl font-bold text-black">Clients</h4>
+    <div 
+      class="rounded-md border-2 bg-white"
+    >
+      <h4 class="
+          text-left
+          p-3 
+          text-2xl 
+          font-bold 
+          text-black
+        ">
+          Clients
+        </h4>
       <client-table @showDialog="changeShow()" />
       <div
-        v-if="showing"
         class="
+          w-screen
           absolute
-          z-10
           inset-0
-          bg-black bg-opacity-50
-          overflow-y-scroll
+          z-50
+          bg-black 
+          bg-opacity-50
+          overflow-y-auto
           flex
           justify-center
-          rounded-md
+          dialog-animation-hide
         "
+        :class="{'dialog-animation-show':showing}"
       >
         <add-new-client @closeAddClient="hideDialog()" />
       </div>

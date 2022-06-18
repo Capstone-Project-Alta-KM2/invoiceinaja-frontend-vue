@@ -76,11 +76,6 @@ const routes = [
     component: LoginPage
   },
 
-    path: '/verif-email',
-    name: 'verif-email',
-    component: VerifyEmailViews
-  }
-
 ]
 
 const router = new VueRouter({

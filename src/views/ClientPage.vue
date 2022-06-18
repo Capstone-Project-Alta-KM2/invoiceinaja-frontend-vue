@@ -1,5 +1,5 @@
 <template>
-  <div class="container my-10 px-4">
+  <div class="container px-4">
     <client-card />
   </div>
 </template>

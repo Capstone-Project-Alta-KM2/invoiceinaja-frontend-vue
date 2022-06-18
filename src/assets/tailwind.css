@@ -18,6 +18,9 @@
         @apply p-4 w-96 placeholder:text-lg mx-auto rounded-lg   hover:ring-4 hover:placeholder:opacity-0 hover:ring-[#e6daff] transition-all duration-300 block 
         border focus:outline-0 focus:border-soft-purple focus:ring-[#d3bfff] focus:ring-4 border-[#666666]
     }
+    .form-input-invalid{
+        @apply focus:outline-0 focus:border-red-400 focus:ring-2 focus:ring-red-400
+    }    
     .form-add-invoice{
         @apply py-2 placeholder:text-base rounded-lg  hover:ring-4 hover:placeholder:opacity-0 hover:ring-[#e6daff] transition-all duration-300 block 
         border focus:outline-0 focus:border-soft-purple focus:ring-[#d3bfff] focus:ring-4  border-[#666666]
@@ -39,11 +42,19 @@
 
     .alert-animation-show{
         @apply relative text-left origin-top overflow-hidden duration-300 scale-100 max-h-full mt-2 transition-all
+    }
+
+    .dialog-animation-hide{
+        @apply duration-300 scale-0
+    }
+
+    .dialog-animation-show{
+        @apply duration-300 scale-100 transition-all
+    }
 
     .form-checkbox-modif{
         @apply form-checkbox w-6 h-6 border  rounded-md 
         transition-all duration-300 focus:ring-0 text-soft-purple
-
     }
 }
 
