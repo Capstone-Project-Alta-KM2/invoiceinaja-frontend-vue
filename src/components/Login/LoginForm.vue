@@ -398,9 +398,9 @@ export default {
 
     isRememberMe(res) {
       if (this.isChecked == true) {
-        this.$store.dispatch("actionOfToken", res.data.data.userName);
+        this.$store.dispatch("actionOfToken", res.data.data.name);
         this.$store.dispatch("actionOfToken", res.data.data.token);
-        this.$store.dispatch("actionOfToken", res.data.data.photoProfil);
+        this.$store.dispatch("actionOfToken", res.data.data.avatar);
         console.log("check :" + this.tokenValue);
       } else {
         this.$store.dispatch("actionOfToken", res.data.data.token);
