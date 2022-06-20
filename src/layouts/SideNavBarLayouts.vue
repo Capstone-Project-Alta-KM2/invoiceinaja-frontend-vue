@@ -1,6 +1,6 @@
 <template>
   <div class="relative flex">
-    <div class="sticky max-h-screen top-0 left-0 flex flex-col bg-white">
+    <div class="sticky z-30 max-h-screen top-0 left-0 flex flex-col bg-white">
       <div class="px-3 py-4">
         <img src="../assets/images/invoiceinaja_logo.png" alt="" class="w-48" />
       </div>
@@ -170,6 +170,7 @@
       </div>
       <div class="px-4">
         <button
+          @click="logOut"
           v-ripple
           class="flex w-full items-center button button-primary py-2"
         >
@@ -188,8 +189,8 @@
           sticky
           top-0
           right-0
-          z-10
           px-4
+          z-10
           py-3
           flex-1 flex
           space-x-4
@@ -210,21 +211,16 @@
             stroke-width="2"
           />
         </svg>
-        <div class="bg-gray-400 p-2 rounded-full">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-            />
-          </svg>
+        <div v-if="Object.keys(usersInfo).length === 0">
+          <p>Belum login</p>
+        </div>
+        <div v-else class="flex space-x-3 items-center">
+          <p>
+            {{ usersInfo.nama_lengkap }}
+          </p>
+          <div class="bg-gray-400 p-2 rounded-full">
+            <img :src="usersInfo.avatar" />
+          </div>
         </div>
       </div>
       <div class="px-10">
@@ -241,6 +237,23 @@ export default {
       activeClass: "bg-[#e5d9ff] text-[#7c40ff]",
     };
   },
+  methods: {
+    logOut() {
+      let a = confirm("Logout ?");
+      if (a) {
+        this.$store.dispatch("actionOfToken", "");
+        localStorage.removeItem("users");
+        this.$router.push("/");
+        // this.$store.dispatch("actionUsersInfo", null);
+      }
+    },
+  },
+  computed: {
+    usersInfo() {
+      return this.$store.state.usersInfo;
+    },
+  },
+  mounted() {},
 };
 </script>
 

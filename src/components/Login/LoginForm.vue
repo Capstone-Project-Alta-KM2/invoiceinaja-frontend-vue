@@ -26,15 +26,7 @@
         />
       </div>
     </div>
-    <div
-      class="
-        col-lg-6
-        bg-white
-        p-0
-        flex
-        items-center
-      "
-    >
+    <div class="col-lg-6 bg-white p-0 flex items-center">
       <div class="w-full sm:px-7 sm:ml-2 lg:px-16 py-5">
         <div v-if="loginRespons !== null">
           <div :class="alertStyle">
@@ -72,18 +64,19 @@
                   placeholder="Masukkan email anda"
                   class="form w-full lowercase"
                   :class="
-                    isEmailValid ? 
-                    '': 'outline-0 border-red-600 ring-red-600 ring-2'
+                    isEmailValid
+                      ? ''
+                      : 'outline-0 border-red-600 ring-red-600 ring-2'
                   "
                   @mouseout="emailValidation()"
-
                 />
               </div>
               <div>
                 <p
                   :class="
-                    emailValidation() ? 
-                    'alert-animation-hide' : 'alert-animation-show invalid'
+                    emailValidation()
+                      ? 'alert-animation-hide'
+                      : 'alert-animation-show invalid'
                   "
                 >
                   Format email salah!
@@ -99,9 +92,9 @@
                   title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
                   class="form w-full peer"
                   :class="
-                    isPasswordValid ?
-                    '': 
-                    'outline-0 border-red-600 ring-red-600 ring-2'
+                    isPasswordValid
+                      ? ''
+                      : 'outline-0 border-red-600 ring-red-600 ring-2'
                   "
                   @mouseout="resetPasswordAlert()"
                   @input="validatePassword()"
@@ -178,51 +171,50 @@
               </div>
 
               <!-- Alert password start -->
-                <div
-                  :class="
-                    pesanPassLength == null ?
-                    'alert-animation-hide' :
-                    'alert-animation-show'
-                  "
-                >
-                  <p class="alert alert-failed"
-                  >
-                    {{ pesanPassLength }}
-                  </p>
-                </div>
-                <div
-                  :class="
-                    pesanPassUppercase == '' ?
-                    'alert-animation-hide' :
-                    'alert-animation-show'
-                  "
-                >
-                  <p class="alert alert-failed">
-                    {{ pesanPassUppercase }}
-                  </p>
-                </div>
-                <div
-                  :class="
-                    pesanPassLowercase == '' ?
-                    'alert-animation-hide' :
-                    'alert-animation-show'
-                  "
-                >
-                  <p class="alert alert-failed">
-                      {{ pesanPassLowercase }}
-                  </p>
-                </div>
-                <div 
-                    :class="
-                      pesanPassNumber == '' ?
-                      'alert-animation-hide' :
-                      'alert-animation-show'
-                    "
-                >
-                  <p class="alert alert-failed">
-                    {{ pesanPassNumber }}
-                  </p>
-                </div>
+              <div
+                :class="
+                  pesanPassLength == null
+                    ? 'alert-animation-hide'
+                    : 'alert-animation-show'
+                "
+              >
+                <p class="alert alert-failed">
+                  {{ pesanPassLength }}
+                </p>
+              </div>
+              <div
+                :class="
+                  pesanPassUppercase == ''
+                    ? 'alert-animation-hide'
+                    : 'alert-animation-show'
+                "
+              >
+                <p class="alert alert-failed">
+                  {{ pesanPassUppercase }}
+                </p>
+              </div>
+              <div
+                :class="
+                  pesanPassLowercase == ''
+                    ? 'alert-animation-hide'
+                    : 'alert-animation-show'
+                "
+              >
+                <p class="alert alert-failed">
+                  {{ pesanPassLowercase }}
+                </p>
+              </div>
+              <div
+                :class="
+                  pesanPassNumber == ''
+                    ? 'alert-animation-hide'
+                    : 'alert-animation-show'
+                "
+              >
+                <p class="alert alert-failed">
+                  {{ pesanPassNumber }}
+                </p>
+              </div>
               <!-- Alert password end -->
 
               <div class="my-5">
@@ -258,7 +250,9 @@
         <div>
           <p>
             <span>Belum mendaftar? </span>
-            <router-link to="/register" class="text-soft-purple font-semibold">Sign Up</router-link>
+            <router-link to="/register" class="text-soft-purple font-semibold"
+              >Sign Up</router-link
+            >
           </p>
         </div>
       </div>
@@ -292,16 +286,15 @@ export default {
       pesanPassUppercase: "",
       pesanPassLowercase: "",
       pesanPassNumber: "",
-
     };
   },
   components: {
     SimpleLoadingAnimation,
   },
   computed: {
-    tokenValue() {
-      return this.$store.state.token;
-    },
+    // tokenValue() {
+    //   return this.$store.state.token;
+    // },
   },
   methods: {
     closeAlert() {
@@ -313,16 +306,16 @@ export default {
       this.isLoading = true;
       const userLogin = {
         email: this.email,
-        password: this.password,
+        kata_sandi: this.password,
       };
       await axios
-        .post("/api/v1/sessions", userLogin)
+        .post("api/v1/sessions", userLogin)
         .then((res) => {
-          console.log(res);
+          console.log("response login : ", res);
           this.loginRespons = res.data.meta.message;
           this.isLoading = false;
           this.isRememberMe(res);
-          // this.$router.push('/dashboard')
+          this.$router.push("/dashboard");
         })
         .catch((err) => {
           this.loginRespons = err.response.data.meta.message;
@@ -357,7 +350,6 @@ export default {
       } else {
         this.pesanPassLength = null;
         this.isPasswordValid = true;
-
       }
       if (!this.password.match(uppercase)) {
         this.pesanPassUppercase = "Harus ada Huruf besar";
@@ -365,7 +357,6 @@ export default {
       } else {
         this.pesanPassUppercase = "";
         this.isPasswordValid = true;
-
       }
 
       if (!this.password.match(lowercase)) {
@@ -374,7 +365,6 @@ export default {
       } else {
         this.pesanPassLowercase = "";
         this.isPasswordValid = true;
-
       }
 
       if (!this.password.match(number)) {
@@ -387,27 +377,31 @@ export default {
     },
 
     resetPasswordAlert() {
-      if(this.password == '') {
-        this.pesanPassLength = null,
-        this.pesanPassUppercase = '',
-        this.pesanPassLowercase = '',
-        this.pesanPassNumber = ''
+      if (this.password == "") {
+        (this.pesanPassLength = null),
+          (this.pesanPassUppercase = ""),
+          (this.pesanPassLowercase = ""),
+          (this.pesanPassNumber = "");
         this.isPasswordValid = true;
       }
     },
 
     isRememberMe(res) {
       if (this.isChecked == true) {
-        this.$store.dispatch("actionOfToken", res.data.data.name);
         this.$store.dispatch("actionOfToken", res.data.data.token);
-        this.$store.dispatch("actionOfToken", res.data.data.avatar);
-        console.log("check :" + this.tokenValue);
+        this.$store.dispatch("actionUsersInfo", res.data.data);
       } else {
-        this.$store.dispatch("actionOfToken", res.data.data.token);
-        console.log("Not Check :" + this.tokenValue);
+        this.$store.dispatch("sessionToken", res.data.data.token);
+        this.$store.dispatch("sessionUsersInfo", res.data.data);
+        console.log("user info : ", res.data.data);
       }
-      this.$router.push("/");
     },
+  },
+  mounted() {
+    let token = localStorage.getItem("token");
+    if (token) {
+      this.$router.push("/dashboard");
+    }
   },
 };
 </script>
