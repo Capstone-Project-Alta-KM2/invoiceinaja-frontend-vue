@@ -136,9 +136,6 @@
           <div v-if="pesanPassword">
             {{ pesanPassword }}
           </div>
-          <div v-if="pesanPassword">
-            {{ pesanPassword }}
-          </div>
 
           <div v-if="pesanPassLength">
             <p class="alert alert-failed">{{ pesanPassLength }}</p>

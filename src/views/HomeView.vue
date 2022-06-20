@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="text-3xl">Home Page</h1>
     <div class="mt-10 mx-auto p-10 bg-white border rounded-lg shadow-sm shadow-black">
-      <h3>Hi, {{userLogin}}</h3>
+      <h3>Hi, {{userLogin == null ? 'No user login' : userLogin}}</h3>
     </div>
   </div>
 </template>
@@ -14,12 +14,12 @@ export default {
   name: 'HomeView',
   data() {
     return {
-      userLogin: 'User is not logged in'
+      
     };
   },
   computed: {
-    userToken() {
-      return this.$store.state.token;
+    userLogin() {
+      return this.$store.state.userName;
     }
   },
   async created() {
