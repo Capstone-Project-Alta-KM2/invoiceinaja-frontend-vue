@@ -46,14 +46,12 @@ const routes = [
     path: '/addInvoice',
     name: 'newInvoice',
     meta:{layout:"sidenavbar"},
-
     component: AddInvoicePage
   },
   {
     path: '/:no_invoice/previewInvoice',
     name: 'previewInvoice',
     meta:{layout:"sidenavbar"},
-
     component: PreviewInvoicePage
   },
   {
@@ -68,19 +66,17 @@ const routes = [
     meta:{layout:"sidenavbar"},
     component: InvoicePage
   },
-
   {
     path: '/login',
     name: 'login',
-     meta:{layout:"blank"},
+    meta:{layout:"blank"},
     component: LoginPage
   },
-
   {
     path: '/verif-email',
     name: 'verif-email',
     meta:{layout:"blank"},
-    component: VerifyEmailViews
+    component: LoginPage
   },
   {
     path: '/forget-password',
