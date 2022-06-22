@@ -370,7 +370,7 @@ export default {
           kata_sandi: this.kata_sandi,
         };
         await axios
-          .post("/api/v1/users", userData)
+          .post("api/v1/users", userData)
           .then((res) => {
             this.pesanSuccess = res.data.data.status;
             this.pesanFailed = "";
@@ -384,6 +384,12 @@ export default {
           });
       }
     },
+  },
+  mounted() {
+    let token = localStorage.getItem("token");
+    if (token) {
+      this.$router.push("/dashboard");
+    }
   },
 };
 </script>

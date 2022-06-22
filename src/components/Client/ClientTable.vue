@@ -66,13 +66,6 @@
           <div class="overflow-x-auto">
             <table class="min-w-full" id="table-clients">
               <tr class="border-y">
-                <th class="w-12 text-center col">
-                  <input
-                    type="checkbox"
-                    @click="checkAll(this, $event)"
-                    class="form-checkbox-modif"
-                  />
-                </th>
                 <th
                   scope="col"
                   class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
@@ -116,9 +109,6 @@
                 v-for="(items, index) in paginated('clients')"
                 :key="index"
               >
-                <td class="w-12 text-center col">
-                  <input type="checkbox" class="form-checkbox-modif" />
-                </td>
                 <td
                   class="
                     px-6
@@ -327,6 +317,8 @@
       </div> -->
     </div>
     <paginate-links
+      :hide-single-page="true"
+      ,
       :classes="{
         ul: ['flex', 'justify-end', 'align-center', 'mx-3', 'my-4', 'text-md'],
         'ul.paginate-links>li': [
@@ -358,6 +350,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "ClientTable",
   components: {},
@@ -383,56 +376,7 @@ export default {
           field: "no_hp",
         },
       ],
-      items: [
-        {
-          no_client: "00123",
-          client_name: "Dickerson",
-          email: "Macdonald@gmail.com",
-          no_hp: "0878-1232-421",
-        },
-        {
-          no_client: "00163",
-          client_name: "Larsen",
-          email: "Shaw@gmail.com",
-          no_hp: "0878-1232-431",
-        },
-        {
-          no_client: "00353",
-          client_name: "Geneva",
-          email: "Wilson@gmail.com",
-          no_hp: "0878-1232-421",
-        },
-        {
-          no_client: "00168",
-          client_name: "Jami",
-          email: "Carney@gmail.com",
-          no_hp: "0878-1232-421",
-        },
-        {
-          no_client: "00183",
-          client_name: "Jami",
-          email: "Carney@gmail.com",
-          no_hp: "0878-1232-421",
-        },
-        {
-          no_client: "00224",
-          client_name: "Jami",
-          email: "Carney@gmail.com",
-          no_hp: "0878-1232-421",
-        },
-        {
-          no_client: "00146",
-          client_name: "Jami",
-          email: "Carney@gmail.com",
-          no_hp: "0878-1232-421",
-        },
-        {
-          no_client: "00467",
-          client_name: "Jami",
-          email: "Carney@gmail.com",
-          no_hp: "0878-1232-421",
-        },
-      ],
+      items: [],
     };
   },
   computed: {
@@ -451,18 +395,11 @@ export default {
     toAddClient() {
       this.$emit("showDialog");
     },
-    checkAll(bx, event) {
-      let cbx = document.getElementsByTagName("input");
-      if (event.target.checked) {
-        for (let i = 0; i < cbx.length; i++) {
-          cbx[i].checked = true;
-        }
-      } else {
-        for (let i = 0; i < cbx.length; i++) {
-          cbx[i].checked = false;
-        }
-      }
-    },
+  },
+  async mounted() {
+    let response = await axios.get("/api/v1/clients");
+    this.items = response.data.data;
+    console.log(response.data.data);
   },
 };
 </script>
