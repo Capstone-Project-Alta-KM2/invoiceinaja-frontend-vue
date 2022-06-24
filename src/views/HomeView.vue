@@ -1,41 +1,19 @@
 <template>
-  <div class="container">
-    <h1 class="text-3xl">Home Page</h1>
-    <div
-      class="
-        mt-10
-        mx-auto
-        p-10
-        bg-white
-        border
-        rounded-lg
-        shadow-sm shadow-black
-      "
-    >
-      <h3>
-        Hi,
-        {{
-          Object.keys(userLogin).length == 0 ? "No user login" : userLogin.name
-        }}
-      </h3>
-    </div>
+  <div class="home">
+    <landing-page />
   </div>
 </template>
 
 <script>
+import LandingPage from '@/components/LandingPage/LandingPage.vue';
 export default {
   name: "HomeView",
   data() {
     return {};
   },
-  computed: {
-    userLogin() {
-      return this.$store.state.usersInfo;
-    },
-  },
-  mounted() {
-    this.userLogin;
-  },
+  components: {
+    LandingPage,
+  }
 };
 </script>
 
