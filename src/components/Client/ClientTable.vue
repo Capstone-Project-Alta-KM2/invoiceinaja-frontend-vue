@@ -402,10 +402,10 @@ export default {
       })
       .catch((err) => {
         console.log("err : ", err);
-        // if (err.response.status === 401) {
-        //   localStorage.removeItem("token");
-        //   this.$router.push("/login");
-        // }
+        if (err.response.status === 401) {
+          localStorage.removeItem("token");
+          this.$router.push("/login");
+        }
       });
   },
 };
