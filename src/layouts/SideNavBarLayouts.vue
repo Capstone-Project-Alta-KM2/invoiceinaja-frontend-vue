@@ -242,8 +242,8 @@ export default {
       let a = confirm("Logout ?");
       if (a) {
         this.$store.dispatch("actionOfToken", "");
-        localStorage.removeItem("users");
-        this.$router.push("/");
+        localStorage.removeItem("token");
+        this.$router.push("/login");
         // this.$store.dispatch("actionUsersInfo", null);
       }
     },

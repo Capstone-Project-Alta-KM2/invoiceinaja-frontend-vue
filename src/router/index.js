@@ -68,13 +68,13 @@ const routes = [
   {
     path: '/client',
     name: 'client',
-    meta:{layout:"sidenavbar"},
+    meta:{layout:"sidenavbar",middleware:[auth,log]},
     component: ClientPage
   },
   {
     path: '/invoice',
     name: 'invoice',
-    meta:{layout:"sidenavbar"},
+    meta:{layout:"sidenavbar",middleware:[auth,log]},
     component: InvoicePage
   },
   {
@@ -82,7 +82,7 @@ const routes = [
     name: 'login',
     meta:{
       layout:"blank",
-      middleware:log
+      // middleware:log
     },
     
     component: LoginPage
@@ -107,6 +107,8 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+
 function nextFactory(context, middleware, index) {
   const subsequentMiddleware = middleware[index];
   // If no subsequent Middleware exists,
