@@ -204,7 +204,6 @@
                 </td>
               </tr>
               <paginate
-                v-if="dataClients.length != 0"
                 id="table-clients"
                 name="clients"
                 :list="dataClients"
@@ -318,7 +317,6 @@
     </div>
     <paginate-links
       :hide-single-page="true"
-      ,
       :classes="{
         ul: ['flex', 'justify-end', 'align-center', 'mx-3', 'my-4', 'text-md'],
         'ul.paginate-links>li': [
@@ -397,9 +395,18 @@ export default {
     },
   },
   async mounted() {
-    let response = await axios.get("/api/v1/clients");
-    this.items = response.data.data;
-    console.log(response.data.data);
+    await axios
+      .get("api/v1/clients")
+      .then((res) => {
+        console.log("res : ", res);
+      })
+      .catch((err) => {
+        console.log("err : ", err);
+        if (err.response.status === 401) {
+          localStorage.removeItem("token");
+          this.$router.push("/login");
+        }
+      });
   },
 };
 </script>
