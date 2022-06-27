@@ -1,56 +1,62 @@
 <template>
-  <div class="absolute z-30 new-client">
+  <div class="z-50 new-client">
     <div class="bg-white m-3 p-3 border-1 rounded-lg text-left">
       <div class="mb-3">
-        <span class="font-extrabold">Buat Client Baru</span>
+        <span class="font-extrabold">Add New CLient</span>
       </div>
       <div>
         <form action="">
-          <div class="flex flex-column text-left">
-            <label for="">Nama Client</label>
-            <input type="text" placeholder="Name" />
+          <div class="grid grid-cols-2 gap-4 text-left">
+            <div class="flex flex-col">
+              <label for="">Name</label>
+              <input type="text" placeholder="Name" class="form" />
+            </div>
 
-            <label for="">Email</label>
-            <input type="email" placeholder="example@email.com" />
+            <div class="flex flex-col">
+              <label for="">Email</label>
+              <input type="email" placeholder="email" class="form" />
+            </div>
 
-            <label for="">Streets Address</label>
-            <input type="text" placeholder="Jl. Jalan-Jalan" />
+            <div class="flex flex-col">
+              <label for="">Address</label>
+              <input type="text" placeholder="Address" class="form" />
+            </div>
 
-            <label for="">Company</label>
-            <input type="text" placeholder="Company name" />
+            <div class="flex flex-col">
+              <label for="">City</label>
+              <input type="text" placeholder="Name" class="form" />
+            </div>
 
-            <label for="">Telp</label>
-            <input type="number" placeholder="08123xxxxxxx" />
+            <div class="flex flex-col">
+              <label for="">Zip Code</label>
+              <input type="number" placeholder="Code" class="form" />
+            </div>
 
-            <label for="">Alamat</label>
-            <input type="text" placeholder="Alamat" />
+            <div class="flex flex-col">
+              <label for="">Company</label>
+              <input type="text" placeholder="Company" class="form" />
+            </div>
 
-            <label for="">Provinsi</label>
-            <input type="text" placeholder="Provinsi" />
-
-            <label for="">Kota/Kabupaten</label>
-            <input type="text" placeholder="Kota/Kabupaten" />
-
-            <label for="">Kode Pos</label>
-            <input type="number" placeholder="1234" />
-
-            <label for="">Negara</label>
-            <input type="text" placeholder="Indonesia" />
-
-            <div class="flex justify-content-between mt-4">
-              <button
-                type="submit"
-                class="bg-gray-300 px-3 py-1 border-1 border-black rounded"
-              >
-                Simpan Invoice
-              </button>
-              <button
-                type="button"
-                @click="closeFormClient()"
-                class="px-5 py-1 border-1 border-black rounded"
-              >
-                Batal
-              </button>
+            <div class="flex justify-content-between col-start-2">
+              <div>
+                <button
+                  v-ripple
+                  type="submit"
+                  class="button button-primary px-10"
+                >
+                  Save
+                </button>
+              </div>
+              <div>
+                <button
+                  v-ripple
+                  type="button"
+                  @click="closeFormClient()"
+                  class="button button-outline-primary px-4"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         </form>
@@ -71,16 +77,5 @@ export default {
 </script>
 
 <style scoped>
-input {
-  width: 352px;
-  height: 37px;
-  margin-bottom: 0.7rem;
-  padding: 0.1rem 0.6rem;
-  border: 1px solid black;
-  border-radius: 5px;
-}
-label {
-  font-weight: bold;
-  margin-bottom: 0.1rem;
-}
+/* Style Here... */
 </style>
