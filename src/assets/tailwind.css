@@ -25,7 +25,7 @@
     .alert{
         @apply px-4 leading-3 rounded-sm
     }
-    .alert-success{
+    .   {
         @apply bg-green-200 text-green-500
     }
     .alert-failed{
@@ -45,6 +45,14 @@
         @apply form-checkbox w-6 h-6 border  rounded-md 
         transition-all duration-300 focus:ring-0 text-soft-purple
 
+    }
+
+    .dialog-animation-hide{
+        @apply duration-300 scale-0
+    }
+
+    .dialog-animation-show{
+        @apply duration-300 scale-100 transition-all
     }
 }
 

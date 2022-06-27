@@ -106,7 +106,7 @@
                   my-10
                   shadow-invoicein
                 "
-                v-for="(items, index) in paginated('clients')"
+                v-for="(items, index) in client"
                 :key="index"
               >
                 <td
@@ -130,7 +130,7 @@
                     whitespace-nowrap
                   "
                 >
-                  {{ items.client_name }}
+                  {{ items.fullname }}
                 </td>
                 <td
                   class="
@@ -357,6 +357,7 @@ export default {
   data() {
     return {
       searchClient: "",
+      client: [],
       paginate: ["clients"],
       columns: [
         {
@@ -398,7 +399,7 @@ export default {
   },
   async mounted() {
     let response = await axios.get("/api/v1/clients");
-    this.items = response.data.data;
+    this.client = response.data.data;
     console.log(response.data.data);
   },
 };

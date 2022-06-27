@@ -38,7 +38,7 @@ export default new Vuex.Store({
     },
     setSessionToken(state,payload){
       state.token = payload
-    }
+    },
   },
   
   actions: {
@@ -49,7 +49,6 @@ export default new Vuex.Store({
       store.commit('setToken', payload)
     },
 
-
     sessionUsersInfo(store, payload){
       store.commit("setSessionUsersInfo",payload) 
     },
@@ -57,5 +56,4 @@ export default new Vuex.Store({
         store.commit("setSessionToken",payload)
     },
   },
-
 })
