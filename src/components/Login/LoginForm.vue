@@ -387,14 +387,15 @@ export default {
     },
 
     isRememberMe(res) {
-      if (this.isChecked == true) {
-        this.$store.dispatch("actionOfToken", res.data.data.token);
-        this.$store.dispatch("actionUsersInfo", res.data.data);
-      } else {
-        this.$store.dispatch("sessionToken", res.data.data.token);
-        this.$store.dispatch("sessionUsersInfo", res.data.data);
-        console.log("user info : ", res.data.data);
-      }
+      localStorage.setItem("token", res.data.data.token);
+      // if (this.isChecked == true) {
+      //   // this.$store.dispatch("actionOfToken", res.data.data.token);
+      //   // this.$store.dispatch("actionUsersInfo", res.data.data);
+      // } else {
+      //   this.$store.dispatch("sessionToken", res.data.data.token);
+      //   this.$store.dispatch("sessionUsersInfo", res.data.data);
+      //   console.log("user info : ", res.data.data);
+      // }
     },
   },
   mounted() {

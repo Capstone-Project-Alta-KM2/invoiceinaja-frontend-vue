@@ -8,16 +8,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   plugins:[
-    createPersistedState({
-      key:"users",
-      paths:['usersInfo']
-    }),
+    // createPersistedState({
+    //   key:"users",
+    //   paths:['/']
+    // }),
     createPersistedState({
       key:"token",
-      paths:[
-        'token',
-        'token'
-      ]
+      paths:['token']
     })
   ],
   state: {
@@ -33,12 +30,7 @@ export default new Vuex.Store({
       // localStorage.setItem("token",state.token)
     },
     
-    setSessionUsersInfo(state,payload){
-      state.usersInfo = payload
-    },
-    setSessionToken(state,payload){
-      state.token = payload
-    },
+
   },
   
   actions: {
@@ -46,14 +38,9 @@ export default new Vuex.Store({
       store.commit("setUsersInfo",payload)
     },
     actionOfToken(store, payload){
+      console.log("payload token : ",payload)
       store.commit('setToken', payload)
     },
 
-    sessionUsersInfo(store, payload){
-      store.commit("setSessionUsersInfo",payload) 
-    },
-    sessionToken(store, payload){
-        store.commit("setSessionToken",payload)
-    },
   },
 })
