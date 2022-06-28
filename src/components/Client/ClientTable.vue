@@ -88,7 +88,7 @@
                   scope="col"
                   class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                 >
-                  No. Telp
+                  City
                 </th>
                 <th
                   scope="col"
@@ -119,7 +119,7 @@
                     text-gray-900
                   "
                 >
-                  {{ items.no_client }}
+                  {{ items.id }}
                 </td>
                 <td
                   class="
@@ -152,7 +152,7 @@
                     whitespace-nowrap
                   "
                 >
-                  {{ items.no_hp }}
+                  {{ items.city }}
                 </td>
                 <td
                   class="
