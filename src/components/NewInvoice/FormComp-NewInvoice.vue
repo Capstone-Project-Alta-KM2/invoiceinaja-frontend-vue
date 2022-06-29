@@ -46,16 +46,18 @@
         <input
           type="text"
           list="clientList"
+          @mousedown="fetchDataClient"
           name=""
-          v-model="clients.invoiceTo"
+          v-model="clients.fullname"
           ref="invoiceTo"
           id=""
-          class="form-add-invoice w-72"
+          class="form-add-invoice w-72 transition-all duration-300"
         />
-        <datalist id="clientList">
-          <option value="Client 1"></option>
-          <option value="Client 2"></option>
-        </datalist>
+        <div>
+          <ul v-for="clientData in dataClients" :key="clientData.id">
+            <li @click="generate(clientData.id)">{{ clientData.fullname }}</li>
+          </ul>
+        </div>
       </div>
       <div class="">
         <label for="" class="font-semibold mb-2">Email</label>
@@ -98,7 +100,7 @@
           id=""
           ref="zipCode"
           class="form-add-invoice w-72"
-          v-model="clients.zipCode"
+          v-model="clients.zip_code"
         />
       </div>
       <div class="">
@@ -364,6 +366,7 @@
 </template>
 
 <script>
+import axios from "axios";
 // import InvoiceDate from "./InvoiceDate-NewInvoice.vue";
 // import FormDataClient from "./DataClientFormComp.vue";
 export default {
@@ -373,6 +376,17 @@ export default {
   },
   data() {
     return {
+      dataClients: [],
+      clients: {
+        id: "",
+        fullname: "",
+        email: "",
+        address: "",
+        city: "",
+        zip_code: "",
+        company: "",
+      },
+      showClients: false,
       totalAllInvoices: 0,
       invoices: [
         {
@@ -385,14 +399,6 @@ export default {
       validateMessage: "",
       invoice_date: "",
       invoice_due: "",
-      clients: {
-        invoiceTo: "",
-        email: "",
-        address: "",
-        city: "",
-        zipCode: "",
-        company: "",
-      },
     };
   },
   methods: {
@@ -403,16 +409,26 @@ export default {
       console.log(index);
       this.invoices.splice(index, 1);
     },
-    addInvoices() {
+    async addInvoices() {
+      const newArrInvoices = this.invoices.map((invo) => {
+        return {
+          item_name: invo.item_name,
+          price: Number(invo.price),
+          quantity: Number(invo.quantity),
+        };
+      });
       const invoicesData = {
         invoice: {
-          client_id: 4,
+          client_id: this.clients.id,
           total_amount: this.totalAllInvoices,
           invoice_date: this.invoice_date,
           invoice_due: this.invoice_due,
         },
-        detail_invoice: this.invoices,
+        detail_invoice: newArrInvoices,
       };
+      await axios.post("api/v1/invoices", invoicesData).then((res) => {
+        console.log("nambah : ", res);
+      });
       console.log(invoicesData);
     },
     validateNumber() {
@@ -426,14 +442,34 @@ export default {
         }
       }
     },
+    async fetchDataClient() {
+      await axios.get("api/v1/clients").then((res) => {
+        this.dataClients = res.data.data;
+      });
+    },
+    generate(id) {
+      console.log(id);
+      let filteredClients = this.dataClients.filter((client) => {
+        return client.id === id;
+      });
+      console.log("hasil filter : ", filteredClients);
+      this.clients.id = filteredClients[0].id;
+      this.clients.fullname = filteredClients[0].fullname;
+      this.clients.email = filteredClients[0].email;
+      this.clients.address = filteredClients[0].address;
+      this.clients.city = filteredClients[0].city;
+      this.clients.zip_code = filteredClients[0].zip_code;
+      this.clients.company = filteredClients[0].company;
+      this.dataClients = [];
+    },
   },
+  mounted() {},
   updated() {
     let total = 0;
     this.invoices.forEach((invoice) => {
       return (total += invoice.total);
     });
     this.totalAllInvoices = total;
-    console.log("perubahan total : ", total);
   },
 };
 </script>
