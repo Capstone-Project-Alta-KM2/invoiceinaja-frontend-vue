@@ -30,6 +30,7 @@ export default new Vuex.Store({
       // localStorage.setItem("token",state.token)
     },
     
+
   },
   
   actions: {
@@ -40,6 +41,6 @@ export default new Vuex.Store({
       console.log("payload token : ",payload)
       store.commit('setToken', payload)
     },
-  },
 
+  },
 })

@@ -88,7 +88,7 @@
                   scope="col"
                   class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
                 >
-                  No. Telp
+                  City
                 </th>
                 <th
                   scope="col"
@@ -106,7 +106,7 @@
                   my-10
                   shadow-invoicein
                 "
-                v-for="(items, index) in paginated('clients')"
+                v-for="(items, index) in client"
                 :key="index"
               >
                 <td
@@ -119,7 +119,7 @@
                     text-gray-900
                   "
                 >
-                  {{ items.no_client }}
+                  {{ items.id }}
                 </td>
                 <td
                   class="
@@ -130,7 +130,7 @@
                     whitespace-nowrap
                   "
                 >
-                  {{ items.client_name }}
+                  {{ items.fullname }}
                 </td>
                 <td
                   class="
@@ -152,7 +152,7 @@
                     whitespace-nowrap
                   "
                 >
-                  {{ items.no_hp }}
+                  {{ items.city }}
                 </td>
                 <td
                   class="
@@ -355,6 +355,7 @@ export default {
   data() {
     return {
       searchClient: "",
+      client: [],
       paginate: ["clients"],
       columns: [
         {
@@ -395,6 +396,7 @@ export default {
     },
   },
   async mounted() {
+
     await axios
       .get("api/v1/clients")
       .then((res) => {

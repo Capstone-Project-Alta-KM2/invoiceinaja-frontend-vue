@@ -1,6 +1,6 @@
 <template>
   <div class="relative flex">
-    <div class="sticky z-30 max-h-screen top-0 left-0 flex flex-col bg-white">
+    <div class="sticky z-30 min-h-screen top-0 left-0 flex flex-col bg-white">
       <div class="px-3 py-4">
         <img src="../assets/images/invoiceinaja_logo.png" alt="" class="w-48" />
       </div>

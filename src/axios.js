@@ -1,5 +1,6 @@
 import axios from 'axios'
 axios.defaults.baseURL= "http://103.176.78.214:8080";
+
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem("token")
 
 // Add a request interceptor
