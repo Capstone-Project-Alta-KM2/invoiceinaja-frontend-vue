@@ -166,6 +166,7 @@
                 >
                   <button
                     v-ripple
+                    @click="toEditClient(client[index])"
                     class="
                       flex
                       rounded-lg
@@ -392,7 +393,12 @@ export default {
   },
   methods: {
     toAddClient() {
-      this.$emit("showDialog");
+      this.$emit("showDialogAdd");
+    },
+    toEditClient(params) {
+      console.log("From Edit Table Client :");
+      console.log(params);
+      this.$emit("showDialogEdit", params);
     },
   },
   async mounted() {
@@ -400,6 +406,7 @@ export default {
     await axios
       .get("api/v1/clients")
       .then((res) => {
+        this.client = res.data.data;
         console.log("res : ", res);
       })
       .catch((err) => {
