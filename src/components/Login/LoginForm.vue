@@ -306,7 +306,7 @@ export default {
       this.isLoading = true;
       const userLogin = {
         email: this.email,
-        kata_sandi: this.password,
+        password: this.password,
       };
       await axios
         .post("api/v1/sessions", userLogin)
