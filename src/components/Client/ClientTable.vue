@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="rounded-xl p-3 border-2 m-3 overflow-x-hidden">
+        <div class="rounded-xl p-3 mt-4 border-2 overflow-x-hidden">
             <div class="flex justify-between">
                 <div class="relative">
                     <input
@@ -50,11 +50,11 @@
                     </div>
                 </div>
             </div>
-            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 mt-5">
+            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 mt-4">
                 <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="overflow-x-auto">
                         <table class="min-w-full" id="table-clients">
-                            <tr class="border-y">
+                            <tr class="border-y bg-soft-purple bg-opacity-10">
                                 <th
                                     scope="col"
                                     class="text-sm font-medium text-gray-900 px-6 py-4 text-left"

@@ -1,7 +1,7 @@
 <template>
     <div class="client-page">
-        <div class="rounded-md border-2 bg-white">
-            <h4 class="text-left px-3 pt-3 pb-4 text-2xl font-bold text-black">
+        <div class="rounded-lg border-2 bg-white p-5">
+            <h4 class="text-left pb-4 text-2xl font-bold text-black">
                 Clients
             </h4>
             <client-table
