@@ -54,12 +54,12 @@
         <li role="presentation">
           <button
             v-ripple
-            :class="currentShow == 'pending' ? ActiveClass : inActiveClass"
-            id="pending"
+            :class="currentShow == 'unpaid' ? ActiveClass : inActiveClass"
+            id="unpaid"
             type="button"
-            @click="changeActive('pending')"
+            @click="changeActive('unpaid')"
           >
-            Pending
+            Unpaid
           </button>
         </li>
         <li role="presentation">
@@ -120,10 +120,10 @@
       <div
         class="p-4 rounded-md"
         :hidden="
-          currentShow == 'pending' ? (isHidden = false) : (isHidden = true)
+          currentShow == 'unpaid' ? (isHidden = false) : (isHidden = true)
         "
       >
-        <invoice-table-pending />
+        <invoice-table-unpaid />
       </div>
       <div
         class="p-4 rounded-md"
@@ -141,7 +141,7 @@
 import InvoiceTable from "./InvoiceTable-AllInvoice.vue";
 import InvoiceTablePaid from "./InvoiceTable-PaidInvoice.vue";
 import InvoiceTableOverdue from "./InvoiceTable-OverdueInvoice.vue";
-import InvoiceTablePending from "./InvoiceTable-PendingInvoice.vue";
+import InvoiceTableUnpaid from "./InvoiceTable-UnpaidInvoice.vue";
 import InvoiceTableDraft from "./InvoiceTable-DraftInvoice.vue";
 
 export default {
@@ -150,7 +150,7 @@ export default {
     InvoiceTable,
     InvoiceTablePaid,
     InvoiceTableOverdue,
-    InvoiceTablePending,
+    InvoiceTableUnpaid,
     InvoiceTableDraft,
   },
   data() {

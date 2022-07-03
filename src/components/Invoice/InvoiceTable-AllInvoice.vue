@@ -467,6 +467,7 @@ export default {
       console.log(this.items);
     },
   },
+  mounted() {},
 };
 </script>
 
