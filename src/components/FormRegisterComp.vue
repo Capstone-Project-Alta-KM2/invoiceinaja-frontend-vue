@@ -363,11 +363,11 @@ export default {
       } else {
         this.pesanPassword = "";
         const userData = {
-          nama_lengkap: this.nama_lengkap,
+          fullname: this.nama_lengkap,
           email: this.email,
-          no_tlpn: this.no_hp,
-          nama_bisnis: this.nama_bisnis,
-          kata_sandi: this.kata_sandi,
+          phone_number: this.no_hp,
+          company: this.nama_bisnis,
+          password: this.kata_sandi,
         };
         await axios
           .post("api/v1/users", userData)
