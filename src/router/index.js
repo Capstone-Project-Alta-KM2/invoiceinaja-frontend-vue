@@ -68,7 +68,7 @@ const routes = [
   {
     path: '/client',
     name: 'client',
-    meta:{layout:"sidenavbar",middleware:[auth,log]},
+    meta:{layout:"sidenavbar",middleware:[auth,log]}, 
     component: ClientPage
   },
   {
