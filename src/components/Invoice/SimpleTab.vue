@@ -76,7 +76,10 @@
       </ul>
       <div class="flex px-5">
         <div class="my-auto">
+          <input type="file" name="" id="" />
           <button
+            id="input"
+            @click="importFile"
             v-ripple
             class="button button-outline-primary px-3 py-2 text-base"
           >
@@ -174,6 +177,9 @@ export default {
   methods: {
     changeActive(page) {
       this.currentShow = page;
+    },
+    importFile(e) {
+      console.log(e.target);
     },
   },
   updated() {

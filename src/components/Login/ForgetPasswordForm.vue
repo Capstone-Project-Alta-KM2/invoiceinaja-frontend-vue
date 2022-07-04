@@ -135,12 +135,9 @@ export default {
       this.isLoading = true;
 
       await axios
-        .post(
-          "https://virtserver.swaggerhub.com/InvoiceinAja-collab/InvoiceinAja-collab/1.0.0/reset_passwords",
-          {
-            email: this.email,
-          }
-        )
+        .post("api/v1/reset_passwords", {
+          email: this.email,
+        })
         .then((res) => {
           this.pesanBerhasil = res.data.meta.message;
           this.isLoading = false;

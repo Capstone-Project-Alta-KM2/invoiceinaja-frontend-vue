@@ -258,11 +258,6 @@ export default {
     components: {
         SimpleLoadingAnimation,
     },
-    computed: {
-        // tokenValue() {
-        //   return this.$store.state.token;
-        // },
-    },
     methods: {
         closeAlert() {
             this.loginRespons = null;
