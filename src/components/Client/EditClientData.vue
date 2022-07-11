@@ -2,20 +2,19 @@
     <div class="z-30 new-client">
         <div class="bg-white my-5 p-6 border-1 rounded-lg text-left">
             <div class="mb-5">
-                <span class="font-bold text-lg">Add New CLient</span>
+                <span class="font-bold text-lg">Edit Client Data</span>
             </div>
 
             <div
-                v-if="addClientMessage != ''"
+                v-if="editClientMessage != ''"
                 class="alert text-center font-semibold mb-4"
-                :class="addClientResponse ? 'alert-success' : 'alert-failed'"
+                :class="editClientResponse ? 'alert-success' : 'alert-failed'"
             >
-                <span>{{ addClientMessage }}</span>
+                <span>{{ editClientMessage }}</span>
             </div>
-
             <!-- Form Client Component Start -->
             <client-form
-                @closeAddClient="closeAddDialog"
+                @closeEditClient="closeEditDialog"
                 @sendingMessage="receiveMessage"
                 :statusForm="thisForm"
                 :dataField="currentData"
@@ -27,35 +26,31 @@
 
 <script>
 import ClientForm from "./ClientForm.vue";
+
 export default {
     name: "NewClientPage",
     components: {
         ClientForm,
     },
+    props: {
+        editedData: Object,
+    },
     data() {
         return {
-            thisForm: "add",
-            addClientResponse: false,
-            addClientMessage: "",
-            // To send empty data to child
-            currentData: {
-                id: "",
-                fullname: "",
-                email: "",
-                address: "",
-                city: "",
-                zip_code: "",
-                company: "",
-            },
+            thisForm: "edit",
+            currentData: this.editedData,
+
+            editClientResponse: false,
+            editClientMessage: "",
         };
     },
     methods: {
-        closeAddDialog() {
+        closeEditDialog() {
             this.$emit("hideDialogClient");
         },
         receiveMessage(value) {
-            this.addClientResponse = value.status;
-            this.addClientMessage = value.message;
+            this.editClientResponse = value.status;
+            this.editClientMessage = value.message;
         },
     },
 };
