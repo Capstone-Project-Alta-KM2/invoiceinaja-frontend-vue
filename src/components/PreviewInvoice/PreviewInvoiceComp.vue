@@ -24,15 +24,15 @@
       </div>
       <div>
         <label for="" class="font-semibold mb-2">Invoice Date</label>
-        <p>06/02/2022</p>
+        <p>{{ dateInvoiceAndNo.dateInvoice }}</p>
       </div>
       <div>
         <label for="" class="font-semibold mb-2">Due Date</label>
-        <p>06/02/2022</p>
+        <p>{{ dateInvoiceAndNo.dueDate }}</p>
       </div>
     </div>
 
-    <form-data-client />
+    <form-data-client :client="clients" />
 
     <div class="flex flex-col mt-5 mb-3">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -114,17 +114,20 @@
                     <p
                       class="
                         form-add-invoice
+                        h-0
+                        py-6
+                        flex
+                        items-center
+                        justify-center
                         mx-auto
                         rounded-none
-                        leading-6
                         my-2
                         text-center
                         border-dashed
                         w-52
-                        total
                       "
                     >
-                      {{ (invoice.total = invoice.price * invoice.qty) }}
+                      {{ invoice.item_name }}
                     </p>
                   </td>
                   <td
@@ -140,9 +143,13 @@
                     <p
                       class="
                         form-add-invoice
+                        h-0
+                        py-6
+                        flex
+                        items-center
+                        justify-center
                         mx-auto
                         rounded-none
-                        leading-6
                         my-2
                         text-center
                         border-dashed
@@ -150,7 +157,7 @@
                         total
                       "
                     >
-                      {{ (invoice.total = invoice.price * invoice.qty) }}
+                      {{ invoice.price }}
                     </p>
                   </td>
                   <td
@@ -166,6 +173,11 @@
                     <p
                       class="
                         form-add-invoice
+                        h-0
+                        py-6
+                        flex
+                        items-center
+                        justify-center
                         mx-auto
                         rounded-none
                         leading-6
@@ -176,7 +188,7 @@
                         total
                       "
                     >
-                      {{ (invoice.total = invoice.price * invoice.qty) }}
+                      {{ invoice.quantity }}
                     </p>
                   </td>
                   <td
@@ -194,6 +206,11 @@
                     <p
                       class="
                         form-add-invoice
+                        h-0
+                        py-6
+                        flex
+                        items-center
+                        justify-center
                         mx-auto
                         rounded-none
                         leading-6
@@ -204,7 +221,7 @@
                         total
                       "
                     >
-                      {{ (invoice.total = invoice.price * invoice.qty) }}
+                      {{ invoice.total }}
                     </p>
                   </td>
                 </tr>
@@ -262,7 +279,7 @@
           transition-all
           duration-300
           absolute
-          -top-[19rem]
+          -top-40
           -right-10
           overflow-hidden
           bg-white
@@ -301,43 +318,10 @@
           </svg>
           <span class="font-semibold text-soft-purple"> Send Invoice </span>
         </button>
-        <button
-          type="button"
-          v-ripple
-          class="
-            flex
-            items-center
-            hover:bg-[#ebe2ff]
-            pr-10
-            pl-4
-            transition-all
-            duration-300
-            py-3
-          "
-        >
-          <svg
-            class="mr-4"
-            width="22"
-            height="22"
-            viewBox="0 0 22 22"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M21.9508 0.94285C22.0529 0.687501 21.9931 0.395852 21.7986 0.201384C21.6041 0.00691609 21.3125 -0.0529472 21.0571 0.0491922L1.0549 8.05009L1.0529 8.05089L0.432178 8.29918C0.192688 8.39498 0.0269699 8.61677 0.00298757 8.87359C-0.0209947 9.13041 0.100795 9.37904 0.318407 9.51752L0.881634 9.87594L0.884242 9.87761L7.75201 14.248L9.9372 17.6819C11 19.25 11 17.875 11 17.1875C11 13.7702 13.7702 11 17.1875 11C17.4323 11 17.6738 11.0142 17.9112 11.0419L21.9508 0.94285ZM19.4302 3.54204L9.12609 13.8462L8.83002 13.3809C8.77599 13.296 8.70399 13.224 8.6191 13.17L8.15382 12.8739L18.4579 2.56981L20.0784 1.92162L19.4302 3.54204Z"
-              fill="#7C40FF"
-            />
-            <path
-              d="M17.1875 22C19.8453 22 22 19.8453 22 17.1875C22 14.5296 19.8453 12.375 17.1875 12.375C14.5296 12.375 12.375 14.5296 12.375 17.1875C12.375 19.8453 14.5296 22 17.1875 22ZM17.875 15.125V17.1875C17.875 17.5672 17.5672 17.875 17.1875 17.875C16.8078 17.875 16.5 17.5672 16.5 17.1875V15.125C16.5 14.7453 16.8078 14.4375 17.1875 14.4375C17.5672 14.4375 17.875 14.7453 17.875 15.125ZM17.875 19.25C17.875 19.6297 17.5672 19.9375 17.1875 19.9375C16.8078 19.9375 16.5 19.6297 16.5 19.25C16.5 18.8703 16.8078 18.5625 17.1875 18.5625C17.5672 18.5625 17.875 18.8703 17.875 19.25Z"
-              fill="#7C40FF"
-            />
-          </svg>
 
-          <span class="font-semibold text-soft-purple"> Send Reminder </span>
-        </button>
         <button
           type="button"
-          @click="$router.push('/addInvoice')"
+          @click="$router.push('/edit-invoice')"
           v-ripple
           class="
             flex
@@ -377,6 +361,7 @@
         </button>
         <button
           type="button"
+          @click="deletePreview"
           v-ripple
           class="
             flex
@@ -418,40 +403,6 @@
           </svg>
 
           <span class="font-semibold text-soft-purple"> Delete </span>
-        </button>
-        <button
-          type="button"
-          v-ripple
-          class="
-            flex
-            items-center
-            hover:bg-[#ebe2ff]
-            pr-10
-            pl-4
-            transition-all
-            duration-300
-            py-3
-          "
-        >
-          <svg
-            class="mr-4"
-            width="22"
-            height="22"
-            viewBox="0 0 22 22"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M0.6875 13.6125C1.0672 13.6125 1.375 13.9203 1.375 14.3V17.7375C1.375 18.4969 1.99061 19.1125 2.75 19.1125H19.25C20.0094 19.1125 20.625 18.4969 20.625 17.7375V14.3C20.625 13.9203 20.9328 13.6125 21.3125 13.6125C21.6922 13.6125 22 13.9203 22 14.3V17.7375C22 19.2563 20.7688 20.4875 19.25 20.4875H2.75C1.23122 20.4875 0 19.2563 0 17.7375V14.3C0 13.9203 0.307804 13.6125 0.6875 13.6125Z"
-              fill="#7C40FF"
-            />
-            <path
-              d="M10.5139 16.2986C10.7823 16.5671 11.2177 16.5671 11.4861 16.2986L15.6111 12.1736C15.8796 11.9052 15.8796 11.4698 15.6111 11.2014C15.3427 10.9329 14.9073 10.9329 14.6389 11.2014L11.6875 14.1527V2.0625C11.6875 1.6828 11.3797 1.375 11 1.375C10.6203 1.375 10.3125 1.6828 10.3125 2.0625V14.1527L7.36114 11.2014C7.09265 10.9329 6.65735 10.9329 6.38886 11.2014C6.12038 11.4698 6.12038 11.9052 6.38886 12.1736L10.5139 16.2986Z"
-              fill="#7C40FF"
-            />
-          </svg>
-
-          <span class="font-semibold text-soft-purple"> Download as PDF </span>
         </button>
       </div>
     </div>
@@ -508,7 +459,12 @@ export default {
       },
     };
   },
+
   methods: {
+    deletePreview() {
+      this.$store.dispatch("actionOfPreview", "");
+      this.$router.push("add-invoice");
+    },
     onClickOutside() {
       this.isShow = false;
       console.log("clicked outside");
@@ -541,6 +497,23 @@ export default {
         }
       }
     },
+    fetchPreview() {
+      let previewInvoice = this.$store.state.preview;
+      if (previewInvoice) {
+        this.dateInvoiceAndNo.dateInvoice = previewInvoice.invoice.invoice_date;
+        this.dateInvoiceAndNo.dueDate = previewInvoice.invoice.invoice_due;
+        this.clients = previewInvoice.invoice.client_id;
+        this.invoices = previewInvoice.detail_invoice;
+        this.totalAllInvoices = previewInvoice.invoice.total_amount;
+        console.log("data invoice di preview : ", this.invoices);
+      } else {
+        console.log("data kosong");
+        this.$router.push("add-invoice");
+      }
+    },
+  },
+  mounted() {
+    this.fetchPreview();
   },
   updated() {
     let total = 0;
@@ -548,7 +521,6 @@ export default {
       return (total += invoice.total);
     });
     this.totalAllInvoices = total;
-    console.log("perubahan total : ", total);
   },
 };
 </script>

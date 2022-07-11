@@ -33,6 +33,12 @@ export default {
     InvoiceActivity,
     RecentActivity,
   },
+  mounted() {
+    console.log(
+      "localStorage : ",
+      JSON.parse(localStorage.getItem("token")).token
+    );
+  },
 };
 </script>
 <style>

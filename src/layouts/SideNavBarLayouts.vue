@@ -33,7 +33,10 @@
             @click="$router.push('/invoice')"
             class="no-underline flex items-center px-4 py-2 rounded-lg w-full"
             :class="
-              $route.path == '/invoice' || $route.path == '/addInvoice'
+              $route.path == '/invoice' ||
+              $route.path == '/add-invoice' ||
+              $route.path == '/import-invoices' ||
+              $route.path == '/edit-invoice'
                 ? activeClass
                 : ''
             "
@@ -49,7 +52,10 @@
               <path
                 d="M1 7V8V25C1 26.6 2.33333 27 3 27H29C30.6 27 31 25.6667 31 25V7C31 5.4 29.6667 5 29 5H3C1.4 5 1 6.33333 1 7Z"
                 :fill="
-                  $route.path == '/invoice' || $route.path == '/addInvoice'
+                  $route.path == '/invoice' ||
+                  $route.path == '/add-invoice' ||
+                  $route.path == '/import-invoices' ||
+                  $route.path == '/edit-invoice'
                     ? '#9B6DFF'
                     : '#717171'
                 "
@@ -57,7 +63,10 @@
               <path
                 d="M7 10C6.2 10 6 10.6667 6 11C6 11.8 6.66667 12 7 12H25C25.3333 12 26 11.8 26 11C26 10.2 25.3333 10 25 10H7Z"
                 :fill="
-                  $route.path == '/invoice' || $route.path == '/addInvoice'
+                  $route.path == '/invoice' ||
+                  $route.path == '/add-invoice' ||
+                  $route.path == '/import-invoices' ||
+                  $route.path == '/edit-invoice'
                     ? '#e5d9ff'
                     : 'white'
                 "
@@ -65,7 +74,10 @@
               <path
                 d="M7 16C6.2 16 6 16.6667 6 17C6 17.8 6.66667 18 7 18H18C18.3333 18 19 17.8 19 17C19 16.2 18.3333 16 18 16H7Z"
                 :fill="
-                  $route.path == '/invoice' || $route.path == '/addInvoice'
+                  $route.path == '/invoice' ||
+                  $route.path == '/add-invoice' ||
+                  $route.path == '/import-invoices' ||
+                  $route.path == '/edit-invoice'
                     ? '#e5d9ff'
                     : 'white'
                 "
@@ -73,7 +85,10 @@
               <path
                 d="M7 20C6.2 20 6 20.6667 6 21C6 21.8 6.66667 22 7 22H14C14.3333 22 15 21.8 15 21C15 20.2 14.3333 20 14 20H7Z"
                 :fill="
-                  $route.path == '/invoice' || $route.path == '/addInvoice'
+                  $route.path == '/invoice' ||
+                  $route.path == '/add-invoice' ||
+                  $route.path == '/import-invoices' ||
+                  $route.path == '/edit-invoice'
                     ? '#e5d9ff'
                     : 'white'
                 "
@@ -81,7 +96,10 @@
               <path
                 d="M24 16C23.2 16 23 16.6667 23 17C23 17.8 23.6667 18 24 18H25C25.3333 18 26 17.8 26 17C26 16.2 25.3333 16 25 16H24Z"
                 :fill="
-                  $route.path == '/invoice' || $route.path == '/addInvoice'
+                  $route.path == '/invoice' ||
+                  $route.path == '/add-invoice' ||
+                  $route.path == '/import-invoices' ||
+                  $route.path == '/edit-invoice'
                     ? '#e5d9ff'
                     : 'white'
                 "
@@ -89,7 +107,10 @@
               <path
                 d="M24 20C23.2 20 23 20.6667 23 21C23 21.8 23.6667 22 24 22H25C25.3333 22 26 21.8 26 21C26 20.2 25.3333 20 25 20H24Z"
                 :fill="
-                  $route.path == '/invoice' || $route.path == '/addInvoice'
+                  $route.path == '/invoice' ||
+                  $route.path == '/add-invoice' ||
+                  $route.path == '/import-invoices' ||
+                  $route.path == '/edit-invoice'
                     ? '#e5d9ff'
                     : 'white'
                 "

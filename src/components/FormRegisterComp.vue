@@ -1,9 +1,69 @@
-<template>
-    <section class="flex flex-row bg-white">
-        <div
-            class="bg-[url('../assets/images/Register-Background.png')] bg-no-repeat bg-center w-96 min-h-screen"
-        >
-            <!-- <img src="../assets/images/Background.png" class="w-[470px]" alt="" /> -->
+  <template>
+  <section class="flex flex-row bg-white">
+    <div
+      class="
+        bg-[url('../assets/images/Register-Background.png')]
+        bg-no-repeat
+        bg-center
+        w-96
+        min-h-screen
+      "
+    >
+    </div>
+    <div class="w-full p-10">
+      <div class="my-3" v-if="pesanSuccess !== ''">
+        <p class="alert alert-success">{{ pesanSuccess }}</p>
+      </div>
+      <div class="my-3" v-else-if="pesanFailed !== ''">
+        <p class="alert alert-failed">{{ pesanFailed }}</p>
+      </div>
+      <h1 class="text-2xl mb-2 text-center font-semibold">Sign Up</h1>
+
+      <form
+        action=""
+        @submit.prevent="register"
+        class="grid grid-cols-2 text-left place-items-start gap-4 p-10"
+      >
+        <div class="">
+          <label for="nama" class="font-semibold mb-2 text-xl">Nama Anda</label>
+          <input
+            id="nama"
+            type="text"
+            placeholder="Nama Depan Anda"
+            class="form"
+            v-model="nama_lengkap"
+          />
+        </div>
+        <div class="">
+          <label for="bisnis" class="font-semibold mb-2">Nama Perusahaan</label>
+          <input
+            id="bisnis"
+            type="text"
+            placeholder="Nama Perusahaan Anda"
+            v-model="nama_bisnis"
+            class="form"
+          />
+        </div>
+        <div class="">
+          <label for="nohp" class="font-semibold mb-2">Nomor Handphone</label>
+          <input
+            id="nohp"
+            type="text"
+            placeholder="Nomor HP Anda"
+            class="form"
+            v-model="no_hp"
+          />
+        </div>
+        <div class="">
+          <label for="email" class="font-semibold mb-2">Email</label>
+          <input
+            id="email"
+            type="email"
+            placeholder="Email Anda"
+            class="form"
+            v-model="email"
+          />
+
         </div>
         <div class="w-full p-10">
             <div class="my-3" v-if="pesanSuccess !== ''">
@@ -246,9 +306,9 @@ export default {
 
             pesanConfirmPass: "",
 
-            pesanCheckerEmail200: "",
-            pesanCheckerEmail422: "",
-
+      isShowPass: false,
+      isShowConfirmPass: false,
+         
             isShowPass: false,
             isShowConfirmPass: false,
 

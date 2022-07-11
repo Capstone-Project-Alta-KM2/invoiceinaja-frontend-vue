@@ -76,17 +76,12 @@
             >
               This Month
             </button>
+
             <button
               class="hover:bg-[#ebe2ff] py-2 text-soft-purple"
-              @click="changeGraphFilter('Last 6 Month')"
+              @click="changeGraphFilter('This Year')"
             >
-              Last 6 Month
-            </button>
-            <button
-              class="hover:bg-[#ebe2ff] py-2 text-soft-purple"
-              @click="changeGraphFilter('Last 1 Year')"
-            >
-              Last 1 Year
+              This Year
             </button>
           </div>
         </div>
@@ -117,10 +112,10 @@ export default {
   data() {
     return {
       isShowFilterChoose: false,
-      filterGraphName: "Last 6 Month",
+      filterGraphName: "This Year",
       date: [],
-      positive: [],
-      negative: [],
+      paid: [],
+      unpaid: [],
     };
   },
   methods: {
@@ -133,14 +128,12 @@ export default {
       this.isShowFilterChoose = false;
     },
     makeGraph() {
-      // const MONTHS = ["January", "February", "March", "April", "May", "June"];
-      const labels = this.date;
       const data = {
-        labels: labels,
+        labels: this.date,
         datasets: [
           {
-            label: "Belum bayar",
-            data: this.positive,
+            label: "Unpaid",
+            data: this.unpaid,
             backgroundColor: ["rgba(155, 109, 255, 0.2)"],
             hoverBackgroundColor: "rgba(155, 109, 255, 0.4)",
             // borderColor: ["rgb(255, 99, 132)"],
@@ -148,8 +141,8 @@ export default {
             order: 2,
           },
           {
-            label: "Udah Bayar",
-            data: this.negative,
+            label: "Paid",
+            data: this.paid,
             backgroundColor: ["rgba(155, 109, 255, 0.8)"],
             hoverBackgroundColor: "rgba(155, 109, 255, 1)",
 
@@ -205,23 +198,22 @@ export default {
       const myChart = new Chart(document.getElementById("canvas"), config);
       myChart;
     },
-    async fetchDataPositive() {
+    async fetchDataInvoice() {
+   
       await axios
-        .get("https://api.covidtracking.com/v1/us/daily.json")
+        .get("/api/v1/graphics")
         .then((res) => {
-          let hasil = res.data.slice(0, 6);
-          console.log(hasil);
-
-          hasil.forEach((data) => {
-            this.date.push(data.date);
-            this.positive.push(data.positive);
-            this.negative.push(data.negative);
+          this.date = Object.getOwnPropertyNames(res.data.data);
+          let paidData = Object.values(res.data.data);
+          paidData.forEach((data) => {
+            this.unpaid.push(data.unpaid);
+            this.paid.push(data.paid);
           });
         });
     },
   },
   async mounted() {
-    await this.fetchDataPositive();
+    await this.fetchDataInvoice();
     this.makeGraph();
   },
 };

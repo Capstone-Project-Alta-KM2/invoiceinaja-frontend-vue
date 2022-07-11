@@ -38,6 +38,12 @@ export default {
       // console.log("onComplete ", e);
     },
   },
+  mounted() {
+    let token = localStorage.getItem("token");
+    if (token) {
+      this.$router.push("/dashboard");
+    }
+  },
 };
 </script>
 

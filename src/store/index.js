@@ -7,39 +7,45 @@ Vue.use(Vuex)
 
 
 export default new Vuex.Store({
-  plugins:[
-    // createPersistedState({
-    //   key:"users",
-    //   paths:['/']
-    // }),
+  plugins: [
+
     createPersistedState({
-      key:"token",
-      paths:['token']
-    })
+      key: "preview",
+      paths: ['preview']
+    }),
+
+
   ],
   state: {
-    usersInfo:{},
+    usersInfo: {},
     token: "",
+    preview: {}
   },
   mutations: {
-    setUsersInfo(state,payload){
-        state.usersInfo = payload
+    setUsersInfo(state, payload) {
+      state.usersInfo = payload
     },
     setToken(state, payload) {
       state.token = payload;
       // localStorage.setItem("token",state.token)
     },
-    
+    setPreview(state, payload) {
+      state.preview = payload
+    }
+
 
   },
-  
+
   actions: {
-    actionUsersInfo(store,payload){
-      store.commit("setUsersInfo",payload)
+    actionUsersInfo(store, payload) {
+      store.commit("setUsersInfo", payload)
     },
-    actionOfToken(store, payload){
-      console.log("payload token : ",payload)
+    actionOfToken(store, payload) {
       store.commit('setToken', payload)
+    },
+    actionOfPreview(store, payload) {
+      console.log("payload Preview : ", payload)
+      store.commit('setPreview', payload)
     },
 
   },
