@@ -1,20 +1,114 @@
 <template>
-  <div class="client-page">
-    <div class="container bg-white rounded-md border-2 my-10">
-      <h4 class="text-left px-5 pt-5 text-2xl font-bold text-black">
-        Invoices
-      </h4>
-      <simple-tab />
+  <div class="container p-5 bg-white rounded-md border-2 my-10">
+    <h4 class="text-left text-2xl font-bold text-black">Invoices</h4>
+    <ul
+      class="
+        mt-8
+        mb-6
+        flex flex-wrap
+        text-sm
+        space-x-2
+        font-medium
+        text-center text-gray-500
+        dark:text-gray-400
+      "
+      id="tabExample"
+      role="tablist"
+    >
+      <li v-for="tab in tabs" :key="tab.id">
+        <button
+          v-ripple
+          :class="`${
+            currentShow === tab.pathTab ? 'active-tab' : 'inactive-tab'
+          }`"
+          :id="tab.pathTab"
+          type="button"
+          role="tab"
+          aria-controls="all-invoice-example"
+          aria-selected="false"
+          @click="changeActive(`${tab.pathTab}`)"
+        >
+          {{ tab.nameTab }}
+        </button>
+      </li>
+    </ul>
+    <div class="px-4">
+      <div
+        class="rounded-md"
+        :hidden="
+          currentShow == 'all-invoice' ? (isHidden = false) : (isHidden = true)
+        "
+      >
+        <invoice-table />
+      </div>
+      <div
+        class="rounded-md"
+        :hidden="currentShow == 'paid' ? (isHidden = false) : (isHidden = true)"
+      >
+        <invoice-table-paid />
+      </div>
+      <div
+        class="rounded-md"
+        :hidden="
+          currentShow == 'overdue' ? (isHidden = false) : (isHidden = true)
+        "
+      >
+        <invoice-table-overdue />
+      </div>
+      <div
+        class="rounded-md"
+        :hidden="
+          currentShow == 'unpaid' ? (isHidden = false) : (isHidden = true)
+        "
+      >
+        <invoice-table-unpaid />
+      </div>
+      <div
+        class="rounded-md"
+        :hidden="
+          currentShow == 'draft' ? (isHidden = false) : (isHidden = true)
+        "
+      >
+        <invoice-table-draft />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import SimpleTab from "./SimpleTab.vue";
+import InvoiceTable from "./InvoiceTable-AllInvoice.vue";
+import InvoiceTablePaid from "./InvoiceTable-PaidInvoice.vue";
+import InvoiceTableOverdue from "./InvoiceTable-OverdueInvoice.vue";
+import InvoiceTableUnpaid from "./InvoiceTable-UnpaidInvoice.vue";
+import InvoiceTableDraft from "./InvoiceTable-DraftInvoice.vue";
 export default {
   name: "InvoiceCard",
+  data() {
+    return {
+      currentShow: "all-invoice",
+      isHidden: false,
+      tabs: null,
+    };
+  },
   components: {
-    SimpleTab,
+    InvoiceTable,
+    InvoiceTablePaid,
+    InvoiceTableOverdue,
+    InvoiceTableUnpaid,
+    InvoiceTableDraft,
+  },
+  methods: {
+    changeActive(path) {
+      this.currentShow = path;
+    },
+    async fetchTabs() {
+      let response = await fetch("tabsInvoice.json");
+      let data = await response.json();
+      this.tabs = data;
+    },
+  },
+  mounted() {
+    this.fetchTabs();
   },
 };
 </script>

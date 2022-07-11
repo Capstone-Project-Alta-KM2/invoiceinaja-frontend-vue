@@ -1,7 +1,7 @@
 <template>
   <form
     action=""
-    @submit.prevent="addInvoices"
+    @submit.prevent="editInvoices"
     class="text-left px-3 rounded-lg"
   >
     <h1 class="text-2xl font-semibold mb-5">New Invoice</h1>
@@ -382,6 +382,11 @@ export default {
       invoice_due: "",
     };
   },
+  computed: {
+    dataInvoice() {
+      return this.$store.state.preview;
+    },
+  },
   methods: {
     previewInvoice() {
       console.log("dapat ga nilai totalnya : ", this.invoices);
@@ -404,7 +409,7 @@ export default {
       console.log(index);
       this.invoices.splice(index, 1);
     },
-    async addInvoices() {
+    async editInvoicess() {
       const newArrInvoices = this.invoices.map((invo) => {
         return {
           item_name: invo.item_name,
@@ -457,8 +462,22 @@ export default {
       this.clients.company = filteredClients[0].company;
       this.dataClients = [];
     },
+    fetchDataInvoice() {
+      this.clients.fullname = this.dataInvoice.invoice.client_id.fullname;
+      this.clients.email = this.dataInvoice.invoice.client_id.email;
+      this.clients.address = this.dataInvoice.invoice.client_id.address;
+      this.clients.city = this.dataInvoice.invoice.client_id.city;
+      this.clients.zip_code = this.dataInvoice.invoice.client_id.zip_code;
+      this.clients.company = this.dataInvoice.invoice.client_id.company;
+
+      this.invoices = this.dataInvoice.detail_invoice;
+      this.invoice_date = this.dataInvoice.invoice.invoice_date;
+      this.invoice_due = this.dataInvoice.invoice.invoice_due;
+    },
   },
-  mounted() {},
+  mounted() {
+    this.fetchDataInvoice();
+  },
   updated() {
     let total = 0;
     this.invoices.forEach((invoice) => {

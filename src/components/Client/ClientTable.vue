@@ -5,11 +5,19 @@
         <div class="relative">
           <input
             type="text"
+            @input="searchClientByName"
             v-model="searchClient"
             name="searchInvoice"
             placeholder="Search name, Invoice, Item"
             class="form-add-invoice w-80 peer pl-4 focus:pl-10"
           />
+          <!-- <button
+            v-ripple
+            @click="searchClientByName"
+            class="button button-primary"
+          >
+            Search
+          </button> -->
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="
@@ -159,6 +167,9 @@
                     text-sm text-gray-900
                     font-light
                     px-6
+                    flex
+                    items-center
+                    space-x-4
                     py-4
                     text-center
                     whitespace-nowrap
@@ -201,6 +212,24 @@
                     </svg>
                     Edit
                   </button>
+                  <button
+                    @click="deleteClient(item.id)"
+                    v-ripple
+                    class="
+                      flex
+                      rounded-lg
+                      bg-[rgba(255,48,76,0.4)]
+                      transition-all
+                      duration-300
+                      hover:bg-[rgba(255,48,76,0.3)]
+                      text-overdue-color
+                      px-3
+                      py-2
+                      items-center
+                    "
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             </table>
@@ -210,27 +239,29 @@
     </div>
 
     <div class="flex items-center flex-col justify-end space-x-5 px-4 py-3">
-      <div>
-        <p>Page :</p>
+      <div class="flex items-center">
+        <i
+          @click="PreviousPage"
+          :class="`${
+            isDisablePrevious
+              ? 'hidden text-gray-500'
+              : 'block cursor-pointer text-black'
+          } bx bx-chevron-left bx-md cursor-pointer`"
+        ></i>
         <button
           @click="showChangePage = !showChangePage"
           class="px-4 py-2 border-2 border-soft-purple"
         >
-          {{ currPage }}
+          {{ currPage }} of {{ lastPage }}
         </button>
-      </div>
-      <div>
-        <div
-          v-for="sumNoPage in lastPage"
-          :key="sumNoPage"
+        <i
+          @click="NextPage"
           :class="`${
-            showChangePage ? 'h-10' : 'h-0'
-          } overflow-hidden duration-300 transition-all`"
-        >
-          <p class="cursor-pointer" @click="changePage(sumNoPage)">
-            {{ sumNoPage }}
-          </p>
-        </div>
+            isDisableNext
+              ? ' hidden text-gray-500'
+              : 'block cursor-pointer text-black'
+          } bx bx-chevron-right bx-md`"
+        ></i>
       </div>
     </div>
   </div>
@@ -246,6 +277,8 @@ export default {
       searchClient: "",
       showChangePage: false,
       lastPage: "",
+      isDisablePrevious: true,
+      isDisableNext: false,
       currPage: "",
       columns: [
         {
@@ -270,14 +303,66 @@ export default {
   },
   computed: {},
   methods: {
-    async changePage(no) {
-      console.log(no);
-      await axios.get(`api/v1/clients?page=${no}`).then((res) => {
+    async searchClientByName() {
+      if (this.searchClient !== "") {
+        await axios
+          .get(`api/v1/clients?name=${this.searchClient}`)
+          .then((res) => {
+            console.log("hasil search : ", res.data);
+            this.items = res.data.data;
+            this.totPage = res.data.info_data.total;
+            this.currPage = res.data.info_data.page;
+            this.lastPage = res.data.info_data.last_page;
+          });
+        return;
+      }
+      this.fetchDataClients();
+    },
+    async deleteClient(id) {
+      console.log(id);
+
+      await axios
+        .delete(`api/v1/clients/${id}`)
+        .then((res) => {
+          console.log("deleted : ", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      this.fetchDataClients();
+    },
+    async PreviousPage() {
+      this.currPage--;
+      this.isDisableNext = false;
+      if (this.currPage <= 1) {
+        this.currPage = 1;
+        this.isDisablePrevious = true;
+      } else if (this.currPage > 1) {
+        this.isDisablePrevious = false;
+      }
+      await axios.get(`api/v1/clients?page=${this.currPage}`).then((res) => {
         this.items = res.data.data;
         this.currPage = res.data.info_data.page;
         this.showChangePage = false;
       });
     },
+    async NextPage() {
+      this.currPage++;
+      if (this.currPage == this.lastPage) {
+        this.isDisablePrevious = false;
+        this.currPage = this.lastPage;
+        this.isDisableNext = true;
+      } else {
+        this.isDisableNext = false;
+        this.isDisablePrevious = false;
+      }
+      await axios.get(`api/v1/clients?page=${this.currPage}`).then((res) => {
+        this.items = res.data.data;
+        this.currPage = res.data.info_data.page;
+        this.showChangePage = false;
+      });
+    },
+
     toAddClient() {
       this.$emit("showDialog");
     },
@@ -288,6 +373,7 @@ export default {
           console.log("res : ", res.data);
 
           this.items = res.data.data;
+          this.totPage = res.data.info_data.total;
           this.currPage = res.data.info_data.page;
           this.lastPage = res.data.info_data.last_page;
         })
@@ -303,6 +389,7 @@ export default {
   async mounted() {
     this.fetchDataClients();
   },
+
   watch: {
     items(val) {
       console.log("nilai val : ", val);

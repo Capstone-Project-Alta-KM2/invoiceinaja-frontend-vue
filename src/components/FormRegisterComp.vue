@@ -64,12 +64,6 @@
             class="form"
             v-model="email"
           />
-          <div v-if="pesanCheckerEmail200">
-            <p class="alert alert-success">{{ pesanCheckerEmail200 }}</p>
-          </div>
-          <div v-else-if="pesanCheckerEmail422">
-            <p class="alert alert-failed">{{ pesanCheckerEmail422 }}</p>
-          </div>
         </div>
 
         <div class="relative">
@@ -283,9 +277,6 @@ export default {
       pesanFailed: "",
 
       pesanConfirmPass: "",
-
-      pesanCheckerEmail200: "",
-      pesanCheckerEmail422: "",
 
       isShowPass: false,
       isShowConfirmPass: false,

@@ -2,7 +2,7 @@
   <div class="text-left mb-5">
     <button
       class="button button-primary flex items-center"
-      @click="$router.push('/addInvoice')"
+      @click="$router.push('/add-invoice')"
       v-ripple
     >
       <svg

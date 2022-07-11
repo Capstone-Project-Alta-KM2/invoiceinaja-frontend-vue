@@ -2,33 +2,35 @@
   <div class="grid grid-cols-3 gap-y-8">
     <div class="">
       <label for="" class="font-semibold mb-2">Invoice To</label>
-      <p>Client Name</p>
+      <p>{{ client.fullname }}</p>
     </div>
     <div class="">
       <label for="" class="font-semibold mb-2">Email</label>
-      <p>client@gmail.com</p>
+      <p>{{ client.email }}</p>
     </div>
     <div class="">
       <label for="" class="font-semibold mb-2">Street Address</label>
-      <p>Jalan Client tempat tinggal</p>
+      <p>{{ client.address }}</p>
     </div>
     <div class="">
       <label for="" class="font-semibold mb-2">City</label>
-      <p>Kota Client</p>
+      <p>{{ client.city }}</p>
     </div>
     <div class="">
       <label for="" class="font-semibold mb-2">Zip Code</label>
-      <p>25151</p>
+      <p>{{ client.zip_code }}</p>
     </div>
     <div class="">
       <label for="" class="font-semibold mb-2">Company</label>
-      <p>Komputer</p>
+      <p>{{ client.company }}</p>
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  props: ["client"],
+};
 </script>
 
 <style>
