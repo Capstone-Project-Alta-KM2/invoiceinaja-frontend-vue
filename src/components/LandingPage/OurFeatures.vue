@@ -50,8 +50,8 @@
                     pay off invoices
                 </p>
             </div>
-        </div>
     </div>
+  </div>
 </template>
 
 <script>

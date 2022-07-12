@@ -33,6 +33,7 @@ export default {
     InvoiceActivity,
     RecentActivity,
   },
+  mounted() {},
 };
 </script>
 <style>

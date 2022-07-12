@@ -247,18 +247,13 @@ export default {
         return {
             email: "",
             password: "",
-
             emailAlertMessage: "",
             passwordAlertMessage: "",
-
             isLoading: false,
-
             loginRespons: "",
             statusLogin: true,
-
             isEmailValid: true,
             isPasswordValid: true,
-
             isShowPass: false,
             isChecked: false,
         };
@@ -270,7 +265,6 @@ export default {
         closeAlert() {
             this.loginRespons = null;
         },
-
         async login() {
             this.closeAlert();
             this.isLoading = true;
@@ -295,11 +289,9 @@ export default {
                     this.statusLogin = false;
                 });
         },
-
         emailValidation() {
             var reg =
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
             if (this.email == "") {
                 this.emailAlertMessage = "Email cannot be empty";
                 this.isEmailValid = false;
@@ -314,12 +306,10 @@ export default {
                 return true;
             }
         },
-
         validatePassword() {
             let uppercase = /[A-Z]/g;
             let lowercase = /[a-z]/g;
             let number = /[0-9]/g;
-
             if (this.password == "") {
                 this.isPasswordValid = false;
                 this.passwordAlertMessage = "Password cannot be empty";
@@ -335,7 +325,6 @@ export default {
                 this.isPasswordValid = true;
                 this.passwordAlertMessage = "";
             }
-
             // if (this.password.length < 8) {
             //     this.pesanPassLength = "Harus lebih besar dari 8";
             //     this.isPasswordValid = false;
@@ -350,7 +339,6 @@ export default {
             //     this.pesanPassUppercase = "";
             //     this.isPasswordValid = true;
             // }
-
             // if (!this.password.match(lowercase)) {
             //     this.pesanPassLowercase = "Harus ada Huruf kecil";
             //     this.isPasswordValid = false;
@@ -358,7 +346,6 @@ export default {
             //     this.pesanPassLowercase = "";
             //     this.isPasswordValid = true;
             // }
-
             // if (!this.password.match(number)) {
             //     this.pesanPassNumber = "Harus ada angka";
             //     this.isPasswordValid = false;
@@ -367,7 +354,6 @@ export default {
             //     this.isPasswordValid = true;
             // }
         },
-
         resetPasswordAlert() {
             if (this.password == "") {
                 (this.pesanPassLength = null),
@@ -377,7 +363,6 @@ export default {
                 this.isPasswordValid = true;
             }
         },
-
         isRememberMe(res) {
             localStorage.setItem("token", res.data.data.token);
             // if (this.isChecked == true) {

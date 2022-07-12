@@ -19,7 +19,7 @@
         border focus:outline-0 focus:border-soft-purple focus:ring-[#d3bfff] focus:ring-4 border-[#666666]
     }
     .form-add-invoice{
-        @apply py-2 placeholder:text-base rounded-lg  hover:ring-4 hover:placeholder:opacity-0 hover:ring-[#e6daff] transition-all duration-300 block 
+        @apply h-12 placeholder:text-base rounded-lg  hover:ring-4 hover:placeholder:opacity-0 hover:ring-[#e6daff] transition-all duration-300 block 
         border focus:outline-0 focus:border-soft-purple focus:ring-[#d3bfff] focus:ring-4  border-[#666666]
     }
     .alert{
@@ -33,6 +33,12 @@
     }
     .border-failed{
         @apply border-2 border-red-500
+    }
+    .active-tab{
+        @apply inline-block px-4 py-3 rounded-t-lg border-b-4 text-soft-purple border-transparent transition-all duration-300 hover:text-soft-purple hover:border-soft-purple-hover border-purple-500 dark:hover:text-gray-300
+    }
+    .inactive-tab{
+        @apply inline-block px-4 py-3 rounded-t-lg border-b-4  border-transparent hover:text-gray-600 transition-all duration-300 hover:border-gray-300 dark:hover:text-gray-300
     }
     .alert-animation-hide{
         @apply relative text-left origin-top overflow-hidden duration-300 max-h-0 scale-0

@@ -290,9 +290,11 @@
                 >
                     Sign in
                 </router-link>
-            </div>
+          </div>
         </div>
-    </section>
+      </form>
+    </div>
+  </section>
 </template>
 
 <script>
@@ -326,11 +328,12 @@ export default {
             pesanPassword: "",
             pesanValidasiEmail: "",
 
-            isShowPass: false,
-            isShowConfirmPass: false,
-
+            pesanConfirmPass: "",
             isLoading: false,
             isDisabled: true,
+            
+            isShowPass: false,
+            isShowConfirmPass: false,
 
             classPassInvalid: "border-2 border-pink-500",
             passColorEye: "text-soft-purple",
@@ -342,7 +345,6 @@ export default {
             pesanPassNumber: "",
         };
     },
-    computed: {},
     methods: {
         register() {
             this.pesanSuccess = "";
@@ -464,19 +466,6 @@ export default {
                 this.pesanValidasiEmail = "Enter email correctly";
                 this.isEmailValid = false;
                 return false;
-                // } else if (this.email != "" && reg.test(this.email)) {
-                //     axios
-                //         .post("/api/v1/email_checkers", this.email)
-                //         .then((res) => {
-                //             console.log(res);
-                //             this.pesanValidasiEmail = "Email has ben registered";
-                //             this.isEmailValid = false;
-                //         })
-                //         .catch((err) => {
-                //             console.log(err);
-                //             this.pesanValidasiEmail = "";
-                //             this.isEmailValid = true;
-                //         });
             } else {
                 this.pesanValidasiEmail = "";
                 this.isEmailValid = true;
@@ -503,36 +492,36 @@ export default {
                 this.passConfirmColorEye = "text-soft-purple";
             }
         },
-    },
-    mounted() {
-        let token = localStorage.getItem("token");
-        if (token) {
-            this.$router.push("/dashboard");
-        }
-    },
+  },
+  mounted() {
+    let token = localStorage.getItem("token");
+    if (token) {
+      this.$router.push("/dashboard");
+    }
+  },
 };
 </script>
 
 <style>
 /* Add a green text color and a checkmark when the requirements are right */
 .valid {
-    color: green;
+  color: green;
 }
 
 .valid:after {
-    position: absolute;
-    right: 10px;
-    content: "✔";
+  position: absolute;
+  right: 10px;
+  content: "✔";
 }
 
 /* Add a red text color and an "x" when the requirements are wrong */
 .invalid {
-    color: red;
+  color: red;
 }
 
 .invalid:after {
-    position: absolute;
-    right: 10px;
-    content: "✖";
+  position: absolute;
+  right: 10px;
+  content: "✖";
 }
 </style>

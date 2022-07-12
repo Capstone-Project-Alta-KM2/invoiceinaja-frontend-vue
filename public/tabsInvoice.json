@@ -1,0 +1,27 @@
+[
+    {
+        "id": 0,
+        "pathTab": "all-invoice",
+        "nameTab": "All Invoice"
+    },
+    {
+        "id": 1,
+        "pathTab": "paid",
+        "nameTab": "Paid"
+    },
+    {
+        "id": 2,
+        "pathTab": "overdue",
+        "nameTab": "Overdue"
+    },
+    {
+        "id": 3,
+        "pathTab": "unpaid",
+        "nameTab": "Unpaid"
+    },
+    {
+        "id": 4,
+        "pathTab": "draft",
+        "nameTab": "Draft"
+    }
+]
