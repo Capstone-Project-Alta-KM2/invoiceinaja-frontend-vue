@@ -37,54 +37,49 @@
         </svg>
       </div>
       <div class="flex justify-between align-center px-3">
-        <div
+        <button
           v-ripple
           @click="$router.push('/import-invoices')"
           for="inputCsv"
-          class="
-            button
-            cursor-pointer
-            button-outline-primary
-            px-3
-            py-2
-            text-base
-          "
+          class="button button-outline-primary text-base"
         >
           Import File
-        </div>
+        </button>
         <div class="my-auto">
           <button
             v-ripple
             @click="$router.push('/add-invoice')"
-            class="button button-primary ml-4 px-3 py-2 text-base"
+            class="button button-primary ml-4 text-base"
           >
             + Add New
           </button>
         </div>
       </div>
     </div>
-    <div class="w-full my-10 overflow-x-auto whitespace-nowrap">
+
+    <div v-if="isLoading">
+      <simple-loading-animation />
+    </div>
+
+    <div v-else class="w-full my-10 overflow-x-auto whitespace-nowrap">
       <table class="w-full">
         <thead class="bg-[rgba(155,109,255,0.1)]">
-          <tr class="text-left">
-            <td>
-              <input type="checkbox" name="" id="" />
-            </td>
+          <tr class="text-center">
             <td class="py-5 lg:px-0 px-10">No. Invoice</td>
             <td class="lg:px-0 px-10">Client</td>
             <td class="lg:px-0 px-10">Date</td>
             <td class="lg:px-0 px-10">Post Due</td>
             <td class="text-center lg:px-0 px-10">Amount</td>
             <td class="text-center lg:px-0 px-10">Status</td>
-            <td class="text-center lg:px-0 px-10">Actions</td>
           </tr>
         </thead>
         <tbody>
           <tr
+            @click="$router.push(`/full-invoices/${item.id}`)"
             v-for="(item, index) in items"
             :key="index"
             class="
-              text-left
+              text-center
               py-3
               my-10
               shadow-invoicein
@@ -94,10 +89,7 @@
               cursor-pointer
             "
           >
-            <td>
-              <input type="checkbox" name="" id="" />
-            </td>
-            <td class="py-5 lg:px-0 px-10">{{ item.id }}</td>
+            <td class="py-5 lg:px-0 px-10">INV - {{ item.id }}</td>
             <td class="lg:px-0 px-10">{{ item.client }}</td>
             <td class="lg:px-0 px-10">{{ item.date }}</td>
             <td class="lg:px-0 px-10">{{ item.post_due }}</td>
@@ -127,13 +119,15 @@
 
 <script>
 import axios from "axios";
+import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
 export default {
+  components: { SimpleLoadingAnimation },
   name: "InvoiceTable",
   data() {
     return {
       isActive: "page-1",
       searchInvoice: "",
-
+      isLoading: true,
       items: [],
     };
   },
@@ -146,6 +140,7 @@ export default {
       await axios.get("api/v1/invoices").then((res) => {
         console.log("unpaid invoice : ", res.data);
         this.items = res.data.data;
+        this.isLoading = false;
       });
     },
     searchDataInvoice() {

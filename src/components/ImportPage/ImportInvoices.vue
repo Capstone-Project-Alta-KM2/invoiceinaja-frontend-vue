@@ -50,7 +50,7 @@
         <p>{{ fileName === "" ? "Import csv file here!" : fileName }}</p>
       </label>
       <input
-        @change="uploadFile"
+        @input="uploadFile"
         ref="uploadFile"
         type="file"
         id="upload"
