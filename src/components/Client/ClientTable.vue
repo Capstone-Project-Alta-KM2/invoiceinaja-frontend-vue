@@ -1,250 +1,255 @@
 <template>
-  <div>
-    <div class="rounded-xl p-3 border-2 m-3 overflow-x-hidden">
-      <div class="flex justify-between">
-        <div class="relative">
-          <input
-            type="text"
-            @input="searchClientByName"
-            v-model="searchClient"
-            name="searchInvoice"
-            placeholder="Search name, Invoice, Item"
-            class="form-add-invoice w-80 peer pl-4 focus:pl-10"
+  <div class="rounded-xl p-3 border-2 m-3 overflow-x-hidden">
+    <div class="flex justify-between">
+      <div class="relative">
+        <input
+          type="text"
+          @input="searchClientByName"
+          v-model="searchClient"
+          name="searchInvoice"
+          placeholder="Search name, Invoice, Item"
+          class="form-add-invoice w-80 peer pl-4 focus:pl-10"
+        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="
+            h-6
+            w-6
+            absolute
+            top-2
+            hidden
+            peer-focus:animate-showIcon peer-focus:block
+            transition-all
+            duration-500
+            left-2
+            peer-focus:text-soft-purple
+          "
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
           />
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="
-              h-6
-              w-6
-              absolute
-              top-2
-              hidden
-              peer-focus:animate-showIcon peer-focus:block
-              transition-all
-              duration-500
-              left-2
-              peer-focus:text-soft-purple
-            "
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            stroke-width="2"
+        </svg>
+      </div>
+      <div class="flex">
+        <div>
+          <vue-excel-xlsx
+            v-ripple
+            :columns="columns"
+            :data="items"
+            :file-name="'client-data'"
+            :file-type="'xlsx'"
+            :sheet-name="'sheetname'"
+            class="button button-outline-primary px-3 py-2 text-base"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
+            Download Data
+          </vue-excel-xlsx>
         </div>
-        <div class="flex">
-          <div>
-            <vue-excel-xlsx
-              v-ripple
-              :columns="columns"
-              :data="items"
-              :file-name="'client-data'"
-              :file-type="'xlsx'"
-              :sheet-name="'sheetname'"
-              class="button button-outline-primary px-3 py-2 text-base"
+        <div>
+          <button
+            v-ripple
+            @click="toAddClient"
+            class="button button-primary ml-4 px-3 py-2 text-base"
+          >
+            + Add New Client
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="isLoading">
+      <simple-loading-animation />
+    </div>
+
+    <div v-else class="overflow-x-auto sm:-mx-6 lg:-mx-8 mt-5">
+      <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="overflow-x-auto">
+          <table class="min-w-full" id="table-clients">
+            <tr class="border-y">
+              <th
+                scope="col"
+                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+              >
+                No Client
+              </th>
+              <th
+                scope="col"
+                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+              >
+                Client
+              </th>
+              <th
+                scope="col"
+                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+              >
+                Email
+              </th>
+              <th
+                scope="col"
+                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+              >
+                City
+              </th>
+              <th
+                scope="col"
+                class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
+              >
+                Actions
+              </th>
+            </tr>
+            <tr
+              class="
+                text-left
+                hover:bg-[#e3daf7]
+                transition-all
+                duration-300
+                my-10
+                shadow-invoicein
+              "
+              v-for="item in items"
+              :key="item.id"
             >
-              Download Data
-            </vue-excel-xlsx>
-          </div>
-          <div>
-            <button
-              v-ripple
-              @click="toAddClient"
-              class="button button-primary ml-4 px-3 py-2 text-base"
-            >
-              + Add New Client
-            </button>
+              <td
+                class="
+                  px-6
+                  py-4
+                  whitespace-nowrap
+                  text-sm
+                  font-medium
+                  text-gray-900
+                "
+              >
+                {{ item.id }}
+              </td>
+              <td
+                class="
+                  text-sm text-gray-900
+                  font-light
+                  px-6
+                  py-4
+                  whitespace-nowrap
+                "
+              >
+                {{ item.fullname }}
+              </td>
+              <td
+                class="
+                  text-sm text-gray-900
+                  font-light
+                  px-6
+                  py-4
+                  whitespace-nowrap
+                "
+              >
+                {{ item.email }}
+              </td>
+              <td
+                class="
+                  text-sm text-gray-900
+                  font-light
+                  px-6
+                  py-4
+                  whitespace-nowrap
+                "
+              >
+                {{ item.city }}
+              </td>
+              <td
+                class="
+                  text-sm text-gray-900
+                  font-light
+                  px-6
+                  flex
+                  items-center
+                  space-x-4
+                  py-4
+                  text-center
+                  whitespace-nowrap
+                "
+              >
+                <button
+                  v-ripple
+                  class="
+                    flex
+                    rounded-lg
+                    bg-[#ebe2ff]
+                    text-soft-purple
+                    px-3
+                    py-2
+                    items-center
+                  "
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="
+                      h-6
+                      w-6
+                      absolute
+                      top-2
+                      hidden
+                      peer-focus:animate-showIcon peer-focus:block
+                      transition-all
+                      duration-500
+                      left-2
+                      peer-focus:text-soft-purple
+                    "
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                  Edit
+                </button>
+                <button
+                  @click="deleteClient(item.id)"
+                  v-ripple
+                  class="
+                    flex
+                    rounded-lg
+                    bg-[rgba(255,48,76,0.4)]
+                    transition-all
+                    duration-300
+                    hover:bg-[rgba(255,48,76,0.3)]
+                    text-overdue-color
+                    px-3
+                    py-2
+                    items-center
+                  "
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="flex items-center flex-col justify-end space-x-5 px-4 py-3">
+        <div>
+          <div
+            v-for="sumNoPage in lastPage"
+            :key="sumNoPage"
+            :class="`${
+              showChangePage ? 'h-10' : 'h-0'
+            } overflow-hidden duration-300 transition-all`"
+          >
+            <p class="cursor-pointer" @click="changePage(sumNoPage)">
+              {{ sumNoPage }}
+            </p>
           </div>
         </div>
       </div>
-      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 mt-5">
-        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-          <div class="overflow-x-auto">
-            <table class="min-w-full" id="table-clients">
-              <tr class="border-y">
-                <th
-                  scope="col"
-                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                >
-                  No Client
-                </th>
-                <th
-                  scope="col"
-                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                >
-                  Client
-                </th>
-                <th
-                  scope="col"
-                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                >
-                  Email
-                </th>
-                <th
-                  scope="col"
-                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                >
-                  City
-                </th>
-                <th
-                  scope="col"
-                  class="text-sm font-medium text-gray-900 px-6 py-4 text-left"
-                >
-                  Actions
-                </th>
-              </tr>
-              <tr
-                class="
-                  text-left
-                  hover:bg-[#e3daf7]
-                  transition-all
-                  duration-300
-                  my-10
-                  shadow-invoicein
-                "
-                v-for="item in items"
-                :key="item.id"
-              >
-                <td
-                  class="
-                    px-6
-                    py-4
-                    whitespace-nowrap
-                    text-sm
-                    font-medium
-                    text-gray-900
-                  "
-                >
-                  {{ item.id }}
-                </td>
-                <td
-                  class="
-                    text-sm text-gray-900
-                    font-light
-                    px-6
-                    py-4
-                    whitespace-nowrap
-                  "
-                >
-                  {{ item.fullname }}
-                </td>
-                <td
-                  class="
-                    text-sm text-gray-900
-                    font-light
-                    px-6
-                    py-4
-                    whitespace-nowrap
-                  "
-                >
-                  {{ item.email }}
-                </td>
-                <td
-                  class="
-                    text-sm text-gray-900
-                    font-light
-                    px-6
-                    py-4
-                    whitespace-nowrap
-                  "
-                >
-                  {{ item.city }}
-                </td>
-                <td
-                  class="
-                    text-sm text-gray-900
-                    font-light
-                    px-6
-                    flex
-                    items-center
-                    space-x-4
-                    py-4
-                    text-center
-                    whitespace-nowrap
-                  "
-                >
-                  <button
-                    v-ripple
-                    class="
-                      flex
-                      rounded-lg
-                      bg-[#ebe2ff]
-                      text-soft-purple
-                      px-3
-                      py-2
-                      items-center
-                    "
-                  >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="h-6 w-6 absolute top-2 hidden peer-focus:animate-showIcon peer-focus:block transition-all duration-500 left-2 peer-focus:text-soft-purple"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        stroke-width="2"
-                    >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                        />
-                    </svg>
-                    Edit
-                  </button>
-                  <button
-                    @click="deleteClient(item.id)"
-                    v-ripple
-                    class="
-                      flex
-                      rounded-lg
-                      bg-[rgba(255,48,76,0.4)]
-                      transition-all
-                      duration-300
-                      hover:bg-[rgba(255,48,76,0.3)]
-                      text-overdue-color
-                      px-3
-                      py-2
-                      items-center
-                    "
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            </table>
-          </div>
-
-        </div>
-
-        <div class="flex items-center flex-col justify-end space-x-5 px-4 py-3">
-            <div>
-                <p>Page :</p>
-                <button
-                    @click="showChangePage = !showChangePage"
-                    class="px-4 py-2 border-2 border-soft-purple"
-                >
-                    {{ currPage }}
-                </button>
-            </div>
-            <div>
-                <div
-                    v-for="sumNoPage in lastPage"
-                    :key="sumNoPage"
-                    :class="`${
-                        showChangePage ? 'h-10' : 'h-0'
-                    } overflow-hidden duration-300 transition-all`"
-                >
-                    <p class="cursor-pointer" @click="changePage(sumNoPage)">
-                        {{ sumNoPage }}
-                    </p>
-                </div>
-            </div>
-        </div>
     </div>
     <div class="flex items-center flex-col justify-end space-x-5 px-4 py-3">
       <div class="flex items-center">
@@ -277,11 +282,13 @@
 
 <script>
 import axios from "axios";
+import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
 export default {
   name: "ClientTable",
-  components: {},
+  components: { SimpleLoadingAnimation },
   data() {
     return {
+      isLoading: true,
       searchClient: "",
       showChangePage: false,
       lastPage: "",
@@ -293,32 +300,22 @@ export default {
           label: "No. Client",
           field: "no_client",
         },
-        toAddClient() {
-            this.$emit("showDialogAdd");
+        {
+          label: "Client Name",
+          field: "fullname",
         },
-        toEditClient(params) {
-            this.$emit("showDialogEdit", params);
+        {
+          label: "Email",
+          field: "email",
         },
-        async fetchDataClients() {
-            await axios
-                .get("api/v1/clients")
-                .then((res) => {
-                    this.items = res.data.data;
-                    this.currPage = res.data.info_data.page;
-                    this.lastPage = res.data.info_data.last_page;
-                })
-                .catch((err) => {
-                    if (err.response.status === 401) {
-                        localStorage.removeItem("token");
-                        this.$router.push("/login");
-                    }
-                });
+        {
+          label: "City",
+          field: "city",
         },
       ],
       items: [],
     };
   },
-  computed: {},
   methods: {
     async searchClientByName() {
       if (this.searchClient !== "") {
@@ -393,6 +390,8 @@ export default {
           this.totPage = res.data.info_data.total;
           this.currPage = res.data.info_data.page;
           this.lastPage = res.data.info_data.last_page;
+
+          this.isLoading = false;
         })
         .catch((err) => {
           console.log("err : ", err);
@@ -400,9 +399,16 @@ export default {
             localStorage.removeItem("token");
             this.$router.push("/login");
           }
+          this.isLoading = false;
         });
     },
+
+    toEditClient(params) {
+      this.$emit("showDialogEdit", params);
+    },
   },
+  computed: {},
+
   async mounted() {
     this.fetchDataClients();
   },
@@ -410,16 +416,16 @@ export default {
   watch: {
     items(val) {
       console.log("nilai val : ", val);
-
     },
+  },
 };
 </script>
 
 <style>
 ul.paginate-links > li.active > a {
-    color: white;
+  color: white;
 }
 ul#table-clients {
-    padding: 0;
+  padding: 0;
 }
 </style>

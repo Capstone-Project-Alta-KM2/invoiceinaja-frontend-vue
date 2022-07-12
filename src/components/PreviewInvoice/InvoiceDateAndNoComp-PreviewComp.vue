@@ -7,10 +7,8 @@
         INV-00123
       </div>
     </div>
-    <p
-      class="font-semibold text-overdue-color bg-[#ffd6db] px-4 py-2 rounded-lg"
-    >
-      Unpaid
+    <p class="font-semibold bg-gray-200 text-gray-400 px-4 py-2 rounded-lg">
+      Draft
     </p>
   </div>
 </template>

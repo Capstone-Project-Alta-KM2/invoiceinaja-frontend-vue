@@ -40,7 +40,8 @@ module.exports = {
       },
       boxShadow: {
         'invoicein': '4px 5px 10px rgba(155, 109, 255, 0.15)',
-        'card-import-export': '4px 5px 10px 4px rgba(155, 109, 255, 0.2)'
+        'card-import-export': '4px 5px 10px 4px rgba(155, 109, 255, 0.2)',
+        'card-bottom': '4px -1px 10px 4px rgba(155, 109, 255, 0.2)'
       }
 
     },

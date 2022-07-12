@@ -14,8 +14,12 @@ import LoginPage from '../views/LoginPage.vue'
 
 import VerifyEmailViews from '../views/VerifyEmailViews.vue'
 import PreviewInvoicePage from '../views/PreviewInvoicePage.vue'
+import PreviewGeneratePage from '../views/PreviewGeneratePage.vue'
 import ForgetPasswordPage from '../views/ForgetPasswordPage.vue'
 import CreateNewPassPage from '../views/CreateNewPassPage.vue'
+import FullInvoicesPage from '../views/FullInvoicesPage.vue'
+
+import NotFoundPage from '../views/NotFoundPage.vue'
 
 import auth from '../middleware/auth';
 import log from '../middleware/log';
@@ -78,13 +82,31 @@ const routes = [
     component: PreviewInvoicePage
   },
   {
-    path: '/detail-invoices/:no_invoice',
-    name: 'DetailInvoicePaidView',
+    path: '/preview-generate',
+    name: 'previewInvoice',
     meta: {
       layout: "sidenavbar",
       middleware: [auth, log]
     },
+    component: PreviewGeneratePage
+  },
+  {
+    path: '/detail-invoices/:no_invoice',
+    name: 'DetailInvoicePaidView',
+    meta: {
+      layout: "blank",
+      middleware: [auth, log]
+    },
     component: DetailInvoicePaidView
+  },
+  {
+    path: '/full-invoices/:no_invoice',
+    name: 'FullInvoices',
+    meta: {
+      layout: "sidenavbar",
+      middleware: [auth, log]
+    },
+    component: FullInvoicesPage
   },
   {
     path: '/client',
@@ -103,6 +125,12 @@ const routes = [
     name: 'invoice',
     meta: { layout: "sidenavbar", middleware: [auth, log] },
     component: InvoicePage
+  },
+  {
+    path: '*',
+    name: 'not-found',
+    meta: { layout: "blank", middleware: [auth, log] },
+    component: NotFoundPage
   },
   {
     path: '/login',
