@@ -6,5 +6,6 @@ module.exports = defineConfig({
     workboxOptions: {
       exclude: ['_redirects'],
     }
-  }
+  },
+  publicPath: '/'
 })
