@@ -23,34 +23,30 @@
         border focus:outline-0 focus:border-soft-purple focus:ring-[#d3bfff] focus:ring-4  border-[#666666]
     }
     .alert{
-        @apply px-4 leading-3 rounded-sm
+        @apply px-4 py-5 leading-3 rounded-lg border
     }
-    .   {
-        @apply bg-green-200 text-green-500
+    .alert-success {
+        @apply bg-green-200 text-green-800 border-green-500
     }
     .alert-failed{
-        @apply bg-pink-200 text-red-600
+        @apply bg-pink-200 text-red-600 border-red-500
     }
-
-
+    .border-failed{
+        @apply border-2 border-red-500
+    }
     .alert-animation-hide{
         @apply relative text-left origin-top overflow-hidden duration-300 max-h-0 scale-0
     } 
-
     .alert-animation-show{
         @apply relative text-left origin-top overflow-hidden duration-300 scale-100 max-h-full mt-2 transition-all
     }
-    
     .form-checkbox-modif{
         @apply form-checkbox w-6 h-6 border  rounded-md 
         transition-all duration-300 focus:ring-0 text-soft-purple
-
     }
-
     .dialog-animation-hide{
         @apply duration-300 scale-0
     }
-
     .dialog-animation-show{
         @apply duration-300 scale-100 transition-all
     }

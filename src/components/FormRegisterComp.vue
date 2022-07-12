@@ -1,96 +1,150 @@
 <template>
     <section class="flex flex-row bg-white">
-        <div
-            class="bg-[url('../assets/images/Register-Background.png')] bg-no-repeat bg-center w-96 min-h-screen"
-        >
-            <!-- <img src="../assets/images/Background.png" class="w-[470px]" alt="" /> -->
+        <div class="absolute top-4 left-8 flex">
+            <img
+                width="25px"
+                height="15px"
+                src="../assets/logo/invoice-mini-logo.png"
+            />
+            <span class="font-bold text-lg ml-2.5">InvoiceinAja</span>
         </div>
-        <div class="w-full p-10">
-            <div class="my-3" v-if="pesanSuccess !== ''">
+        <div
+            class="bg-no-repeat bg-center w-4/12 min-h-screen bg-soft-purple bg-opacity-40"
+        >
+            <img
+                src="../assets/images/Register-Background.png"
+                class="min-h-full"
+                alt=""
+            />
+        </div>
+        <div class="w-full p-8">
+            <div class="my-5 px-10" v-if="pesanSuccess !== ''">
                 <p class="alert alert-success">{{ pesanSuccess }}</p>
             </div>
-            <div class="my-3" v-else-if="pesanFailed !== ''">
+            <div class="my-5 px-10" v-else-if="pesanFailed !== ''">
                 <p class="alert alert-failed">{{ pesanFailed }}</p>
             </div>
-            <h1 class="text-2xl mb-2 text-center font-semibold">Sign Up</h1>
+            <h1 class="text-2xl mb-2 text-center font-semibold mt-3">
+                Sign Up
+            </h1>
 
             <form
                 action=""
                 @submit.prevent="register"
-                class="grid grid-cols-2 text-left place-items-start gap-4 p-10"
+                class="grid grid-cols-2 text-left place-items-start p-10 gap-x-10"
             >
-                <div class="">
-                    <label for="nama" class="font-semibold mb-2 text-xl"
-                        >Nama Anda</label
-                    >
+                <div class="w-full h-36">
+                    <label for="nama" class="font-semibold text-lg">Name</label>
                     <input
                         id="nama"
                         type="text"
-                        placeholder="Nama Depan Anda"
-                        class="form"
+                        placeholder="Your Name"
+                        class="form w-full mt-2"
                         v-model="nama_lengkap"
+                        :class="isNameEmpty ? 'border-failed' : ''"
+                        @input="
+                            () => {
+                                if (nama_lengkap.length == 0) {
+                                    this.isNameEmpty = true;
+                                } else {
+                                    this.isNameEmpty = false;
+                                }
+                            }
+                        "
                     />
+                    <p v-if="isNameEmpty" class="mt-2 text-red-500">
+                        Name cannot be empty
+                    </p>
                 </div>
-                <div class="">
-                    <label for="bisnis" class="font-semibold mb-2"
-                        >Nama Perusahaan</label
+                <div class="w-full h-36">
+                    <label for="bisnis" class="font-semibold text-lg"
+                        >Your Company</label
                     >
                     <input
                         id="bisnis"
                         type="text"
-                        placeholder="Nama Perusahaan Anda"
+                        placeholder="Your Company"
                         v-model="nama_bisnis"
-                        class="form"
+                        class="form w-full mt-2"
+                        :class="isCompanyEmpty ? 'border-failed' : ''"
+                        @input="
+                            () => {
+                                if (nama_bisnis.length == 0) {
+                                    this.isCompanyEmpty = true;
+                                } else {
+                                    this.isCompanyEmpty = false;
+                                }
+                            }
+                        "
                     />
+                    <p v-if="isCompanyEmpty" class="mt-2 text-red-500">
+                        Company cannot be empty
+                    </p>
                 </div>
-                <div class="">
-                    <label for="nohp" class="font-semibold mb-2"
-                        >Nomor Handphone</label
+                <div class="w-full h-36">
+                    <label for="nohp" class="font-semibold text-lg"
+                        >Phone Number</label
                     >
                     <input
                         id="nohp"
-                        type="text"
-                        placeholder="Nomor HP Anda"
-                        class="form"
+                        type="number"
+                        placeholder="Your Phone Number"
+                        class="form w-full mt-2"
                         v-model="no_hp"
+                        :class="isNoPhoneEmpty ? 'border-failed' : ''"
+                        @input="
+                            () => {
+                                if (no_hp.length == 0) {
+                                    this.isNoPhoneEmpty = true;
+                                } else {
+                                    this.isNoPhoneEmpty = false;
+                                }
+                            }
+                        "
                     />
+                    <p v-if="isNoPhoneEmpty" class="mt-2 text-red-500">
+                        Phone number cannot be empty
+                    </p>
                 </div>
-                <div class="">
-                    <label for="email" class="font-semibold mb-2">Email</label>
+                <div class="w-full h-36">
+                    <label for="email" class="font-semibold text-lg"
+                        >Email</label
+                    >
                     <input
                         id="email"
-                        type="email"
-                        placeholder="Email Anda"
-                        class="form"
                         v-model="email"
+                        type="email"
+                        placeholder="Your Email"
+                        class="form w-full mt-2"
+                        :class="isEmailValid ? '' : 'border-failed'"
+                        @input="emailValidation"
                     />
-                    <div v-if="pesanCheckerEmail200">
-                        <p class="alert alert-success">
-                            {{ pesanCheckerEmail200 }}
-                        </p>
-                    </div>
-                    <div v-else-if="pesanCheckerEmail422">
-                        <p class="alert alert-failed">
-                            {{ pesanCheckerEmail422 }}
-                        </p>
+                    <div class="mt-2">
+                        <span class="text-red-500">{{
+                            pesanValidasiEmail
+                        }}</span>
                     </div>
                 </div>
 
-                <div class="relative">
-                    <label for="psw" class="font-semibold mb-2">Password</label>
+                <div class="relative w-full">
+                    <label for="psw" class="font-semibold text-lg"
+                        >Password</label
+                    >
                     <input
                         id="psw"
-                        :type="isShowPass ? 'text' : 'password'"
-                        placeholder="Buat Password"
-                        class="form peer"
-                        @mousedown="validatePassword"
-                        @input="validatePassword"
                         v-model="kata_sandi"
+                        placeholder="8+ Characters"
                         title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                        :type="isShowPass ? 'text' : 'password'"
+                        class="form mt-2 peer w-full"
+                        :class="isPasswordEmpty ? 'border-failed' : ''"
+                        @change="changeEyePassColor"
+                        @input="validatePassword"
                     />
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 absolute focus:right-6 top-[52px] right-4 cursor-pointer text-soft-purple"
+                        class="h-5 w-5 absolute focus:right-6 top-[56px] right-4 cursor-pointer peer-focus:text-soft-purple"
+                        :class="passColorEye"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         v-if="!isShowPass"
@@ -105,7 +159,8 @@
                     </svg>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 absolute top-[52px] right-4 cursor-pointer text-soft-purple"
+                        class="h-5 w-5 absolute top-[56px] right-4 cursor-pointer peer-focus:text-soft-purple"
+                        :class="passColorEye"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         v-if="isShowPass"
@@ -120,42 +175,51 @@
                             d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z"
                         />
                     </svg>
-                    <div v-if="pesanPassword">
-                        {{ pesanPassword }}
+                    <div v-if="pesanPassword != ''" class="mt-2">
+                        <span class="text-red-500">{{ pesanPassword }}</span>
                     </div>
 
-                    <div v-if="pesanPassLength">
-                        <p class="alert alert-failed">{{ pesanPassLength }}</p>
-                    </div>
-                    <div v-if="pesanPassUppercase">
-                        <p class="alert alert-failed">
-                            {{ pesanPassUppercase }}
-                        </p>
-                    </div>
-                    <div v-if="pesanPassLowercase">
-                        <p class="alert alert-failed">
-                            {{ pesanPassLowercase }}
-                        </p>
-                    </div>
-                    <div v-if="pesanPassNumber">
-                        <p class="alert alert-failed">{{ pesanPassNumber }}</p>
+                    <div v-else class="mb-3">
+                        <div v-if="pesanPassLength" class="mt-2">
+                            <span class="text-red-500">{{
+                                pesanPassLength
+                            }}</span>
+                        </div>
+                        <div v-if="pesanPassUppercase" class="mt-2">
+                            <span class="text-red-500">
+                                {{ pesanPassUppercase }}
+                            </span>
+                        </div>
+                        <div v-if="pesanPassLowercase" class="mt-2">
+                            <span class="text-red-500">
+                                {{ pesanPassLowercase }}
+                            </span>
+                        </div>
+                        <div v-if="pesanPassNumber" class="mt-2">
+                            <span class="text-red-500">{{
+                                pesanPassNumber
+                            }}</span>
+                        </div>
                     </div>
                 </div>
-                <div class="relative">
-                    <label for="confirmPass" class="font-semibold mb-2"
-                        >Konfirmasi Password</label
+                <div class="relative w-full h-40">
+                    <label for="confirmPass" class="font-semibold text-lg"
+                        >Confirm Password</label
                     >
                     <input
                         id="confirmPass"
-                        :type="isShowConfirmPass ? 'text' : 'password'"
-                        @input="confirmPass"
                         placeholder="Confirm Password"
                         v-model="kata_sandi_konfirmasi"
-                        class="form"
+                        class="form mt-2 peer w-full disabled:pointer-events-none disabled:border-[#d1d1d1] disabled:hover:ring-white"
+                        :class="isPassConfirm ? 'border-failed' : ''"
+                        :disabled="kata_sandi == '' || isPasswordEmpty"
+                        :type="isShowConfirmPass ? 'text' : 'password'"
+                        @input="confirmPass"
                     />
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 absolute top-[52px] right-4 cursor-pointer text-soft-purple"
+                        class="h-5 w-5 absolute top-[56px] right-4 cursor-pointer peer-focus:text-soft-purple peer-disabled:hidden"
+                        :class="passConfirmColorEye"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         v-if="!isShowConfirmPass"
@@ -170,7 +234,8 @@
                     </svg>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-5 w-5 absolute top-[52px] right-4 cursor-pointer text-soft-purple"
+                        class="h-5 w-5 absolute top-[56px] right-4 cursor-pointer peer-focus:text-soft-purple peer-disabled:hidden"
+                        :class="passConfirmColorEye"
                         viewBox="0 0 20 20"
                         fill="currentColor"
                         v-if="isShowConfirmPass"
@@ -185,12 +250,15 @@
                             d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z"
                         />
                     </svg>
-                    <div v-if="pesanConfirmPass">
-                        <p class="alert alert-failed">{{ pesanConfirmPass }}</p>
+                    <div
+                        v-if="pesanConfirmPass && !isPasswordEmpty"
+                        class="mt-2"
+                    >
+                        <span class="text-red-500">{{ pesanConfirmPass }}</span>
                     </div>
                 </div>
 
-                <div class="col-span-2 w-full">
+                <div class="relative col-span-2 w-full mt-5">
                     <button
                         type="submit"
                         v-ripple
@@ -207,20 +275,21 @@
                             isLoading == true
                         "
                     >
-                        <span class="mr-2" v-if="isLoading">
+                        <span class="flex mr-2" v-if="isLoading">
                             <simple-loading />
                         </span>
-                        Create Account
+                        <span>Create Account</span>
                     </button>
                 </div>
             </form>
-            <div class="flex justify-center space-x-3">
-                <p class="font-semibold">Sudah Punya Akun ?</p>
+            <div class="flex justify-center space-x-2 pb-10">
+                <p class="font-semibold">Already have an account?</p>
                 <router-link
                     to="/login"
-                    class="text-[#7c40ff] font-semibold hover:text-[#9b6dff] transition-all duration-300"
-                    >Sign in</router-link
+                    class="text-[#7c40ff] font-semibold hover:text-[#9b6dff] transition-all duration-300 underline"
                 >
+                    Sign in
+                </router-link>
             </div>
         </div>
     </section>
@@ -244,18 +313,29 @@ export default {
             pesanSuccess: "",
             pesanFailed: "",
 
-            pesanConfirmPass: "",
+            isNameEmpty: false,
+            isCompanyEmpty: false,
+            isNoPhoneEmpty: false,
+            isEmailValid: true,
+            isPasswordEmpty: false,
+            isPassConfirm: false,
 
+            pesanConfirmPass: "",
             pesanCheckerEmail200: "",
             pesanCheckerEmail422: "",
+            pesanPassword: "",
+            pesanValidasiEmail: "",
 
             isShowPass: false,
             isShowConfirmPass: false,
 
             isLoading: false,
             isDisabled: true,
-            pesanPassword: "",
+
             classPassInvalid: "border-2 border-pink-500",
+            passColorEye: "text-soft-purple",
+            passConfirmColorEye: "text-soft-purple",
+
             pesanPassLength: null,
             pesanPassUppercase: "",
             pesanPassLowercase: "",
@@ -264,86 +344,163 @@ export default {
     },
     computed: {},
     methods: {
+        register() {
+            this.pesanSuccess = "";
+            this.pesanFailed = "";
+            this.isLoading = true;
+            const userData = {
+                fullname: this.nama_lengkap,
+                email: this.email,
+                phone_number: this.no_hp,
+                company: this.nama_bisnis,
+                password: this.kata_sandi,
+            };
+            axios
+                .post("api/v1/users", userData)
+                .then((res) => {
+                    this.pesanSuccess = res.data.data.status;
+                    this.pesanFailed = "";
+                    this.isLoading = false;
+                })
+                .catch((err) => {
+                    this.pesanFailed = err.response.data.meta.message;
+                    this.pesanSuccess = "";
+                    this.isLoading = false;
+                    console.log(err.response.data);
+                });
+        },
+
         validatePassword() {
             let uppercase = /[A-Z]/g;
             let lowercase = /[a-z]/g;
             let number = /[0-9]/g;
-            if (this.kata_sandi.length < 8) {
-                this.pesanPassLength = "Harus lebih besar dari 8";
-            } else {
-                this.pesanPassLength = "";
-            }
-            if (!this.kata_sandi.match(uppercase)) {
-                this.pesanPassUppercase = "Harus ada Huruf besar";
-            } else {
-                this.pesanPassUppercase = "";
-            }
 
-            if (!this.kata_sandi.match(lowercase)) {
-                this.pesanPassLowercase = "Harus ada Huruf kecil";
+            if (this.kata_sandi == "") {
+                this.pesanPassword = "Password cannot be empty";
+                this.kata_sandi_konfirmasi = "";
+                this.isPassConfirm = false;
+                this.pesanConfirmPass = "";
+                this.isShowConfirmPass = false;
+                this.isPasswordEmpty = true;
+                this.changeEyeConfirmColor();
             } else {
-                this.pesanPassLowercase = "";
-            }
+                if (this.kata_sandi.length < 8) {
+                    this.isPasswordEmpty = true;
+                    this.pesanPassLength =
+                        "Must be at least 8 characters long ";
+                    this.pesanPassword = "";
+                } else {
+                    this.pesanPassLength = "";
+                }
 
-            if (!this.kata_sandi.match(number)) {
-                this.pesanPassNumber = "Harus ada angka";
-            } else {
-                this.pesanPassNumber = "";
-            }
+                if (!this.kata_sandi.match(uppercase)) {
+                    this.pesanPassUppercase =
+                        "Include at least 1 uppercase letter";
+                    this.isPasswordEmpty = true;
+                    this.pesanPassword = "";
+                } else {
+                    this.pesanPassUppercase = "";
+                }
 
-            if (
-                this.pesanPassLength != "" ||
-                this.pesanPassUppercase != "" ||
-                this.pesanPassLowercase != "" ||
-                this.pesanPassNumber != ""
-            ) {
-                this.pesanPassword = "";
+                if (!this.kata_sandi.match(lowercase)) {
+                    this.pesanPassLowercase =
+                        "Include at least 1 lowercase letter";
+                    this.isPasswordEmpty = true;
+                    this.pesanPassword = "";
+                } else {
+                    this.pesanPassLowercase = "";
+                }
+
+                if (!this.kata_sandi.match(number)) {
+                    this.pesanPassNumber =
+                        "Include at least 1 numeric character";
+                    this.isPasswordEmpty = true;
+                    this.pesanPassword = "";
+                } else {
+                    this.pesanPassNumber = "";
+                }
+
+                if (
+                    this.kata_sandi.length < 8 ||
+                    !this.kata_sandi.match(uppercase) ||
+                    !this.kata_sandi.match(lowercase) ||
+                    !this.kata_sandi.match(number)
+                ) {
+                    this.isPasswordEmpty = true;
+                } else {
+                    this.isPasswordEmpty = false;
+                    this.pesanPassword = "";
+                    this.changeEyeConfirmColor();
+                }
             }
         },
 
         confirmPass() {
-            if (this.kata_sandi !== this.kata_sandi_konfirmasi) {
-                this.pesanConfirmPass = "Password tidak sama";
+            if (this.kata_sandi_konfirmasi == "") {
+                this.passConfirmColorEye = "text-red-500";
+                this.pesanConfirmPass = "Confirm password cannot be empty";
+                this.isPassConfirm = true;
+            } else if (this.kata_sandi !== this.kata_sandi_konfirmasi) {
+                this.passConfirmColorEye = "text-red-500";
+                this.pesanConfirmPass =
+                    "The password you entered does not match";
+                this.isPassConfirm = true;
             } else {
+                this.passConfirmColorEye = "text-soft-purple";
                 this.pesanConfirmPass = "";
+                this.isPassConfirm = false;
             }
         },
-        async register() {
-            this.isLoading = true;
-            if (
-                this.pesanPassLength != "" ||
-                this.pesanPassUppercase != "" ||
-                this.pesanPassLowercase != "" ||
-                this.pesanPassNumber != ""
-            ) {
-                this.pesanPassword = "Mohon disesuaikan dengan formatnya";
-                this.isLoading = false;
-            } else if (this.pesanConfirmPass != "") {
-                this.pesanConfirmPass = "Password tidak sama";
 
-                this.isLoading = false;
+        emailValidation() {
+            const reg =
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+            if (this.email == "") {
+                this.pesanValidasiEmail = "Email cannot be empty";
+                this.isEmailValid = false;
+                return false;
+            } else if (!reg.test(this.email)) {
+                this.pesanValidasiEmail = "Enter email correctly";
+                this.isEmailValid = false;
+                return false;
+                // } else if (this.email != "" && reg.test(this.email)) {
+                //     axios
+                //         .post("/api/v1/email_checkers", this.email)
+                //         .then((res) => {
+                //             console.log(res);
+                //             this.pesanValidasiEmail = "Email has ben registered";
+                //             this.isEmailValid = false;
+                //         })
+                //         .catch((err) => {
+                //             console.log(err);
+                //             this.pesanValidasiEmail = "";
+                //             this.isEmailValid = true;
+                //         });
             } else {
-                this.pesanPassword = "";
-                const userData = {
-                    fullname: this.nama_lengkap,
-                    email: this.email,
-                    phone_number: this.no_hp,
-                    company: this.nama_bisnis,
-                    password: this.kata_sandi,
-                };
-                await axios
-                    .post("api/v1/users", userData)
-                    .then((res) => {
-                        this.pesanSuccess = res.data.data.status;
-                        this.pesanFailed = "";
-                        this.isLoading = false;
-                    })
-                    .catch((err) => {
-                        this.pesanFailed = err.response.data.meta.message;
-                        this.pesanSuccess = "";
-                        this.isLoading = false;
-                        console.log(err.response.data);
-                    });
+                this.pesanValidasiEmail = "";
+                this.isEmailValid = true;
+                return true;
+            }
+        },
+
+        changeEyePassColor() {
+            if (this.isPasswordEmpty) {
+                this.passColorEye = "text-red-500";
+            } else {
+                this.passColorEye = "text-soft-purple";
+            }
+        },
+
+        changeEyeConfirmColor() {
+            if (this.isPassConfirm) {
+                this.passConfirmColorEye = "text-red-500";
+            }
+            // else if (this.kata_sandi_konfirmasi == "") {
+            //     this.passConfirmColorEye = "text-red-500";
+            // }
+            else {
+                this.passConfirmColorEye = "text-soft-purple";
             }
         },
     },

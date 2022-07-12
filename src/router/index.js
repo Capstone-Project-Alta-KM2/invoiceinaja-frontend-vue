@@ -13,6 +13,7 @@ import VerifyEmailViews from '../views/VerifyEmailViews.vue'
 import PreviewInvoicePage from '../views/PreviewInvoicePage.vue'
 import ForgetPasswordPage from '../views/ForgetPasswordPage.vue'
 import CreateNewPassPage from '../views/CreateNewPassPage.vue'
+import BlogPage from  '../views/BlogPage.vue'
 
 import auth from '../middleware/auth';
 import log from '../middleware/log';
@@ -98,14 +99,34 @@ const routes = [
     name: 'change-password',
     meta:{layout:"blank"},
     component: CreateNewPassPage
-  }
+  },
+  {
+    path: '/blog',
+    name: 'blog-page',
+    meta:{layout:"navbar"},
+    component: BlogPage
+  },
 
 ]
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior (to) {
+    const position = {};
+    if(to.hash) {
+      position.selector = to.hash;
+      position.behavior = 'smooth';
+      if(to.hash == '#features' || to.hash == '#costumers') {
+        position.offset = {
+          y: 100
+        }
+      }
+
+      return position;
+    }
+  }
 })
 
 

@@ -1,7 +1,7 @@
 <template>
-    <div class="flex sm:flex-col lg:flex-row w-screen min-h-screen bg-white">
+    <div class="grid grid-cols-2 min-w-screen min-h-screen bg-white">
         <div
-            class="relative col-lg-6 sm:bg-white lg:bg-soft-purple lg:bg-opacity-30 flex justify-center p-5"
+            class="relative sm:bg-white lg:bg-soft-purple lg:bg-opacity-30 flex justify-center p-5"
         >
             <div class="absolute top-4 left-8 flex">
                 <img
@@ -18,78 +18,79 @@
                 />
             </div>
         </div>
-        <div class="col-lg-6 bg-white p-0 flex items-center">
-            <div class="w-full sm:px-7 sm:ml-2 lg:px-16 py-5">
-                <div v-if="loginRespons !== null">
+        <div class="flex bg-white p-20 items-center">
+            <div class="flex flex-col items-center min-w-full">
+                <div
+                    v-if="loginRespons"
+                    class="min-w-full alert mb-8"
+                    :class="statusLogin ? 'alert-success' : 'alert-failed'"
+                >
                     <div>
-                        {{ loginRespons ? loginRespons : "" }}
-                        <div
-                            class="inline absolute right-2 top-1.5 text-md font-bold p-2 cursor-pointer"
-                            @click="closeAlert()"
-                        >
-                            x
-                        </div>
+                        {{ loginRespons }}
                     </div>
                 </div>
-                <div class="text-left">
-                    <h5 class="font-bold">Login</h5>
-                    <h3 class="font-bold">Selamat datang kembali!</h3>
+                <div class="w-full text-left">
+                    <div class="font-bold text-2xl">Login</div>
+                    <div class="font-bold text-3xl mt-2.5">
+                        Selamat Datang Kembali!👋
+                    </div>
                 </div>
-                <div>
+                <div class="w-full mt-5">
                     <form action="" @submit.prevent="login">
-                        <div class="flex flex-column">
-                            <div class="flex flex-col">
-                                <label class="mb-2 font-semibold mt-3"
-                                    >Email</label
-                                >
+                        <div class="flex flex-col">
+                            <div class="flex flex-col h-[135px]">
                                 <input
                                     type="email"
                                     v-model="email"
                                     pattern="\s*\S+.*"
-                                    placeholder="Masukkan email anda"
-                                    class="form w-full lowercase"
-                                    :class="
-                                        isEmailValid
-                                            ? ''
-                                            : 'outline-0 border-red-600 ring-red-600 ring-2'
-                                    "
-                                    @mouseout="emailValidation()"
+                                    placeholder="Enter your email"
+                                    class="form peer w-full lowercase order-2"
+                                    :class="isEmailValid ? '' : 'border-failed'"
+                                    @input="emailValidation"
                                 />
-                            </div>
-                            <div>
-                                <p
-                                    :class="
-                                        emailValidation()
-                                            ? 'alert-animation-hide'
-                                            : 'alert-animation-show invalid'
-                                    "
+                                <label
+                                    class="mb-2 text-lg font-semibold mt-3 peer-focus:text-[#2C3E50] order-1"
+                                    :class="isEmailValid ? '' : 'text-red-500'"
                                 >
-                                    Format email salah!
-                                </p>
-                            </div>
-                            <div class="flex flex-col relative">
-                                <label class="mb-2 font-semibold mt-3"
-                                    >Password</label
+                                    Email
+                                </label>
+                                <div
+                                    v-if="!isEmailValid"
+                                    class="mt-2 text-left order-3"
                                 >
+                                    <p class="text-red-500">
+                                        {{ emailAlertMessage }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col relative h-[155px]">
                                 <input
                                     id="psw"
                                     :type="!isShowPass ? 'password' : 'text'"
                                     v-model="password"
-                                    placeholder="Masukkan password anda"
+                                    placeholder="Enter your password"
                                     title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-                                    class="form w-full peer"
+                                    class="form w-full peer order-2"
                                     :class="
-                                        isPasswordValid
-                                            ? ''
-                                            : 'outline-0 border-red-600 ring-red-600 ring-2'
+                                        isPasswordValid ? '' : 'border-failed'
                                     "
-                                    @mouseout="resetPasswordAlert()"
                                     @input="validatePassword()"
                                 />
-
+                                <label
+                                    class="mb-2 text-lg font-semibold mt-3 peer-focus:text-[#2C3E50] order-1"
+                                    :class="
+                                        isPasswordValid ? '' : 'text-red-500'
+                                    "
+                                    >Password</label
+                                >
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 absolute right-5 bottom-[18px] cursor-pointer text-soft-purple"
+                                    class="h-5 w-5 absolute right-5 bottom-[66px] cursor-pointe peer-focus:text-soft-purple"
+                                    :class="
+                                        isPasswordValid
+                                            ? 'text-soft-purple'
+                                            : 'text-red-500'
+                                    "
                                     viewBox="0 0 20 20"
                                     fill="currentColor"
                                     v-if="!isShowPass"
@@ -104,7 +105,12 @@
                                 </svg>
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    class="h-5 w-5 absolute right-5 bottom-[18px] cursor-pointer text-soft-purple"
+                                    class="h-5 w-5 absolute right-5 bottom-[66px] cursor-pointer peer-focus:text-soft-purple"
+                                    :class="
+                                        isPasswordValid
+                                            ? 'text-soft-purple'
+                                            : 'text-red-500'
+                                    "
                                     viewBox="0 0 20 20"
                                     fill="currentColor"
                                     v-if="isShowPass"
@@ -119,8 +125,16 @@
                                         d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z"
                                     />
                                 </svg>
+                                <div
+                                    v-if="!isPasswordValid"
+                                    class="text-left mt-2 mb-3 order-3"
+                                >
+                                    <span class="text-red-500">
+                                        {{ passwordAlertMessage }}
+                                    </span>
+                                </div>
                             </div>
-                            <div class="flex justify-between my-3">
+                            <div class="flex justify-between">
                                 <div class="flex">
                                     <input
                                         type="checkbox"
@@ -142,7 +156,7 @@
                             </div>
 
                             <!-- Alert password start -->
-                            <div
+                            <!-- <div
                                 :class="
                                     pesanPassLength == null
                                         ? 'alert-animation-hide'
@@ -185,19 +199,16 @@
                                 <p class="alert alert-failed">
                                     {{ pesanPassNumber }}
                                 </p>
-                            </div>
+                            </div> -->
                             <!-- Alert password end -->
 
-                            <div class="my-5">
+                            <div class="mt-12 mb-5">
                                 <button
                                     :disabled="
                                         email == '' ||
                                         password == '' ||
                                         isEmailValid == false ||
-                                        pesanPassLength != null ||
-                                        pesanPassLowercase != '' ||
-                                        pesanPassUppercase != '' ||
-                                        pesanPassNumber != ''
+                                        isPasswordValid == false
                                     "
                                     type="submit"
                                     v-ripple="'rgba(255, 255, 255, 0.35)'"
@@ -212,12 +223,12 @@
                         </div>
                     </form>
                 </div>
-                <div>
+                <div class="mt-5 mb-14">
                     <p>
-                        <span>Belum mendaftar? </span>
+                        <span class="font-semibold">Belum mendaftar? </span>
                         <router-link
                             to="/register"
-                            class="text-soft-purple font-semibold"
+                            class="text-soft-purple font-semibold underline"
                             >Sign Up</router-link
                         >
                     </p>
@@ -237,22 +248,19 @@ export default {
             email: "",
             password: "",
 
+            emailAlertMessage: "",
+            passwordAlertMessage: "",
+
             isLoading: false,
 
-            loginRespons: null,
+            loginRespons: "",
+            statusLogin: true,
 
             isEmailValid: true,
             isPasswordValid: true,
 
             isShowPass: false,
-            passFormatStyle: "alert-animation-hide",
-
             isChecked: false,
-
-            pesanPassLength: null,
-            pesanPassUppercase: "",
-            pesanPassLowercase: "",
-            pesanPassNumber: "",
         };
     },
     components: {
@@ -276,6 +284,7 @@ export default {
                     console.log("response login : ", res);
                     this.loginRespons = res.data.meta.message;
                     this.isLoading = false;
+                    this.statusLogin = true;
                     this.isRememberMe(res);
                     this.$router.push("/dashboard");
                 })
@@ -283,6 +292,7 @@ export default {
                     this.loginRespons = err.response.data.meta.message;
                     console.log(err);
                     this.isLoading = false;
+                    this.statusLogin = false;
                 });
         },
 
@@ -291,12 +301,15 @@ export default {
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
             if (this.email == "") {
-                this.isEmailValid = true;
+                this.emailAlertMessage = "Email cannot be empty";
+                this.isEmailValid = false;
                 return true;
             } else if (!reg.test(this.email)) {
+                this.emailAlertMessage = "Enter email correctly";
                 this.isEmailValid = false;
                 return false;
             } else {
+                this.emailAlertMessage = "";
                 this.isEmailValid = true;
                 return true;
             }
@@ -307,36 +320,52 @@ export default {
             let lowercase = /[a-z]/g;
             let number = /[0-9]/g;
 
-            if (this.password.length < 8) {
-                this.pesanPassLength = "Harus lebih besar dari 8";
+            if (this.password == "") {
                 this.isPasswordValid = false;
-            } else {
-                this.pesanPassLength = null;
-                this.isPasswordValid = true;
-            }
-            if (!this.password.match(uppercase)) {
-                this.pesanPassUppercase = "Harus ada Huruf besar";
+                this.passwordAlertMessage = "Password cannot be empty";
+            } else if (
+                this.password.length < 8 ||
+                !this.password.match(lowercase) ||
+                !this.password.match(uppercase) ||
+                !this.password.match(number)
+            ) {
                 this.isPasswordValid = false;
+                this.passwordAlertMessage = "Incorrect password format";
             } else {
-                this.pesanPassUppercase = "";
                 this.isPasswordValid = true;
-            }
-
-            if (!this.password.match(lowercase)) {
-                this.pesanPassLowercase = "Harus ada Huruf kecil";
-                this.isPasswordValid = false;
-            } else {
-                this.pesanPassLowercase = "";
-                this.isPasswordValid = true;
+                this.passwordAlertMessage = "";
             }
 
-            if (!this.password.match(number)) {
-                this.pesanPassNumber = "Harus ada angka";
-                this.isPasswordValid = false;
-            } else {
-                this.pesanPassNumber = "";
-                this.isPasswordValid = true;
-            }
+            // if (this.password.length < 8) {
+            //     this.pesanPassLength = "Harus lebih besar dari 8";
+            //     this.isPasswordValid = false;
+            // } else {
+            //     this.pesanPassLength = null;
+            //     this.isPasswordValid = true;
+            // }
+            // if (!this.password.match(uppercase)) {
+            //     this.pesanPassUppercase = "Harus ada Huruf besar";
+            //     this.isPasswordValid = false;
+            // } else {
+            //     this.pesanPassUppercase = "";
+            //     this.isPasswordValid = true;
+            // }
+
+            // if (!this.password.match(lowercase)) {
+            //     this.pesanPassLowercase = "Harus ada Huruf kecil";
+            //     this.isPasswordValid = false;
+            // } else {
+            //     this.pesanPassLowercase = "";
+            //     this.isPasswordValid = true;
+            // }
+
+            // if (!this.password.match(number)) {
+            //     this.pesanPassNumber = "Harus ada angka";
+            //     this.isPasswordValid = false;
+            // } else {
+            //     this.pesanPassNumber = "";
+            //     this.isPasswordValid = true;
+            // }
         },
 
         resetPasswordAlert() {

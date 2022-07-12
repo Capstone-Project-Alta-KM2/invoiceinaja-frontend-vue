@@ -1,7 +1,7 @@
 <template>
-    <div class="row w-screen h-screen box-border bg-white">
+    <div class="grid grid-cols-2 min-w-screen min-h-screen box-border bg-white">
         <div
-            class="relative col-lg-6 sm:bg-white lg:bg-soft-purple lg:bg-opacity-30 flex justify-center p-5"
+            class="relative sm:bg-white lg:bg-soft-purple lg:bg-opacity-30 flex justify-center p-5"
         >
             <div class="absolute top-4 left-8 flex">
                 <img
@@ -19,26 +19,21 @@
             </div>
         </div>
         <div
-            class="col-lg-6 w-full h-full bg-white flex justify-items-center sm:items-start lg:items-center p-0"
+            class="flex justify-items-center w-full h-full bg-white sm:items-start lg:items-center p-20"
         >
-            <div class="w-full sm:px-7 sm:ml-2 lg:px-28 justify-start">
-                <div v-if="pesanBerhasil" class="mb-10">
-                    <p class="alert alert-success">
+            <div class="flex flex-col w-full justify-start">
+                <div v-if="pesanBerhasil" class="mb-10 alert alert-success">
+                    <p class="">
                         {{ pesanBerhasil }}
                     </p>
                 </div>
-                <div v-else class="">
-                    <p
-                        class="alert alert-failed"
-                        :class="
-                            pesanGagal || pesanBerhasil == '' ? 'hidden' : ''
-                        "
-                    >
+                <div v-if="pesanGagal" class="mb-10 alert alert-failed">
+                    <p class="">
                         {{ pesanGagal }}
                     </p>
                 </div>
-                <div class="text-left">
-                    <h2 class="font-bold">Forget Password?</h2>
+                <div class="text-left mb-7">
+                    <div class="font-bold text-3xl mb-2">Forget Password?</div>
                     <p class="text-2xl font-light text-gray-500">
                         Enter your registered email below to recieve password
                         reset instruction.
@@ -46,37 +41,34 @@
                 </div>
                 <div>
                     <form @submit.prevent="sendEmail">
-                        <div class="flex flex-column">
-                            <div class="flex flex-col text-left">
-                                <label class="mt-3.5 mb-2 font-semibold"
-                                    >Email</label
-                                >
-                                <input
-                                    type="email"
-                                    v-model="email"
-                                    pattern="\s*\S+.*"
-                                    placeholder="Masukkan email anda"
-                                    class="w-full lowercase"
-                                    :class="
-                                        this.isEmailValid
-                                            ? 'form'
-                                            : 'form border-2 border-red-500'
-                                    "
-                                    @input="emailValidation(email)"
-                                />
+                        <div class="flex flex-col justify-items-start">
+                            <div class="pb-5">
+                                <div class="flex flex-col text-left">
+                                    <label
+                                        class="mt-3.5 mb-2 font-semibold text-lg"
+                                        >Email</label
+                                    >
+                                    <input
+                                        type="email"
+                                        v-model="email"
+                                        pattern="\s*\S+.*"
+                                        placeholder="Enter your email"
+                                        class="form w-full lowercase"
+                                        :class="
+                                            this.isEmailValid
+                                                ? ''
+                                                : 'border-failed'
+                                        "
+                                        @input="emailValidation(email)"
+                                    />
+                                </div>
+                                <div class="text-left mt-2">
+                                    <p class="text-red-500">
+                                        {{ inputMessage }}
+                                    </p>
+                                </div>
                             </div>
-                            <div>
-                                <p
-                                    :class="
-                                        this.isEmailValid
-                                            ? 'alert-animation-hide'
-                                            : 'alert-animation-show text-red-500'
-                                    "
-                                >
-                                    {{ inputMessage }}
-                                </p>
-                            </div>
-                            <div v-if="isCountActive" class="mt-4">
+                            <div v-if="isCountActive" class="mt-5">
                                 <div class="text-red-500 text-lg">
                                     <span>
                                         {{ twoDigits(minute) }}
@@ -86,7 +78,7 @@
                                 </div>
                                 <div class="mt-2">Resend again?</div>
                             </div>
-                            <div class="my-5">
+                            <div class="mt-10">
                                 <button
                                     :disabled="
                                         email == '' ||
@@ -100,18 +92,18 @@
                                     <span v-if="isLoading" class="flex mr-2">
                                         <simple-loading-animation />
                                     </span>
-                                    Send
+                                    <span>{{ buttonStatus }}</span>
                                 </button>
                             </div>
-                            <div class="-my-5">
-                                <button
-                                    type="button"
-                                    v-ripple="'rgba(255, 255, 255, 0.35)'"
-                                    class="button button-outline-primary flex items-center justify-center w-full"
-                                    @click="toLogin()"
+                            <div class="mt-14">
+                                <div class="font-bold mr-2 mb-1">
+                                    Have you got a new password?
+                                </div>
+                                <router-link
+                                    to="/login"
+                                    class="text-soft-purple font-semibold hover:text-[#9b6dff] transition-all duration-300 underline"
+                                    >Back to login</router-link
                                 >
-                                    Back
-                                </button>
                             </div>
                         </div>
                     </form>
@@ -141,14 +133,36 @@ export default {
             second: 30,
             minute: 1,
             isCountActive: false,
+            buttonStatus: "Send",
         };
     },
     methods: {
         async sendEmail() {
             this.pesanBerhasil = "";
+            this.pesanGagal = "";
             this.isLoading = true;
-
             await axios
+                .post("api/v1/email_checkers", {
+                    email: this.email,
+                })
+                .then((res) => {
+                    console.log("success");
+                    console.log(res);
+                    if (res.data.data.is_available == false) {
+                        this.sendNewPassword();
+                    } else {
+                        this.pesanGagal = "Email not registered!";
+                        this.isLoading = false;
+                    }
+                })
+                .catch((err) => {
+                    console.log("Error");
+                    this.pesanGagal = err.message;
+                    this.isLoading = false;
+                });
+        },
+        sendNewPassword() {
+            axios
                 .post("api/v1/reset_passwords", {
                     email: this.email,
                 })
@@ -176,12 +190,8 @@ export default {
                 this.inputMessage = "Enter email correctly";
             } else {
                 this.isEmailValid = true;
+                this.inputMessage = "";
             }
-        },
-        toLogin() {
-            this.email = "";
-            this.isEmailValid = true;
-            this.$router.push("/login");
         },
         countDownTimer() {
             if (this.second == 0 && this.minute == 0) {
@@ -199,6 +209,7 @@ export default {
                     this.minute -= 1;
                     this.second = 60;
                     this.countDownTimer();
+                    this.buttonStatus = "Resend";
                 }
             }
         },
