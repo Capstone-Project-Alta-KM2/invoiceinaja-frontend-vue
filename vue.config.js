@@ -1,14 +1,8 @@
 const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
-  pwa: {
-    name: 'invoiceinaja-frontend-vue',
-    workboxOptions: {
-      exclude: ['_redirects'],
-    }
+  devServer: {
+    proxy: "http://103.176.78.214:8080"
   },
-  publicPath:
-    process.env.NODE_ENV === 'production'
-      ? '/' + require('./package.json').name + '/'
-      : '/'
+  publicPath: '/'
 })
