@@ -557,7 +557,7 @@ export default {
       }
     },
     async fetchDataClients(clientName) {
-      await axios.get("api/v1/clients").then((res) => {
+      await axios.get("/api/v1/clients").then((res) => {
         let hasilFilter = res.data.data.filter((data) => {
           return data.fullname === clientName;
         });
