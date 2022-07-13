@@ -313,7 +313,7 @@
       <!-- Button Actions -->
       <div class="relative flex justify-end">
         <button
-          @click="isShow = !isShow"
+          @click="handlerPayments"
           type="button"
           v-click-outside="onClickOutside"
           v-ripple
@@ -370,6 +370,9 @@ export default {
   },
 
   methods: {
+    handlerPayments() {
+      console.log("payments process");
+    },
     async deleteInvoice() {
       let a = confirm("Yakin untuk hapus ?");
       if (a) {

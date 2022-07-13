@@ -23,6 +23,7 @@ import NotFoundPage from '../views/NotFoundPage.vue'
 import SettingsPage from '../views/SettingsPage.vue'
 
 import auth from '../middleware/auth';
+import isLogin from '../middleware/isLogin';
 import log from '../middleware/log';
 Vue.use(VueRouter)
 
@@ -36,13 +37,13 @@ const routes = [
   {
     path: '/register',
     name: 'register',
-    meta: { layout: "blank" },
+    meta: { layout: "blank",middleware:isLogin},
     component: RegisterPage,
   },
   {
     path: '/verif-email',
     name: 'verif-email',
-    meta: { layout: "blank" },
+    meta: { layout: "blank",middleware:isLogin },
     component: VerifyEmailViews
   },
   {
@@ -137,21 +138,19 @@ const routes = [
     path: '/login',
     name: 'login',
     meta: {
-      layout: "blank",
-      // middleware:log
-    },
+      layout: "blank",middleware:isLogin},
     component: LoginPage
   },
   {
     path: '/forget-password',
     name: 'forget-password',
-    meta: { layout: "blank" },
+    meta: { layout: "blank",middleware:isLogin},
     component: ForgetPasswordPage
   },
   {
     path: '/change-password',
     name: 'change-password',
-    meta: { layout: "blank" },
+    meta: { layout: "blank", middleware:isLogin},
     component: CreateNewPassPage
   },
   {
