@@ -179,53 +179,6 @@
                 </div>
               </div>
 
-              <!-- Alert password start -->
-              <!-- <div
-                                :class="
-                                    pesanPassLength == null
-                                        ? 'alert-animation-hide'
-                                        : 'alert-animation-show'
-                                "
-                            >
-                                <p class="alert alert-failed">
-                                    {{ pesanPassLength }}
-                                </p>
-                            </div>
-                            <div
-                                :class="
-                                    pesanPassUppercase == ''
-                                        ? 'alert-animation-hide'
-                                        : 'alert-animation-show'
-                                "
-                            >
-                                <p class="alert alert-failed">
-                                    {{ pesanPassUppercase }}
-                                </p>
-                            </div>
-                            <div
-                                :class="
-                                    pesanPassLowercase == ''
-                                        ? 'alert-animation-hide'
-                                        : 'alert-animation-show'
-                                "
-                            >
-                                <p class="alert alert-failed">
-                                    {{ pesanPassLowercase }}
-                                </p>
-                            </div>
-                            <div
-                                :class="
-                                    pesanPassNumber == ''
-                                        ? 'alert-animation-hide'
-                                        : 'alert-animation-show'
-                                "
-                            >
-                                <p class="alert alert-failed">
-                                    {{ pesanPassNumber }}
-                                </p>
-                            </div> -->
-              <!-- Alert password end -->
-
               <div class="mt-12 mb-5">
                 <button
                   :disabled="
@@ -355,34 +308,6 @@ export default {
         this.isPasswordValid = true;
         this.passwordAlertMessage = "";
       }
-      // if (this.password.length < 8) {
-      //     this.pesanPassLength = "Harus lebih besar dari 8";
-      //     this.isPasswordValid = false;
-      // } else {
-      //     this.pesanPassLength = null;
-      //     this.isPasswordValid = true;
-      // }
-      // if (!this.password.match(uppercase)) {
-      //     this.pesanPassUppercase = "Harus ada Huruf besar";
-      //     this.isPasswordValid = false;
-      // } else {
-      //     this.pesanPassUppercase = "";
-      //     this.isPasswordValid = true;
-      // }
-      // if (!this.password.match(lowercase)) {
-      //     this.pesanPassLowercase = "Harus ada Huruf kecil";
-      //     this.isPasswordValid = false;
-      // } else {
-      //     this.pesanPassLowercase = "";
-      //     this.isPasswordValid = true;
-      // }
-      // if (!this.password.match(number)) {
-      //     this.pesanPassNumber = "Harus ada angka";
-      //     this.isPasswordValid = false;
-      // } else {
-      //     this.pesanPassNumber = "";
-      //     this.isPasswordValid = true;
-      // }
     },
     resetPasswordAlert() {
       if (this.password == "") {
@@ -396,22 +321,9 @@ export default {
     isRememberMe(res) {
       localStorage.setItem("token", res.data.data.token);
       this.$store.dispatch("actionUsersInfo", res.data.data);
-      // if (this.isChecked == true) {
-      //   // this.$store.dispatch("actionOfToken", res.data.data.token);
-      //   // this.$store.dispatch("actionUsersInfo", res.data.data);
-      // } else {
-      //   this.$store.dispatch("sessionToken", res.data.data.token);
-      //   this.$store.dispatch("sessionUsersInfo", res.data.data);
-      //   console.log("user info : ", res.data.data);
-      // }
     },
   },
-  mounted() {
-    let token = localStorage.getItem("token");
-    if (token) {
-      this.$router.push("/dashboard");
-    }
-  },
+  mounted() {},
 };
 </script>
 
