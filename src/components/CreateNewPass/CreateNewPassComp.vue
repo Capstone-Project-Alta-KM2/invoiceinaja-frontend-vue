@@ -6,7 +6,11 @@
         Your new password must be different from previously used passwords.
       </p>
     </div>
-    <form action="" @submit.prevent="changePassword" class="text-left">
+    <form
+      action=""
+      @submit.prevent="changePassword"
+      class="text-left flex flex-col space-y-8"
+    >
       <div class="relative">
         <label for="psw" class="font-semibold mb-2">Password</label>
         <input
