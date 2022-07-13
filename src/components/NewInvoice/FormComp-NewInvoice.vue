@@ -323,23 +323,23 @@
       <p class="pl-16">Rp. {{ totalAllInvoices }}</p>
     </div>
 
-    <div class="text-right px-4">
+    <div class="flex justify-end items-center space-x-5">
+      <button
+        @click="previewInvoice"
+        type="button"
+        v-ripple
+        class="button button-outline-primary ml-5 ripple-effect"
+      >
+        Preview Invoice
+      </button>
       <button
         v-ripple
         type="submit"
         name=""
         id=""
-        class="button button-outline-primary"
+        class="button button-primary"
       >
-        Save as Draft
-      </button>
-      <button
-        @click="previewInvoice"
-        type="button"
-        v-ripple
-        class="button button-primary ml-5 ripple-effect"
-      >
-        Preview Invoice
+        Save Invoice
       </button>
     </div>
   </form>

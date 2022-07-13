@@ -49,8 +49,9 @@
                   v-model="email"
                   pattern="\s*\S+.*"
                   placeholder="Enter your email"
-                  class="form peer w-full lowercase order-2"
-                  :class="isEmailValid ? '' : 'border-failed'"
+                  :class="`${
+                    isEmailValid ? '' : 'border-failed'
+                  } form peer w-full lowercase order-2`"
                   @input="emailValidation"
                 />
                 <label
@@ -62,7 +63,7 @@
                     peer-focus:text-[#2C3E50]
                     order-1
                   "
-                  :class="isEmailValid ? '' : 'text-red-500'"
+                  :class="isEmailValid ? '' : 'peer-invalid:text-red-500'"
                 >
                   Email
                 </label>
@@ -391,6 +392,7 @@ export default {
     },
     isRememberMe(res) {
       localStorage.setItem("token", res.data.data.token);
+      this.$store.dispatch("actionUsersInfo", res.data.data);
       // if (this.isChecked == true) {
       //   // this.$store.dispatch("actionOfToken", res.data.data.token);
       //   // this.$store.dispatch("actionUsersInfo", res.data.data);

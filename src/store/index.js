@@ -10,8 +10,7 @@ export default new Vuex.Store({
   plugins: [
 
     createPersistedState({
-      key: "preview",
-      paths: ['preview']
+      key: "invoiceinaja",
     }),
 
 
