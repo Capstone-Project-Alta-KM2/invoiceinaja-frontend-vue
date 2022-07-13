@@ -334,7 +334,6 @@ export default {
     },
     async deleteClient(id) {
       console.log(id);
-
       await axios
         .delete(`api/v1/clients/${id}`)
         .then((res) => {
@@ -376,7 +375,6 @@ export default {
         this.showChangePage = false;
       });
     },
-
     toAddClient() {
       this.$emit("showDialog");
     },
@@ -385,12 +383,10 @@ export default {
         .get("api/v1/clients")
         .then((res) => {
           console.log("res : ", res.data);
-
           this.items = res.data.data;
           this.totPage = res.data.info_data.total;
           this.currPage = res.data.info_data.page;
           this.lastPage = res.data.info_data.last_page;
-
           this.isLoading = false;
         })
         .catch((err) => {
@@ -402,17 +398,14 @@ export default {
           this.isLoading = false;
         });
     },
-
     toEditClient(params) {
       this.$emit("showDialogEdit", params);
     },
   },
   computed: {},
-
   async mounted() {
     this.fetchDataClients();
   },
-
   watch: {
     items(val) {
       console.log("nilai val : ", val);

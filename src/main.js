@@ -14,8 +14,6 @@ Ripple.color = 'rgba(208, 186, 255, 0.5)';
 Ripple.zIndex = 55;
 Vue.directive('ripple', Ripple);
 
-
-
 Vue.config.productionTip = false
 import SideNavbar from './layouts/SideNavBarLayouts.vue'
 import Blank from './layouts/BlankLayouts.vue'

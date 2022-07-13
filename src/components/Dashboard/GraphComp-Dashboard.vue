@@ -145,7 +145,6 @@ export default {
             data: this.paid,
             backgroundColor: ["rgba(155, 109, 255, 0.8)"],
             hoverBackgroundColor: "rgba(155, 109, 255, 1)",
-
             // borderColor: ["rgb(255, 99, 132)"],
             borderWidth: 1,
           },
