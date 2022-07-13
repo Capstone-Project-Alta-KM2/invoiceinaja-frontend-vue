@@ -225,7 +225,6 @@
 import axios from "axios";
 import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
 export default {
-  name: "LoginForm",
   data() {
     return {
       email: "",
