@@ -1,6 +1,9 @@
 <template>
   <section class="flex flex-row bg-white">
-    <div class="absolute top-4 left-8 flex">
+    <div
+      class="absolute top-4 left-8 flex cursor-pointer"
+      @click="$router.push('/')"
+    >
       <img
         width="25px"
         height="15px"

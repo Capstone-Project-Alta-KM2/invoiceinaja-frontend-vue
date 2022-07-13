@@ -1,9 +1,19 @@
 <template>
   <div class="grid grid-cols-2 min-w-screen min-h-screen bg-white">
     <div
-      class="relative sm:bg-white lg:bg-soft-purple lg:bg-opacity-30 flex justify-center p-5"
+      class="
+        relative
+        sm:bg-white
+        lg:bg-soft-purple lg:bg-opacity-30
+        flex
+        justify-center
+        p-5
+      "
     >
-      <div class="absolute top-4 left-8 flex">
+      <div
+        class="absolute top-4 left-8 flex cursor-pointer"
+        @click="$router.push('/')"
+      >
         <img
           width="25px"
           height="15px"
@@ -42,13 +52,21 @@
                   v-model="email"
                   pattern="\s*\S+.*"
                   placeholder="Enter your email"
-                  class="form peer w-full lowercase order-2"
-                  :class="isEmailValid ? '' : 'border-failed'"
+                  :class="`${
+                    isEmailValid ? '' : 'border-failed'
+                  } form peer w-full lowercase order-2`"
                   @input="emailValidation"
                 />
                 <label
-                  class="mb-2 text-lg font-semibold mt-3 peer-focus:text-[#2C3E50] order-1"
-                  :class="isEmailValid ? '' : 'text-red-500'"
+                  class="
+                    mb-2
+                    text-lg
+                    font-semibold
+                    mt-3
+                    peer-focus:text-[#2C3E50]
+                    order-1
+                  "
+                  :class="isEmailValid ? '' : 'peer-invalid:text-red-500'"
                 >
                   Email
                 </label>
@@ -70,13 +88,28 @@
                   @input="validatePassword()"
                 />
                 <label
-                  class="mb-2 text-lg font-semibold mt-3 peer-focus:text-[#2C3E50] order-1"
+                  class="
+                    mb-2
+                    text-lg
+                    font-semibold
+                    mt-3
+                    peer-focus:text-[#2C3E50]
+                    order-1
+                  "
                   :class="isPasswordValid ? '' : 'text-red-500'"
                   >Password</label
                 >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 absolute right-5 bottom-[66px] cursor-pointe peer-focus:text-soft-purple"
+                  class="
+                    h-5
+                    w-5
+                    absolute
+                    right-5
+                    bottom-[66px]
+                    cursor-pointe
+                    peer-focus:text-soft-purple
+                  "
                   :class="isPasswordValid ? 'text-soft-purple' : 'text-red-500'"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -92,7 +125,15 @@
                 </svg>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="h-5 w-5 absolute right-5 bottom-[66px] cursor-pointer peer-focus:text-soft-purple"
+                  class="
+                    h-5
+                    w-5
+                    absolute
+                    right-5
+                    bottom-[66px]
+                    cursor-pointer
+                    peer-focus:text-soft-purple
+                  "
                   :class="isPasswordValid ? 'text-soft-purple' : 'text-red-500'"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -138,53 +179,6 @@
                 </div>
               </div>
 
-              <!-- Alert password start -->
-              <!-- <div
-                                :class="
-                                    pesanPassLength == null
-                                        ? 'alert-animation-hide'
-                                        : 'alert-animation-show'
-                                "
-                            >
-                                <p class="alert alert-failed">
-                                    {{ pesanPassLength }}
-                                </p>
-                            </div>
-                            <div
-                                :class="
-                                    pesanPassUppercase == ''
-                                        ? 'alert-animation-hide'
-                                        : 'alert-animation-show'
-                                "
-                            >
-                                <p class="alert alert-failed">
-                                    {{ pesanPassUppercase }}
-                                </p>
-                            </div>
-                            <div
-                                :class="
-                                    pesanPassLowercase == ''
-                                        ? 'alert-animation-hide'
-                                        : 'alert-animation-show'
-                                "
-                            >
-                                <p class="alert alert-failed">
-                                    {{ pesanPassLowercase }}
-                                </p>
-                            </div>
-                            <div
-                                :class="
-                                    pesanPassNumber == ''
-                                        ? 'alert-animation-hide'
-                                        : 'alert-animation-show'
-                                "
-                            >
-                                <p class="alert alert-failed">
-                                    {{ pesanPassNumber }}
-                                </p>
-                            </div> -->
-              <!-- Alert password end -->
-
               <div class="mt-12 mb-5">
                 <button
                   :disabled="
@@ -195,7 +189,13 @@
                   "
                   type="submit"
                   v-ripple="'rgba(255, 255, 255, 0.35)'"
-                  class="button button-primary flex items-center justify-center w-full"
+                  class="
+                    button button-primary
+                    flex
+                    items-center
+                    justify-center
+                    w-full
+                  "
                 >
                   <span v-if="isLoading" class="flex mr-2">
                     <simple-loading-animation />
@@ -256,7 +256,7 @@ export default {
         password: this.password,
       };
       await axios
-        .post("api/v1/sessions", userLogin)
+        .post("/api/v1/sessions", userLogin)
         .then((res) => {
           console.log("response login : ", res);
           this.loginRespons = res.data.meta.message;
@@ -266,8 +266,8 @@ export default {
           this.$router.push("/dashboard");
         })
         .catch((err) => {
-          console.log(err);
           this.loginRespons = err.response.data.meta.message;
+          console.log(err);
           this.isLoading = false;
           this.statusLogin = false;
         });
@@ -308,34 +308,6 @@ export default {
         this.isPasswordValid = true;
         this.passwordAlertMessage = "";
       }
-      // if (this.password.length < 8) {
-      //     this.pesanPassLength = "Harus lebih besar dari 8";
-      //     this.isPasswordValid = false;
-      // } else {
-      //     this.pesanPassLength = null;
-      //     this.isPasswordValid = true;
-      // }
-      // if (!this.password.match(uppercase)) {
-      //     this.pesanPassUppercase = "Harus ada Huruf besar";
-      //     this.isPasswordValid = false;
-      // } else {
-      //     this.pesanPassUppercase = "";
-      //     this.isPasswordValid = true;
-      // }
-      // if (!this.password.match(lowercase)) {
-      //     this.pesanPassLowercase = "Harus ada Huruf kecil";
-      //     this.isPasswordValid = false;
-      // } else {
-      //     this.pesanPassLowercase = "";
-      //     this.isPasswordValid = true;
-      // }
-      // if (!this.password.match(number)) {
-      //     this.pesanPassNumber = "Harus ada angka";
-      //     this.isPasswordValid = false;
-      // } else {
-      //     this.pesanPassNumber = "";
-      //     this.isPasswordValid = true;
-      // }
     },
     resetPasswordAlert() {
       if (this.password == "") {
@@ -347,16 +319,11 @@ export default {
       }
     },
     isRememberMe(res) {
-      let token = res.data.data.token;
-      localStorage.setItem("token", token);
+      localStorage.setItem("token", res.data.data.token);
+      this.$store.dispatch("actionUsersInfo", res.data.data);
     },
   },
-  mounted() {
-    let token = localStorage.getItem("token");
-    if (token) {
-      this.$router.push("/dashboard");
-    }
-  },
+  mounted() {},
 };
 </script>
 

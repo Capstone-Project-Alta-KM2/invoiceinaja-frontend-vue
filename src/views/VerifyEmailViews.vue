@@ -4,7 +4,8 @@
       <img
         src="../assets/images/invoiceinaja_logo.png"
         alt=""
-        class="absolute top-5 left-5"
+        @click="$router.push('/')"
+        class="absolute top-5 left-5 cursor-pointer"
       />
       <img src="../assets/images/verifbackground.png" alt="" class="w-5/6" />
     </div>

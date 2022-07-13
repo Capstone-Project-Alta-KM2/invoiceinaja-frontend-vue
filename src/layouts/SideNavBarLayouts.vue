@@ -36,6 +36,7 @@
               $route.path == '/invoice' ||
               $route.path == '/add-invoice' ||
               $route.path == '/import-invoices' ||
+              $route.path == '/preview-invoice' ||
               $route.path == '/edit-invoice'
                 ? activeClass
                 : ''
@@ -55,6 +56,7 @@
                   $route.path == '/invoice' ||
                   $route.path == '/add-invoice' ||
                   $route.path == '/import-invoices' ||
+                  $route.path == '/preview-invoice' ||
                   $route.path == '/edit-invoice'
                     ? '#9B6DFF'
                     : '#717171'
@@ -66,6 +68,7 @@
                   $route.path == '/invoice' ||
                   $route.path == '/add-invoice' ||
                   $route.path == '/import-invoices' ||
+                  $route.path == '/preview-invoice' ||
                   $route.path == '/edit-invoice'
                     ? '#e5d9ff'
                     : 'white'
@@ -77,6 +80,7 @@
                   $route.path == '/invoice' ||
                   $route.path == '/add-invoice' ||
                   $route.path == '/import-invoices' ||
+                  $route.path == '/preview-invoice' ||
                   $route.path == '/edit-invoice'
                     ? '#e5d9ff'
                     : 'white'
@@ -88,6 +92,7 @@
                   $route.path == '/invoice' ||
                   $route.path == '/add-invoice' ||
                   $route.path == '/import-invoices' ||
+                  $route.path == '/preview-invoice' ||
                   $route.path == '/edit-invoice'
                     ? '#e5d9ff'
                     : 'white'
@@ -99,6 +104,7 @@
                   $route.path == '/invoice' ||
                   $route.path == '/add-invoice' ||
                   $route.path == '/import-invoices' ||
+                  $route.path == '/preview-invoice' ||
                   $route.path == '/edit-invoice'
                     ? '#e5d9ff'
                     : 'white'
@@ -110,6 +116,7 @@
                   $route.path == '/invoice' ||
                   $route.path == '/add-invoice' ||
                   $route.path == '/import-invoices' ||
+                  $route.path == '/preview-invoice' ||
                   $route.path == '/edit-invoice'
                     ? '#e5d9ff'
                     : 'white'
