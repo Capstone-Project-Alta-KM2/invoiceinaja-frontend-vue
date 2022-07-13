@@ -6,7 +6,8 @@
       <img
         src="../assets/images/invoiceinaja_logo.png"
         alt=""
-        class="absolute top-5 left-5"
+        class="absolute top-5 left-5 cursor-pointer"
+        @click="$router.push('/')"
       />
       <img
         src="../assets/images/Secure login-pana 1.png"
