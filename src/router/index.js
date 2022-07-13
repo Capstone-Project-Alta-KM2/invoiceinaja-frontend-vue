@@ -20,6 +20,7 @@ import CreateNewPassPage from '../views/CreateNewPassPage.vue'
 import BlogPage from  '../views/BlogPage.vue'
 import FullInvoicesPage from '../views/FullInvoicesPage.vue'
 import NotFoundPage from '../views/NotFoundPage.vue'
+import SettingsPage from '../views/SettingsPage.vue'
 
 import auth from '../middleware/auth';
 import log from '../middleware/log';
@@ -83,7 +84,7 @@ const routes = [
   },
   {
     path: '/preview-generate',
-    name: 'previewInvoice',
+    name: 'previewGenerate',
     meta: {
       layout: "sidenavbar",
       middleware: [auth, log]
@@ -158,6 +159,12 @@ const routes = [
     name: 'blog-page',
     meta:{layout:"navbar"},
     component: BlogPage
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    meta: { layout: "sidenavbar", middleware: [auth, log] },
+    component: SettingsPage
   },
 
 ]
