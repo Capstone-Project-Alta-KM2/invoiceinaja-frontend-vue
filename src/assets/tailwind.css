@@ -22,6 +22,11 @@
         @apply h-12 placeholder:text-base rounded-lg  hover:ring-4 hover:placeholder:opacity-0 hover:ring-[#e6daff] transition-all duration-300 block 
         border focus:outline-0 focus:border-soft-purple focus:ring-[#d3bfff] focus:ring-4  border-[#666666]
     }
+    .form-generate-add-invoice{
+        @apply h-12 flex items-center px-2 placeholder:text-lg rounded-lg hover:ring-4 hover:placeholder:opacity-0  hover:ring-[#e6daff] 
+        hover:outline-0 transition-all duration-300 border focus:outline-0 focus:border-soft-purple focus:ring-[#d3bfff] focus:ring-4 
+        border-[#666666] w-72
+    }
     .alert{
         @apply px-4 py-5 leading-3 rounded-lg border
     }
