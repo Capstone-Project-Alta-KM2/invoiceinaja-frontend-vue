@@ -21,6 +21,8 @@ import BlogPage from  '../views/BlogPage.vue'
 import FullInvoicesPage from '../views/FullInvoicesPage.vue'
 import NotFoundPage from '../views/NotFoundPage.vue'
 import SettingsPage from '../views/SettingsPage.vue'
+import ProfilePage from '../views/ProfilePage.vue'
+import ChangePasswordPage from '../views/ChangePasswordPage.vue'
 
 import auth from '../middleware/auth';
 import isLogin from '../middleware/isLogin';
@@ -163,7 +165,25 @@ const routes = [
     path: '/settings',
     name: 'settings',
     meta: { layout: "sidenavbar", middleware: [auth, log] },
-    component: SettingsPage
+    component: SettingsPage,
+    redirect: {
+      name: "profile"
+    },
+    children: [
+      {
+        path: "/settings/profile",
+        name: "profile",
+        meta: { layout: "sidenavbar", middleware: [auth, log] },
+        component: ProfilePage
+
+      },
+      {
+        path: '/settings/password',
+        name: "password",
+        meta: { layout: "sidenavbar", middleware: [auth, log] },
+        component: ChangePasswordPage
+      }
+    ]
   },
 
 ]

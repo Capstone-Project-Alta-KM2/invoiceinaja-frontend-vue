@@ -154,7 +154,13 @@
             v-ripple="'rgba(255,255,255,0.3)'"
             @click="$router.push('/settings')"
             class="no-underline flex items-center px-4 py-2 rounded-lg w-full"
-            :class="$route.path == '/settings' ? activeClass : ''"
+            :class="
+              $route.path == '/settings' ||
+              $route.path == '/settings/profile' ||
+              $route.path == '/settings/password'
+                ? activeClass
+                : ''
+            "
           >
             <svg
               class="mr-5 -ml-1"
@@ -212,19 +218,7 @@
     <div class="w-full">
       <div
         id="navbar"
-        class="
-          bg-white
-          sticky
-          top-0
-          right-0
-          px-4
-          z-10
-          py-3
-          flex-1 flex
-          space-x-4
-          justify-end
-          items-center
-        "
+        class="bg-white sticky top-0 right-0 px-4 z-10 py-3 flex-1 flex space-x-4 justify-end items-center"
       >
         <svg
           width="23"
@@ -285,5 +279,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

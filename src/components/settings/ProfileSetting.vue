@@ -1,16 +1,20 @@
 <template>
   <div class="profile-settiing px-10 mt-20 mb-10">
-    <div class="flex">
-      <div class="rounded-full overflow-hidden bg-black mr-5">
-        <img src="../../assets/images/landing/avatar.png" alt="" />
+    <div class="flex items-center">
+      <div class="rounded-full overflow-hidden bg-black mr-5 w-14 h-14">
+        <img
+          :src="userProfile.avatar"
+          alt="Your Photo Profile"
+          class="min-w-full"
+        />
       </div>
       <div class="flex flex-col items-start">
-        <span class="font-semibold">Username</span>
-        <span class="text-sm">email@gmail.com</span>
+        <span class="font-semibold">{{ userProfile.fullname }}</span>
+        <span class="text-sm">{{ userProfile.email }}</span>
       </div>
     </div>
     <div class="mt-10">
-      <form action="">
+      <form action="" @submit.prevent="updateProfile">
         <div class="grid grid-cols-2 gap-x-6 text-left">
           <!-- name start -->
           <div class="w-full h-36">
@@ -20,11 +24,11 @@
               type="text"
               placeholder="Your Name"
               class="form w-full mt-2"
-              v-model="fullName"
+              v-model="userName"
               :class="isNameEmpty ? 'border-failed' : ''"
               @input="
                 () => {
-                  if (fullName == '') {
+                  if (userName == '') {
                     this.isNameEmpty = true;
                   } else {
                     this.isNameEmpty = false;
@@ -76,30 +80,6 @@
               Phone number cannot be empty
             </p>
           </div>
-          <!-- streets start -->
-          <div class="w-full h-36">
-            <label for="email" class="font-semibold text-lg">Street</label>
-            <input
-              id="text"
-              v-model="address"
-              type="text"
-              placeholder="Your Street Address"
-              class="form w-full mt-2"
-              :class="isAddressEmpty ? 'border-failed' : ''"
-              @input="
-                () => {
-                  if (address == '') {
-                    this.isAddressEmpty = true;
-                  } else {
-                    this.isAddressEmpty = false;
-                  }
-                }
-              "
-            />
-            <div v-if="isAddressEmpty" class="mt-2">
-              <span class="text-red-500">Address cannot be empty</span>
-            </div>
-          </div>
           <!-- company start -->
           <div class="w-full h-36">
             <label for="bisnis" class="font-semibold text-lg"
@@ -136,10 +116,9 @@
             name=""
             id=""
             :disabled="
-              fullName == '' ||
+              userName == '' ||
               email == '' ||
               phoneNumber == '' ||
-              address == '' ||
               company == '' ||
               isEmailValid == false ||
               isLoading == true
@@ -157,6 +136,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import SimpleLoading from "./../SimpleLoadingAnimation.vue";
 
 export default {
@@ -164,26 +144,55 @@ export default {
   components: {
     SimpleLoading,
   },
+  computed: {
+    userProfile() {
+      return this.$store.state.usersInfo;
+    },
+  },
   data() {
     return {
-      fullName: "",
+      id: "",
+      userName: "",
       email: "",
       phoneNumber: "",
-      address: "",
       company: "",
+      photoProfile: "",
 
       isNameEmpty: "",
       isEmaiEmpty: "",
       isNoPhoneEmpty: "",
-      isAddressEmpty: "",
       isCompanyEmpty: "",
 
+      isLoading: false,
       isEmailValid: true,
 
       pesanValidasiEmail: "",
     };
   },
   methods: {
+    updateProfile() {
+      this.isLoading = true;
+      const userData = {
+        fullname: this.userName,
+        email: this.email,
+        phone_number: this.phoneNumber,
+        company: this.company,
+      };
+
+      axios
+        .put("/api/v1/users", userData)
+        .then((res) => {
+          console.log("sukses");
+          console.log(res);
+          this.$store.dispatch("actionUsersInfo", res.data.data);
+          this.isLoading = false;
+        })
+        .catch((err) => {
+          console.log("Error");
+          console.log(err);
+          this.isLoading = false;
+        });
+    },
     emailValidation() {
       const reg =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -202,6 +211,18 @@ export default {
         return true;
       }
     },
+    setFieldValue() {
+      this.id = this.userProfile.id;
+      this.userName = this.userProfile.fullname;
+      this.email = this.userProfile.email;
+      this.phoneNumber = this.userProfile.phone_number;
+      this.company = this.userProfile.company;
+      this.photoProfile = this.userProfile.avatar;
+    },
+  },
+  mounted() {
+    this.setFieldValue();
+    console.log(this.userProfile);
   },
 };
 </script>

@@ -1,11 +1,9 @@
 <template>
-  <settings-card></settings-card>
+  <router-view></router-view>
 </template>
 
 <script>
-import SettingsCard from "@/components/settings/SettingsCard.vue";
 export default {
-  components: { SettingsCard },
   name: "SettingPage",
 };
 </script>
