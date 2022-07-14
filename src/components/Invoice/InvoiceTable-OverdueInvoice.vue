@@ -73,42 +73,51 @@
             <td class="text-center lg:px-0 px-10">Status</td>
           </tr>
         </thead>
-        <tbody>
-          <tr
-            @click="$router.push(`/full-invoices/${item.id}`)"
-            v-for="(item, index) in items"
-            :key="index"
-            class="
-              text-center
-              py-3
-              my-10
-              shadow-invoicein
-              hover:bg-[rgba(155,109,255,0.2)]
-              duration-300
-              transition-all
-              cursor-pointer
-            "
-          >
-            <td class="py-5 lg:px-0 px-10">INV - {{ item.id }}</td>
-            <td class="lg:px-0 px-10">{{ item.client }}</td>
-            <td class="lg:px-0 px-10">{{ item.date }}</td>
-            <td class="lg:px-0 px-10">{{ item.post_due }}</td>
-            <td class="text-center lg:px-0 px-10">{{ item.Amount }}</td>
-            <td class="text-center lg:px-0 px-10">
-              <span
-                :class="`${
-                  item.status == 'PAID'
-                    ? 'bg-[rgba(135,228,96,0.2)] text-paid-color'
-                    : item.status == 'UNPAID'
-                    ? 'bg-[rgba(255,204,0,0.2)] text-unpaid-color'
-                    : item.status == 'OVERDUE'
-                    ? 'bg-[rgba(255,48,76,0.2)] text-overdue-color'
-                    : item.status == 'DRAFT'
-                    ? 'bg-gray-200 text-gray-400'
-                    : ''
-                } inline-block w-20 leading-8`"
-                >{{ item.status.toLowerCase() }}</span
-              >
+        <tbody v-if="items.length !== 0">
+          <div>
+            <tr
+              @click="$router.push(`/full-invoices/${item.id}`)"
+              v-for="(item, index) in items"
+              :key="index"
+              class="
+                text-center
+                py-3
+                my-10
+                shadow-invoicein
+                hover:bg-[rgba(155,109,255,0.2)]
+                duration-300
+                transition-all
+                cursor-pointer
+              "
+            >
+              <td class="py-5 lg:px-0 px-10">INV - {{ item.id }}</td>
+              <td class="lg:px-0 px-10">{{ item.client }}</td>
+              <td class="lg:px-0 px-10">{{ item.date }}</td>
+              <td class="lg:px-0 px-10">{{ item.post_due }}</td>
+              <td class="text-center lg:px-0 px-10">{{ item.Amount }}</td>
+              <td class="text-center lg:px-0 px-10">
+                <span
+                  :class="`${
+                    item.status == 'PAID'
+                      ? 'bg-[rgba(135,228,96,0.2)] text-paid-color'
+                      : item.status == 'UNPAID'
+                      ? 'bg-[rgba(255,204,0,0.2)] text-unpaid-color'
+                      : item.status == 'OVERDUE'
+                      ? 'bg-[rgba(255,48,76,0.2)] text-overdue-color'
+                      : item.status == 'DRAFT'
+                      ? 'bg-gray-200 text-gray-400'
+                      : ''
+                  } inline-block w-20 leading-8`"
+                  >{{ item.status.toLowerCase() }}</span
+                >
+              </td>
+            </tr>
+          </div>
+        </tbody>
+        <tbody v-else>
+          <tr>
+            <td colspan="6" class="py-5 lg:px-0 px-10">
+              Invoice Data is empty
             </td>
           </tr>
         </tbody>
@@ -137,11 +146,21 @@ export default {
   },
   methods: {
     async fetchUnpaidInvoice() {
-      await axios.get("api/v1/invoices").then((res) => {
-        console.log("unpaid invoice : ", res.data);
-        this.items = res.data.data;
-        this.isLoading = false;
-      });
+      await axios
+        .get("api/v1/invoices")
+        .then((res) => {
+          console.log("unpaid invoice : ", res.data);
+          this.items = res.data.data;
+          this.isLoading = false;
+        })
+        .catch((err) => {
+          console.log("err : ", err);
+          if (err.response.status === 401) {
+            localStorage.removeItem("token");
+            this.$router.push("/login");
+          }
+          this.isLoading = false;
+        });
     },
     searchDataInvoice() {
       this.items = this.items.filter((data) => {

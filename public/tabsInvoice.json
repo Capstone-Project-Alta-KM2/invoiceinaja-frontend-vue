@@ -18,10 +18,5 @@
         "id": 3,
         "pathTab": "unpaid",
         "nameTab": "Unpaid"
-    },
-    {
-        "id": 4,
-        "pathTab": "draft",
-        "nameTab": "Draft"
     }
 ]

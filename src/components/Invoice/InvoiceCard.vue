@@ -63,14 +63,6 @@
       >
         <invoice-table-unpaid />
       </div>
-      <div
-        class="rounded-md"
-        :hidden="
-          currentShow == 'draft' ? (isHidden = false) : (isHidden = true)
-        "
-      >
-        <invoice-table-draft />
-      </div>
     </div>
   </div>
 </template>
@@ -80,7 +72,6 @@ import InvoiceTable from "./InvoiceTable-AllInvoice.vue";
 import InvoiceTablePaid from "./InvoiceTable-PaidInvoice.vue";
 import InvoiceTableOverdue from "./InvoiceTable-OverdueInvoice.vue";
 import InvoiceTableUnpaid from "./InvoiceTable-UnpaidInvoice.vue";
-import InvoiceTableDraft from "./InvoiceTable-DraftInvoice.vue";
 export default {
   name: "InvoiceCard",
   data() {
@@ -95,7 +86,6 @@ export default {
     InvoiceTablePaid,
     InvoiceTableOverdue,
     InvoiceTableUnpaid,
-    InvoiceTableDraft,
   },
   methods: {
     changeActive(path) {

@@ -53,8 +53,10 @@
                   pattern="\s*\S+.*"
                   placeholder="Enter your email"
                   :class="`${
-                    isEmailValid ? '' : 'border-failed'
-                  } form peer w-full lowercase order-2`"
+                    emailAlertMessage
+                      ? 'focus:border-failed border-failed focus:ring-0'
+                      : ''
+                  } form w-full lowercase order-2`"
                   @input="emailValidation"
                 />
                 <label
@@ -66,11 +68,11 @@
                     peer-focus:text-[#2C3E50]
                     order-1
                   "
-                  :class="isEmailValid ? '' : 'peer-invalid:text-red-500'"
+                  :class="emailAlertMessage ? 'text-red-500' : ''"
                 >
                   Email
                 </label>
-                <div v-if="!isEmailValid" class="mt-2 text-left order-3">
+                <div v-if="emailAlertMessage" class="mt-2 text-left order-3">
                   <p class="text-red-500">
                     {{ emailAlertMessage }}
                   </p>
@@ -81,36 +83,47 @@
                   id="psw"
                   :type="!isShowPass ? 'password' : 'text'"
                   v-model="password"
+                  @input="validationPass"
                   placeholder="Enter your password"
                   title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-                  class="form w-full peer order-2"
-                  :class="isPasswordValid ? '' : 'border-failed'"
-                  @input="validatePassword()"
+                  :class="`${
+                    passwordAlertMessage
+                      ? 'focus:border-failed border-failed focus:ring-0'
+                      : ''
+                  } form w-full peer order-2`"
                 />
                 <label
-                  class="
-                    mb-2
+                  :class="`${
+                    passwordAlertMessage
+                      ? 'text-red-500 focus:text-red-500 peer-focus:text-red-500'
+                      : ''
+                  } mb-2
                     text-lg
                     font-semibold
                     mt-3
                     peer-focus:text-[#2C3E50]
-                    order-1
-                  "
-                  :class="isPasswordValid ? '' : 'text-red-500'"
+                    order-1`"
                   >Password</label
                 >
+                <div v-if="passwordAlertMessage" class="mt-2 text-left order-3">
+                  <p class="text-red-500">
+                    {{ passwordAlertMessage }}
+                  </p>
+                </div>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="
-                    h-5
+                  :class="`${
+                    passwordAlertMessage
+                      ? 'text-red-500   peer-active:text-red-500 peer-focus:text-red-500'
+                      : ''
+                  } h-5
                     w-5
                     absolute
                     right-5
                     bottom-[66px]
-                    cursor-pointe
-                    peer-focus:text-soft-purple
-                  "
-                  :class="isPasswordValid ? 'text-soft-purple' : 'text-red-500'"
+                    cursor-pointer
+                    text-soft-purple
+                    peer-focus:text-soft-purple`"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                   v-if="!isShowPass"
@@ -125,16 +138,18 @@
                 </svg>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  class="
-                    h-5
+                  :class="`${
+                    passwordAlertMessage
+                      ? 'text-red-500  peer-active:text-red-500 peer-focus:text-red-500'
+                      : ''
+                  } h-5
                     w-5
                     absolute
                     right-5
                     bottom-[66px]
                     cursor-pointer
-                    peer-focus:text-soft-purple
-                  "
-                  :class="isPasswordValid ? 'text-soft-purple' : 'text-red-500'"
+                    text-soft-purple
+                    peer-focus:text-soft-purple`"
                   viewBox="0 0 20 20"
                   fill="currentColor"
                   v-if="isShowPass"
@@ -149,14 +164,6 @@
                     d="M12.454 16.697L9.75 13.992a4 4 0 01-3.742-3.741L2.335 6.578A9.98 9.98 0 00.458 10c1.274 4.057 5.065 7 9.542 7 .847 0 1.669-.105 2.454-.303z"
                   />
                 </svg>
-                <div
-                  v-if="!isPasswordValid"
-                  class="text-left mt-2 mb-3 order-3"
-                >
-                  <span class="text-red-500">
-                    {{ passwordAlertMessage }}
-                  </span>
-                </div>
               </div>
               <div class="flex justify-between">
                 <div class="flex">
@@ -184,8 +191,8 @@
                   :disabled="
                     email == '' ||
                     password == '' ||
-                    isEmailValid == false ||
-                    isPasswordValid == false
+                    emailAlertMessage != '' ||
+                    passwordAlertMessage !== ''
                   "
                   type="submit"
                   v-ripple="'rgba(255, 255, 255, 0.35)'"
@@ -235,7 +242,6 @@ export default {
       loginRespons: "",
       statusLogin: true,
       isEmailValid: true,
-      isPasswordValid: true,
       isShowPass: false,
       isChecked: false,
     };
@@ -272,51 +278,23 @@ export default {
         });
     },
     emailValidation() {
-      var reg =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
       if (this.email == "") {
         this.emailAlertMessage = "Email cannot be empty";
-        this.isEmailValid = false;
-        return true;
-      } else if (!reg.test(this.email)) {
+      } else if (!this.email.match(reg)) {
         this.emailAlertMessage = "Enter email correctly";
-        this.isEmailValid = false;
-        return false;
       } else {
         this.emailAlertMessage = "";
-        this.isEmailValid = true;
-        return true;
       }
     },
-    validatePassword() {
-      let uppercase = /[A-Z]/g;
-      let lowercase = /[a-z]/g;
-      let number = /[0-9]/g;
-      if (this.password == "") {
-        this.isPasswordValid = false;
+    validationPass() {
+      if (this.password === "") {
         this.passwordAlertMessage = "Password cannot be empty";
-      } else if (
-        this.password.length < 8 ||
-        !this.password.match(lowercase) ||
-        !this.password.match(uppercase) ||
-        !this.password.match(number)
-      ) {
-        this.isPasswordValid = false;
-        this.passwordAlertMessage = "Incorrect password format";
-      } else {
-        this.isPasswordValid = true;
+      } else if (this.password !== "") {
         this.passwordAlertMessage = "";
       }
     },
-    resetPasswordAlert() {
-      if (this.password == "") {
-        (this.pesanPassLength = null),
-          (this.pesanPassUppercase = ""),
-          (this.pesanPassLowercase = ""),
-          (this.pesanPassNumber = "");
-        this.isPasswordValid = true;
-      }
-    },
+
     isRememberMe(res) {
       localStorage.setItem("token", res.data.data.token);
       this.$store.dispatch("actionUsersInfo", res.data.data);
