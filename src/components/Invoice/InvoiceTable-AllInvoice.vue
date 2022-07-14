@@ -139,7 +139,11 @@ export default {
       items: [],
     };
   },
-  computed: {},
+  computed: {
+    responseSuccess() {
+      return this.$store.state.msgSuccessAddInvoice;
+    },
+  },
   mounted() {
     this.fetchUnpaidInvoice();
   },

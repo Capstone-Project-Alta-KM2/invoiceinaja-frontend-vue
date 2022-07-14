@@ -10,7 +10,7 @@ export default new Vuex.Store({
   plugins: [
 
     createPersistedState({
-      key: "preview",
+      key: "invoiceinaja",
     }),
 
 
@@ -18,7 +18,8 @@ export default new Vuex.Store({
   state: {
     usersInfo: {},
     token: "",
-    preview: {}
+    preview: {},
+    msgSuccessAddInvoice:""
   },
   mutations: {
     setUsersInfo(state, payload) {
@@ -30,8 +31,14 @@ export default new Vuex.Store({
     },
     setPreview(state, payload) {
       state.preview = payload
+    },
+   
+    setChangePass(state,payload){
+      state.usersInfo.password = payload
+    },
+    setSuccessAddInvoice(state,payload){
+      state.msgSuccessAddInvoice = payload
     }
-
 
   },
 
@@ -43,9 +50,13 @@ export default new Vuex.Store({
       store.commit('setToken', payload)
     },
     actionOfPreview(store, payload) {
-      console.log("payload Preview : ", payload)
       store.commit('setPreview', payload)
     },
-
+    actionOfChangePass(store,payload){
+      store.commit("setChangePass",payload)
+    },
+    actionOfSuccessAddInvoice(store,payload){
+      store.commit("setSuccessAddInvoice",payload)
+    }
   },
 })

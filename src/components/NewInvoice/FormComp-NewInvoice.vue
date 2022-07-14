@@ -4,6 +4,11 @@
     @submit.prevent="addInvoices"
     class="text-left px-3 rounded-lg"
   >
+    <div v-if="errMsg">
+      <p class="bg-red-500 my-10 text-center text-white py-2 rounded-md">
+        {{ errMsg }}
+      </p>
+    </div>
     <h1 class="text-2xl font-semibold mb-5">New Invoice</h1>
     <!-- <invoice-date v-model="dateInvoiceAndNo" /> -->
     <div class="flex space-x-10 mb-5">
@@ -47,7 +52,7 @@
     <!-- <form-data-client v-model="clients" /> -->
     <div class="grid grid-cols-3 gap-y-8">
       <div class="">
-        <label for="" class="font-semibold mb-2">Invoice To</label>
+        <label for="" class="font-semibold mb-2 inline-block">Invoice To</label>
         <input
           type="text"
           list="clientList"
@@ -70,36 +75,41 @@
         </div>
       </div>
       <div class="">
-        <label for="" class="font-semibold mb-2">Email</label>
-        <p class="form-add-invoice w-72" v-html="clients.email"></p>
+        <label for="" class="font-semibold mb-2 inline-block">Email</label>
+        <p class="form-generate-add-invoice" v-html="clients.email"></p>
       </div>
       <div class="">
-        <label for="" class="font-semibold mb-2">Street Address</label>
-        <p class="form-add-invoice w-72" v-html="clients.address"></p>
+        <label for="" class="font-semibold mb-2 inline-block"
+          >Street Address</label
+        >
+        <p class="form-generate-add-invoice" v-html="clients.address"></p>
       </div>
       <div class="">
-        <label for="" class="font-semibold mb-2">City</label>
-        <p class="form-add-invoice w-72 text-black" v-html="clients.city"></p>
+        <label for="" class="font-semibold mb-2 inline-block">City</label>
+        <p
+          class="form-generate-add-invoice text-black"
+          v-html="clients.city"
+        ></p>
       </div>
       <div class="">
-        <label for="" class="font-semibold mb-2">Zip Code</label>
+        <label for="" class="font-semibold mb-2 inline-block">Zip Code</label>
         <p
           type="text"
           name=""
           id=""
           ref="zipCode"
-          class="form-add-invoice w-72"
+          class="form-generate-add-invoice"
           v-html="clients.zip_code"
         ></p>
       </div>
       <div class="">
-        <label for="" class="font-semibold mb-2">Company</label>
+        <label for="" class="font-semibold mb-2 inline-block">Company</label>
         <p
           type="text"
           name=""
           ref="company"
           id=""
-          class="form-add-invoice w-72"
+          class="form-generate-add-invoice"
           v-html="clients.company"
         ></p>
       </div>
@@ -347,8 +357,12 @@
         type="submit"
         name=""
         id=""
-        class="button button-primary"
+        :disabled="isLoading"
+        class="flex space-x-4 items-center button button-primary"
       >
+        <div v-if="isLoading">
+          <simple-loading-animation />
+        </div>
         Save Invoice
       </button>
     </div>
@@ -357,16 +371,19 @@
 
 <script>
 import axios from "axios";
+import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
 
 // import InvoiceDate from "./InvoiceDate-NewInvoice.vue";
 // import FormDataClient from "./DataClientFormComp.vue";
 export default {
   components: {
+    SimpleLoadingAnimation,
     // InvoiceDate,
     // FormDataClient,
   },
   data() {
     return {
+      isLoading: false,
       showClientData: false,
       user: {
         fullname: "",
@@ -396,6 +413,8 @@ export default {
       validateMessage: "",
       invoice_date: "",
       invoice_due: "",
+
+      errMsg: "",
     };
   },
   methods: {
@@ -427,6 +446,7 @@ export default {
       this.invoices.splice(index, 1);
     },
     async addInvoices() {
+      this.isLoading = true;
       const newArrInvoices = this.invoices.map((invo) => {
         return {
           item_name: invo.item_name,
@@ -443,9 +463,25 @@ export default {
         },
         detail_invoice: newArrInvoices,
       };
-      await axios.post("api/v1/invoices", invoicesData).then((res) => {
-        console.log("nambah : ", res);
-      });
+      await axios
+        .post("api/v1/invoices", invoicesData)
+        .then((res) => {
+          console.log("nambah : ", res.data.meta.message);
+          this.$store.dispatch(
+            "actionOfSuccessAddInvoice",
+            res.data.meta.message
+          );
+          this.isLoading = false;
+          this.$router.push("/invoice");
+          document.body.scrollTop = 0; // For Safari
+          document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        })
+        .catch((err) => {
+          this.errMsg = err.response.data.meta.message;
+          this.isLoading = false;
+          document.body.scrollTop = 0; // For Safari
+          document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+        });
       console.log(invoicesData);
     },
     validateNumber() {
@@ -481,6 +517,7 @@ export default {
       this.clients.zip_code = filteredClients[0].zip_code;
       this.clients.company = filteredClients[0].company;
       this.dataClients = [];
+      this.showClientData = false;
     },
   },
   mounted() {
