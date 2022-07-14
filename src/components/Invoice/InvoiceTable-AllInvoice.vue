@@ -72,7 +72,7 @@
             <td class="text-center lg:px-0 px-10">Status</td>
           </tr>
         </thead>
-        <tbody>
+        <tbody v-if="items.length != 0">
           <tr
             @click="$router.push(`/full-invoices/${item.id}`)"
             v-for="(item, index) in items"
@@ -111,6 +111,13 @@
             </td>
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr class="text-center">
+            <td colspan="6" class="py-5 lg:px-0 px-10">
+              Invoice Data is empty
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
@@ -138,11 +145,20 @@ export default {
   },
   methods: {
     async fetchUnpaidInvoice() {
-      await axios.get("api/v1/invoices").then((res) => {
-        console.log("unpaid invoice : ", res.data);
-        this.items = res.data.data;
-        this.isLoading = false;
-      });
+      await axios
+        .get("api/v1/invoices")
+        .then((res) => {
+          console.log("unpaid invoice : ", res.data);
+          this.items = res.data.data;
+          this.isLoading = false;
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            localStorage.removeItem("token");
+            this.$router.push("/login");
+          }
+          this.isLoading = false;
+        });
     },
     searchDataInvoice() {
       this.items = this.items.filter((data) => {

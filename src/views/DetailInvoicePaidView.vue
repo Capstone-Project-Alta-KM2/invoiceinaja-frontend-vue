@@ -34,59 +34,55 @@
         </p>
       </div>
 
-      <!-- from - invoice date - due date -->
-      <div
-        class="
-          grid grid-cols-3
-          gap-y-8
-          my-5
-          justify-items-start
-          place-items-center
-        "
-      >
-        <div class="">
-          <h3 class="font-semibold text-lg">From</h3>
-          <div class="mt-3">
-            <p class="leading-3">Indah Aisyah</p>
-            <p class="leading-3">Jl. Kebangn</p>
-            <p class="leading-3">Jakarta</p>
+      <div class="flex flex-col space-y-5">
+        <!-- from - invoice date - due date - data Clients-->
+        <div
+          class="
+            grid grid-cols-3
+            gap-y-8
+            my-5
+            justify-items-start
+            place-items-start
+          "
+        >
+          <div class="text-left">
+            <label class="font-semibold text-lg">From</label>
+            <p class="">Indah Aisyah</p>
+            <p class="">Jl. Kebangn</p>
+            <p class="">Jakarta</p>
           </div>
-        </div>
-        <div>
-          <label for="" class="font-semibold mb-2">Invoice Date</label>
-          <p>{{ dateInvoiceAndNo.dateInvoice }}</p>
-        </div>
-        <div>
-          <label for="" class="font-semibold mb-2">Due Date</label>
-          <p>{{ dateInvoiceAndNo.dueDate }}</p>
-        </div>
-      </div>
-
-      <!-- Data Clients -->
-      <div class="grid grid-cols-3 gap-y-8">
-        <div class="">
-          <label for="" class="font-semibold mb-2">Invoice To</label>
-          <p>{{ client.fullname }}</p>
-        </div>
-        <div class="">
-          <label for="" class="font-semibold mb-2">Email</label>
-          <p>{{ client.email }}</p>
-        </div>
-        <div class="">
-          <label for="" class="font-semibold mb-2">Street Address</label>
-          <p>{{ client.address }}</p>
-        </div>
-        <div class="">
-          <label for="" class="font-semibold mb-2">City</label>
-          <p>{{ client.city }}</p>
-        </div>
-        <div class="">
-          <label for="" class="font-semibold mb-2">Zip Code</label>
-          <p>{{ client.zipCode }}</p>
-        </div>
-        <div class="">
-          <label for="" class="font-semibold mb-2">Company</label>
-          <p>{{ client.company }}</p>
+          <div>
+            <label for="" class="font-semibold mb-2">Invoice Date</label>
+            <p>{{ dateInvoiceAndNo.dateInvoice }}</p>
+          </div>
+          <div>
+            <label for="" class="font-semibold mb-2">Due Date</label>
+            <p>{{ dateInvoiceAndNo.dueDate }}</p>
+          </div>
+          <div class="text-left">
+            <label for="" class="font-semibold mb-2">Invoice To</label>
+            <p>{{ client.fullname }}</p>
+          </div>
+          <div class="text-left">
+            <label for="" class="font-semibold mb-2">Email</label>
+            <p>{{ client.email }}</p>
+          </div>
+          <div class="text-left">
+            <label for="" class="font-semibold mb-2">Street Address</label>
+            <p>{{ client.address }}</p>
+          </div>
+          <div class="text-left">
+            <label for="" class="font-semibold mb-2">City</label>
+            <p>{{ client.city }}</p>
+          </div>
+          <div class="text-left">
+            <label for="" class="font-semibold mb-2">Zip Code</label>
+            <p>{{ client.zipCode }}</p>
+          </div>
+          <div class="text-left">
+            <label for="" class="font-semibold mb-2">Company</label>
+            <p>{{ client.company }}</p>
+          </div>
         </div>
       </div>
 
@@ -301,8 +297,8 @@
           justify-end
           items-center
           px-10
-          pt-3
-          border-y-4 border-y-[#B0B0B0]
+          py-5
+          border-y-2 border-y-[#B0B0B0]
           mb-5
         "
       >

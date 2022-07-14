@@ -198,7 +198,6 @@ export default {
       myChart;
     },
     async fetchDataInvoice() {
-   
       await axios
         .get("/api/v1/graphics")
         .then((res) => {
@@ -208,6 +207,13 @@ export default {
             this.unpaid.push(data.unpaid);
             this.paid.push(data.paid);
           });
+        })
+        .catch((err) => {
+          console.log("err : ", err);
+          if (err.response.status === 401) {
+            localStorage.removeItem("token");
+            this.$router.push("/login");
+          }
         });
     },
   },

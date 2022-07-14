@@ -9,11 +9,9 @@
     <div class="flex space-x-10 mb-5">
       <div>
         <h3 class="font-semibold text-lg">From</h3>
-        <div class="mt-3">
-          <p class="leading-3">Indah Aisyah</p>
-          <p class="leading-3gaa">Jl. Kebangn</p>
-          <p class="leading-3">Jakarta</p>
-        </div>
+        <p class="">{{ user.fullname }}</p>
+        <p class="">{{ user.company }}</p>
+        <p class="">{{ user.email }}</p>
       </div>
       <div>
         <label for="" class="font-semibold mb-2">Invoice Date</label>
@@ -39,6 +37,13 @@
       </div>
     </div>
 
+    <div class="bg-[#d8ccf3] mt-12 mb-5 text-[#9b6dff] px-4 py-2">
+      If the client data is empty or you wanna edit clients data,
+      <span class="font-bold cursor-pointer" @click="$router.push('/client')"
+        >Click here!</span
+      >
+    </div>
+
     <!-- <form-data-client v-model="clients" /> -->
     <div class="grid grid-cols-3 gap-y-8">
       <div class="">
@@ -53,10 +58,15 @@
           id=""
           class="form-add-invoice w-72 transition-all duration-300"
         />
-        <div>
-          <ul v-for="clientData in dataClients" :key="clientData.id">
-            <li @click="generate(clientData.id)">{{ clientData.fullname }}</li>
-          </ul>
+        <div v-if="showClientData">
+          <div v-if="dataClients.length !== 0">
+            <ul v-for="clientData in dataClients" :key="clientData.id">
+              <li @click="generate(clientData.id)" class="cursor-pointer">
+                {{ clientData.fullname }}
+              </li>
+            </ul>
+          </div>
+          <div v-else>Data kosong</div>
         </div>
       </div>
       <div class="">
@@ -314,8 +324,8 @@
         justify-end
         items-center
         px-10
-        pt-3
-        border-y-4 border-y-[#B0B0B0]
+        py-5
+        border-y-2 border-y-[#B0B0B0]
         mb-5
       "
     >
@@ -357,6 +367,12 @@ export default {
   },
   data() {
     return {
+      showClientData: false,
+      user: {
+        fullname: "",
+        company: "",
+        email: "",
+      },
       dataClients: [],
       clients: {
         id: "",
@@ -383,6 +399,12 @@ export default {
     };
   },
   methods: {
+    fetchUserData() {
+      let dataUser = this.$store.state.usersInfo;
+      this.user.fullname = dataUser.fullname;
+      this.user.company = dataUser.company;
+      this.user.email = dataUser.email;
+    },
     previewInvoice() {
       console.log("dapat ga nilai totalnya : ", this.invoices);
       const data = {
@@ -437,9 +459,12 @@ export default {
         }
       }
     },
+
     async fetchDataClient() {
       await axios.get("api/v1/clients").then((res) => {
         this.dataClients = res.data.data;
+        this.showClientData = true;
+        console.log("data clients : ", res.data.data);
       });
     },
     generate(id) {
@@ -458,7 +483,9 @@ export default {
       this.dataClients = [];
     },
   },
-  mounted() {},
+  mounted() {
+    this.fetchUserData();
+  },
   updated() {
     let total = 0;
     this.invoices.forEach((invoice) => {
