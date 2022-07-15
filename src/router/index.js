@@ -99,19 +99,10 @@ const routes = [
     name: 'DetailInvoicePaidView',
     meta: {
       layout: "blank",
-      middleware: [auth, log]
     },
     component: DetailInvoicePaidView
   },
-  {
-    path: '/full-invoices/:no_invoice',
-    name: 'FullInvoices',
-    meta: {
-      layout: "sidenavbar",
-      middleware: [auth, log]
-    },
-    component: FullInvoicesPage
-  },
+ 
   {
     path: '/client',
     name: 'client',
@@ -128,14 +119,19 @@ const routes = [
     path: '/invoice',
     name: 'invoice',
     meta: { layout: "sidenavbar", middleware: [auth, log] },
-    component: InvoicePage
+    component: InvoicePage,
+  
   },
   {
-    path: '*',
-    name: 'not-found',
-    meta: { layout: "blank", middleware: [auth, log] },
-    component: NotFoundPage
-  },
+    path: '/invoice/full-invoices/:no_invoice',
+    name: 'FullInvoices',
+    meta: {
+      layout: "sidenavbar",
+      middleware: [auth, log]
+    },
+    component: FullInvoicesPage
+  },  
+ 
   {
     path: '/login',
     name: 'login',
@@ -184,6 +180,12 @@ const routes = [
         component: ChangePasswordPage
       }
     ]
+  },
+  {
+    path: '*',
+    name: 'not-found',
+    meta: { layout: "blank", middleware: [auth, log] },
+    component: NotFoundPage
   },
 
 ]

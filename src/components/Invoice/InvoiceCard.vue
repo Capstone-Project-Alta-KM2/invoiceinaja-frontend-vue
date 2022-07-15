@@ -3,15 +3,11 @@
     <div
       :class="`${
         responseSuccess ? 'scale-100' : 'scale-0'
-      } transition-all duration-300 flex space-x-5 items-center  bg-green-500 text-white py-2`"
+      } transition-all duration-300 flex justify-center space-x-5 items-center  bg-green-500 text-white py-2`"
     >
       <p>
         {{ responseSuccess }}
       </p>
-      <i
-        class="bx bx-x bx-md cursor-pointer"
-        @click="deleteResponseSuccess"
-      ></i>
     </div>
     <div class="px-5 py-0">
       <h4 class="text-left text-2xl font-bold text-black">Invoices</h4>
@@ -47,40 +43,26 @@
         </li>
       </ul>
       <div class="px-4">
-        <div
-          class="rounded-md"
-          :hidden="
-            currentShow == 'all-invoice'
-              ? (isHidden = false)
-              : (isHidden = true)
-          "
-        >
-          <invoice-table />
-        </div>
-        <div
-          class="rounded-md"
-          :hidden="
-            currentShow == 'paid' ? (isHidden = false) : (isHidden = true)
-          "
-        >
-          <invoice-table-paid />
-        </div>
-        <div
-          class="rounded-md"
-          :hidden="
-            currentShow == 'overdue' ? (isHidden = false) : (isHidden = true)
-          "
-        >
-          <invoice-table-overdue />
-        </div>
-        <div
-          class="rounded-md"
-          :hidden="
-            currentShow == 'unpaid' ? (isHidden = false) : (isHidden = true)
-          "
-        >
-          <invoice-table-unpaid />
-        </div>
+        <transition name="slide-fade">
+          <div class="rounded-md" v-if="currentShow == 'all-invoice'">
+            <invoice-table />
+          </div>
+        </transition>
+        <transition name="slide-fade">
+          <div class="rounded-md" v-if="currentShow == 'paid'">
+            <invoice-table-paid />
+          </div>
+        </transition>
+        <transition name="slide-fade">
+          <div class="rounded-md" v-if="currentShow == 'overdue'">
+            <invoice-table-overdue />
+          </div>
+        </transition>
+        <transition name="slide-fade">
+          <div class="rounded-md" v-if="currentShow == 'unpaid'">
+            <invoice-table-unpaid />
+          </div>
+        </transition>
       </div>
     </div>
   </div>
@@ -112,9 +94,6 @@ export default {
     },
   },
   methods: {
-    deleteResponseSuccess() {
-      this.$store.dispatch("actionOfSuccessAddInvoice", "");
-    },
     changeActive(path) {
       this.currentShow = path;
     },
@@ -127,8 +106,26 @@ export default {
   mounted() {
     this.fetchTabs();
   },
+  updated() {
+    setTimeout(() => {
+      this.$store.dispatch("actionOfSuccessAddInvoice", "");
+    }, 2000);
+  },
 };
 </script>
 
-<style>
+<style scoped>
+/* Enter and leave animations can use different */
+/* durations and timing functions.              */
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateX(-20px);
+  opacity: 0;
+}
 </style>

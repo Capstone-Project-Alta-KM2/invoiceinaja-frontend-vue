@@ -114,7 +114,7 @@
         <tbody v-else>
           <tr>
             <td colspan="6" class="py-5 lg:px-0 px-10">
-              Invoice Data is empty
+              Unpaid Invoice data is empty
             </td>
           </tr>
         </tbody>
@@ -133,7 +133,7 @@ export default {
     return {
       isActive: "page-1",
       searchInvoice: "",
-      isLoading: true,
+      isLoading: false,
       items: [],
     };
   },
@@ -143,6 +143,7 @@ export default {
   },
   methods: {
     async fetchUnpaidInvoice() {
+      this.isLoading = true;
       await axios
         .get("api/v1/invoices")
         .then((res) => {

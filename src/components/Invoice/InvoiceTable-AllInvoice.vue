@@ -74,7 +74,7 @@
         </thead>
         <tbody v-if="items.length != 0">
           <tr
-            @click="$router.push(`/full-invoices/${item.id}`)"
+            @click="$router.push(`/invoice/full-invoices/${item.id}`)"
             v-for="(item, index) in items"
             :key="index"
             class="

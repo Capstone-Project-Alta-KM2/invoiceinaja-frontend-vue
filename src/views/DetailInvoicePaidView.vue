@@ -1,9 +1,7 @@
 <template>
   <div class="container mx-auto bg-white my-10 p-4 rounded-lg">
-    <back-comp />
     <div class="my-5">
       <h1 class="mb-8 text-3xl font-semibold">Detail Invoice</h1>
-
       <!-- Invoice no dan status -->
       <div class="flex items-center space-x-10">
         <div>
@@ -30,7 +28,7 @@
             py-2
             rounded-lg`"
         >
-          {{ status.toLowerCase() }}
+          {{ status }}
         </p>
       </div>
 
@@ -184,7 +182,7 @@
                           w-52
                         "
                       >
-                        {{ invoice.item_name }}
+                        {{ invoice.ItemName }}
                       </p>
                     </td>
                     <td
@@ -214,7 +212,7 @@
                           total
                         "
                       >
-                        {{ invoice.price }}
+                        {{ invoice.Price }}
                       </p>
                     </td>
                     <td
@@ -245,7 +243,7 @@
                           total
                         "
                       >
-                        {{ invoice.quantity }}
+                        {{ invoice.Quantity }}
                       </p>
                     </td>
                     <td
@@ -278,7 +276,7 @@
                           total
                         "
                       >
-                        {{ invoice.total }}
+                        {{ (invoice.total = invoice.Price * invoice.Quantity) }}
                       </p>
                     </td>
                   </tr>
@@ -307,43 +305,43 @@
       </div>
 
       <!-- Button Actions -->
-      <div class="relative flex justify-end">
-        <button
-          @click="handlerPayments"
-          type="button"
-          v-click-outside="onClickOutside"
-          v-ripple
-          class="button flex items-center button-primary"
-        >
-          <span class="mr-3"> Payments </span>
-        </button>
-      </div>
+      <button
+        @click="handlerPayments"
+        type="button"
+        v-click-outside="onClickOutside"
+        v-ripple
+        class="
+          button
+          mt-10
+          w-full
+          flex
+          space-x-2
+          justify-center
+          items-center
+          button-primary
+        "
+      >
+        <div v-if="isLoading">
+          <simple-loading-animation />
+        </div>
+        <p class="flex mx-auto items-center justify-center space-x-2">
+          Choose Payments
+        </p>
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import backComp from "@/components/NewInvoice/backComp.vue";
-import Vue from "vue";
 import axios from "axios";
-Vue.directive("click-outside", {
-  bind(el, binding, vnode) {
-    el.clickOutsideEvent = (event) => {
-      if (!(el === event.target || el.contains(event.target))) {
-        vnode.context[binding.expression](event);
-      }
-    };
-    document.body.addEventListener("click", el.clickOutsideEvent);
-  },
-  unbind(el) {
-    document.body.removeEventListener("click", el.clickOutsideEvent);
-  },
-});
+import SimpleLoadingAnimation from "@/components/SimpleLoadingAnimation.vue";
+
 export default {
-  components: { backComp },
+  components: { SimpleLoadingAnimation },
   data() {
     return {
-      isShow: false,
+      isLoading: false,
+
       totalAllInvoices: 0,
       id: "",
       status: "",
@@ -366,8 +364,24 @@ export default {
   },
 
   methods: {
-    handlerPayments() {
+    async handlerPayments() {
+      this.isLoading = true;
       console.log("payments process");
+      const data = {
+        invoice_id: this.id,
+        total_amount: this.totalAllInvoices,
+      };
+      await axios
+        .post("api/v1/invoice_payments", data)
+        .then((res) => {
+          console.log("res : ", res);
+          window.open(res.data.data.payment_url, "_blank");
+          this.isLoading = false;
+        })
+        .catch((err) => {
+          console.log("err : ", err.response);
+          this.isLoading = true;
+        });
     },
     async deleteInvoice() {
       let a = confirm("Yakin untuk hapus ?");
@@ -376,10 +390,7 @@ export default {
         this.$router.push("/invoice");
       }
     },
-    onClickOutside() {
-      this.isShow = false;
-      console.log("clicked outside");
-    },
+
     addInvoiceField() {
       this.invoices.push({ price: 0, qty: 0 });
     },
@@ -387,58 +398,30 @@ export default {
       console.log(index);
       this.invoices.splice(index, 1);
     },
-    addInvoices() {
-      const invoicesData = {
-        no_and_date_invoice: this.dateInvoiceAndNo,
-        client_information: this.clients,
-        invoices_information: this.invoices,
-        total_all_invoices: this.totalAllInvoices,
-        status_invoice: "Unpaid",
-      };
-      console.log(invoicesData);
-    },
-    validateNumber() {
-      const numberFormat = /[0-9]/g;
-      const validateClass = document.getElementsByClassName("validate");
-      for (let i = 0; i < validateClass.length; i++) {
-        if (!validateClass[i].value.match(numberFormat)) {
-          this.validateMessage = "Mohon masukkan angka";
-        } else {
-          this.validateMessage = "";
-        }
-      }
-    },
-    async fetchDataClients(clientName) {
-      await axios.get("api/v1/clients").then((res) => {
-        let hasilFilter = res.data.data.filter((data) => {
-          return data.fullname === clientName;
-        });
-        this.client.email = hasilFilter[0].email;
-        this.client.address = hasilFilter[0].address;
-        this.client.city = hasilFilter[0].city;
-        this.client.company = hasilFilter[0].company;
-        this.client.zipCode = hasilFilter[0].zip_code;
-      });
-    },
+
     async fetchDataInvoices() {
       await axios
-        .get(`/api/v1/invoices/${this.$route.params.no_invoice}`)
+        .get(`/api/v1/clients/invoices/${this.$route.params.no_invoice}`)
         .then((res) => {
           let data = res.data.data;
           console.log("data : ", data);
-          this.client.fullname = data.client;
-          this.fetchDataClients(data.client);
+          this.client.fullname = data.Client.Fullname;
+          this.client.email = data.Client.Email;
+          this.client.address = data.Client.Address;
+          this.client.city = data.Client.City;
+          this.client.zipCode = data.Client.ZipCode;
+          this.client.company = data.Client.Company;
           this.invoices = data.Items;
-          this.id = data.id;
-          this.status = data.status;
+          this.id = data.ID;
+          this.status = data.Status;
 
-          this.dateInvoiceAndNo.dateInvoice = data.date;
-          this.dateInvoiceAndNo.dueDate = data.post_due;
+          this.dateInvoiceAndNo.dateInvoice = data.InvoiceDate;
+          this.dateInvoiceAndNo.dueDate = data.InvoiceDue;
 
-          this.totalAllInvoices = data.Amount;
+          this.totalAllInvoices = data.TotalAmount;
         })
         .catch((err) => {
-          console.log("err : ", err.response);
+          console.log("err : ", err);
         });
     },
   },

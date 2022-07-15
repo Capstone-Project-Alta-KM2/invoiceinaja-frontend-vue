@@ -218,7 +218,19 @@
     <div class="w-full">
       <div
         id="navbar"
-        class="bg-white sticky top-0 right-0 px-4 z-10 py-3 flex-1 flex space-x-4 justify-end items-center"
+        class="
+          bg-white
+          sticky
+          top-0
+          right-0
+          px-4
+          z-10
+          py-3
+          flex-1 flex
+          space-x-4
+          justify-end
+          items-center
+        "
       >
         <svg
           width="23"
@@ -246,7 +258,9 @@
         </div>
       </div>
       <div class="px-10">
-        <slot />
+        <Transition name="slide-fade">
+          <slot />
+        </Transition>
       </div>
     </div>
   </div>
@@ -279,4 +293,18 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+/* Enter and leave animations can use different */
+/* durations and timing functions.              */
+.slide-fade-enter-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.3s ease;
+}
+.slide-fade-enter, .slide-fade-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateY(-30px);
+  opacity: 0;
+}
+</style>
