@@ -308,7 +308,6 @@
       <button
         @click="handlerPayments"
         type="button"
-        v-click-outside="onClickOutside"
         v-ripple
         class="
           button
