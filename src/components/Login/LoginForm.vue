@@ -1,14 +1,7 @@
 <template>
   <div class="grid grid-cols-2 min-w-screen min-h-screen bg-white">
     <div
-      class="
-        relative
-        sm:bg-white
-        lg:bg-soft-purple lg:bg-opacity-30
-        flex
-        justify-center
-        p-5
-      "
+      class="relative sm:bg-white lg:bg-soft-purple lg:bg-opacity-30 flex justify-center p-5"
     >
       <div
         class="absolute top-4 left-8 flex cursor-pointer"
@@ -60,14 +53,7 @@
                   @input="emailValidation"
                 />
                 <label
-                  class="
-                    mb-2
-                    text-lg
-                    font-semibold
-                    mt-3
-                    peer-focus:text-[#2C3E50]
-                    order-1
-                  "
+                  class="mb-2 text-lg font-semibold mt-3 peer-focus:text-[#2C3E50] order-1"
                   :class="emailAlertMessage ? 'text-red-500' : ''"
                 >
                   Email
@@ -115,14 +101,13 @@
                   :class="`${
                     passwordAlertMessage
                       ? 'text-red-500   peer-active:text-red-500 peer-focus:text-red-500'
-                      : ''
+                      : 'text-soft-purple'
                   } h-5
                     w-5
                     absolute
                     right-5
                     bottom-[66px]
                     cursor-pointer
-                    text-soft-purple
                     peer-focus:text-soft-purple`"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -141,14 +126,13 @@
                   :class="`${
                     passwordAlertMessage
                       ? 'text-red-500  peer-active:text-red-500 peer-focus:text-red-500'
-                      : ''
+                      : 'text-soft-purple'
                   } h-5
                     w-5
                     absolute
                     right-5
                     bottom-[66px]
                     cursor-pointer
-                    text-soft-purple
                     peer-focus:text-soft-purple`"
                   viewBox="0 0 20 20"
                   fill="currentColor"
@@ -196,13 +180,7 @@
                   "
                   type="submit"
                   v-ripple="'rgba(255, 255, 255, 0.35)'"
-                  class="
-                    button button-primary
-                    flex
-                    items-center
-                    justify-center
-                    w-full
-                  "
+                  class="button button-primary flex items-center justify-center w-full"
                 >
                   <span v-if="isLoading" class="flex mr-2">
                     <simple-loading-animation />

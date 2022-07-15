@@ -274,11 +274,12 @@ export default {
       console.log(params);
       await axios
         .post("/api/v1/clients", params)
-        .then((res) => {
-          this.$emit("sendingMessage", {
-            status: true,
-            message: res.data.meta.message,
-          });
+        .then(() => {
+          // this.$emit("sendingMessage", {
+          //   status: true,
+          //   message: res.data.meta.message,
+          // });
+          this.$emit("showAlertSuccess");
           this.clearForm();
           this.isLoading = false;
           this.buttonOut = "Close";
@@ -296,11 +297,12 @@ export default {
       this.isLoading = true;
       await axios
         .put(`/api/v1/clients/${this.id}`, params)
-        .then((res) => {
-          this.$emit("sendingMessage", {
-            status: true,
-            message: res.data.meta.message,
-          });
+        .then(() => {
+          // this.$emit("sendingMessage", {
+          //   status: true,
+          //   message: res.data.meta.message,
+          // });
+          this.$emit("showAlertSuccess");
           this.isLoading = false;
           this.buttonOut = "Close";
         })
