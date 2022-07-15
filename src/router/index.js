@@ -23,6 +23,8 @@ import NotFoundPage from '../views/NotFoundPage.vue'
 import SettingsPage from '../views/SettingsPage.vue'
 import ProfilePage from '../views/ProfilePage.vue'
 import ChangePasswordPage from '../views/ChangePasswordPage.vue'
+import ImportClients from '../views/ImportClients.vue'
+
 
 import auth from '../middleware/auth';
 import isLogin from '../middleware/isLogin';
@@ -184,6 +186,12 @@ const routes = [
         component: ChangePasswordPage
       }
     ]
+  },
+  {
+    path: '/import-clients',
+    name: 'import-clients',
+    meta: { layout: "sidenavbar", middleware: [auth, log] },
+    component: ImportClients
   },
 
 ]
