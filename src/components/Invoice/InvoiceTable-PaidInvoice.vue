@@ -1,6 +1,5 @@
 <template>
   <div class="">
-    <h1>Paid Invoice</h1>
     <div class="flex justify-between">
       <div class="relative">
         <input
@@ -114,7 +113,7 @@
         <tbody v-else>
           <tr>
             <td colspan="6" class="py-5 lg:px-0 px-10">
-              Invoice Data is empty
+              Paid Invoice data is empty
             </td>
           </tr>
         </tbody>
@@ -133,20 +132,21 @@ export default {
     return {
       isActive: "page-1",
       searchInvoice: "",
-      isLoading: true,
+      isLoading: false,
       items: [],
     };
   },
   computed: {},
   mounted() {
-    this.fetchUnpaidInvoice();
+    // this.fetchPaidInvoice();
   },
   methods: {
-    async fetchUnpaidInvoice() {
+    async fetchPaidInvoice() {
+      this.isLoading = true;
       await axios
         .get("api/v1/invoices")
         .then((res) => {
-          console.log("unpaid invoice : ", res.data);
+          console.log("paid invoice : ", res.data);
           this.items = res.data.data;
           this.isLoading = false;
         })

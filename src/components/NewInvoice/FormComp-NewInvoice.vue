@@ -53,20 +53,47 @@
     <div class="grid grid-cols-3 gap-y-8">
       <div class="">
         <label for="" class="font-semibold mb-2 inline-block">Invoice To</label>
-        <input
+        <p
           type="text"
           list="clientList"
           @mousedown="fetchDataClient"
           name=""
-          v-model="clients.fullname"
+          @click="showClientData = !showClientData"
+          v-html="clients.fullname"
           ref="invoiceTo"
           id=""
-          class="form-add-invoice w-72 transition-all duration-300"
-        />
-        <div v-if="showClientData">
-          <div v-if="dataClients.length !== 0">
-            <ul v-for="clientData in dataClients" :key="clientData.id">
-              <li @click="generate(clientData.id)" class="cursor-pointer">
+          class="form-generate-add-invoice cursor-pointer"
+        ></p>
+        <div :class="` relative`" v-if="showClientData">
+          <div
+            :class="`${
+              showClientData ? 'h-32 overflow-y-scroll' : 'h-0 overflow-hidden'
+            } transition-all duration-300 
+              absolute
+              w-full
+              -left-2
+              border
+              rounded-md
+              border-soft-purple
+              top-0
+            `"
+            v-if="dataClients.length !== 0"
+          >
+            <ul
+              :class="`bg-white hover:bg-[#cdb6ff] `"
+              v-for="clientData in dataClients"
+              :key="clientData.id"
+            >
+              <li
+                @click="generate(clientData.id)"
+                class="
+                  cursor-pointer
+                  shadow-invoicein
+                  px-2
+                  py-4
+                  border-b border-b-black
+                "
+              >
                 {{ clientData.fullname }}
               </li>
             </ul>
@@ -400,8 +427,6 @@ export default {
         zip_code: "",
         company: "",
       },
-      showClients: false,
-      totalAllInvoices: 0,
       invoices: [
         {
           item_name: "",
@@ -410,6 +435,7 @@ export default {
           total: 0,
         },
       ],
+      totalAllInvoices: 0,
       validateMessage: "",
       invoice_date: "",
       invoice_due: "",
@@ -499,7 +525,7 @@ export default {
     async fetchDataClient() {
       await axios.get("api/v1/clients").then((res) => {
         this.dataClients = res.data.data;
-        this.showClientData = true;
+        // this.showClientData = true;
         console.log("data clients : ", res.data.data);
       });
     },

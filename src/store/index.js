@@ -38,6 +38,7 @@ export default new Vuex.Store({
     },
     setSuccessAddInvoice(state,payload){
       state.msgSuccessAddInvoice = payload
+     
     }
 
   },
@@ -57,6 +58,9 @@ export default new Vuex.Store({
     },
     actionOfSuccessAddInvoice(store,payload){
       store.commit("setSuccessAddInvoice",payload)
+      setTimeout(() => {
+        store.commit("setSuccessAddInvoice","")
+    }, 2000);
     }
   },
 })
