@@ -23,6 +23,7 @@ import NotFoundPage from '../views/NotFoundPage.vue'
 import SettingsPage from '../views/SettingsPage.vue'
 import ProfilePage from '../views/ProfilePage.vue'
 import ChangePasswordPage from '../views/ChangePasswordPage.vue'
+import ImportClientPage from '../views/ImportClients.vue'
 
 import auth from '../middleware/auth';
 import isLogin from '../middleware/isLogin';
@@ -114,6 +115,12 @@ const routes = [
     name: 'import-invoices',
     meta: { layout: "sidenavbar", middleware: [auth, log] },
     component: ImportInvoices
+  },
+  {
+    path: '/import-clients',
+    name: 'import-clients',
+    meta: { layout: "sidenavbar", middleware: [auth, log] },
+    component: ImportClientPage
   },
   {
     path: '/invoice',
