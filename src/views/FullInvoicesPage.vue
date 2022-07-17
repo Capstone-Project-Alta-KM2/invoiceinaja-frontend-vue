@@ -36,14 +36,22 @@
 
       <!-- from - invoice date - due date -->
       <div
-        class="grid grid-cols-3 gap-y-8 my-5 justify-items-start place-items-center"
+
+        class="
+          grid grid-cols-3
+          gap-y-8
+          my-5
+          text-left
+          justify-items-start
+          place-items-center
+        "
       >
         <div class="">
           <h3 class="font-semibold text-lg">From</h3>
-          <div class="mt-3">
-            <p class="leading-3">Indah Aisyah</p>
-            <p class="leading-3">Jl. Kebangn</p>
-            <p class="leading-3">Jakarta</p>
+          <div class="">
+            <p class="">Indah Aisyah</p>
+            <p class="">Jl. Kebangn</p>
+            <p class="">Jakarta</p>
           </div>
         </div>
         <div>
@@ -54,10 +62,7 @@
           <label for="" class="font-semibold mb-2">Due Date</label>
           <p>{{ dateInvoiceAndNo.dueDate }}</p>
         </div>
-      </div>
 
-      <!-- Data Clients -->
-      <div class="grid grid-cols-3 gap-y-8">
         <div class="">
           <label for="" class="font-semibold mb-2">Invoice To</label>
           <p>{{ client.fullname }}</p>
@@ -169,10 +174,22 @@
       </div>
 
       <div
-        class="text-2xl font-semibold flex justify-end items-center px-10 pt-3 border-y-4 border-y-[#B0B0B0] mb-5"
+
+        class="
+          text-2xl
+          font-semibold
+          flex
+          items-center
+          justify-end
+          space-x-4
+          px-10
+          py-4
+          border-y-4 border-y-[#B0B0B0]
+          mb-5
+        "
       >
         <p>Total :</p>
-        <p class="pl-16">Rp. {{ totalAllInvoices }}</p>
+        <p class="">Rp. {{ totalAllInvoices }}</p>
       </div>
 
       <!-- Button Actions -->
@@ -201,30 +218,21 @@
           </svg>
         </button>
         <div
-          :class="isShow == true ? 'max-h-72  border-2' : 'max-h-0 border-none'"
-          class="flex transition-all duration-300 absolute -top-40 -right-10 overflow-hidden bg-white flex-col border-soft-purple rounded-lg"
+          :class="`${isShow ? 'max-h-72  border-2' : 'max-h-0 border-none'}
+          flex
+            transition-all
+            duration-300
+            absolute
+            -top-28
+            -right-0
+            overflow-hidden
+            bg-white
+            flex-col
+            border-soft-purple
+            rounded-lg
+          `     
+          "
         >
-          <button
-            type="button"
-            v-ripple
-            class="flex items-center hover:bg-[#ebe2ff] pr-10 pl-4 transition-all duration-300 py-3 rounded-t-lg"
-          >
-            <svg
-              class="mr-4"
-              width="22"
-              height="22"
-              viewBox="0 0 22 22"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M21.9508 0.94285C22.0529 0.687501 21.9931 0.395852 21.7986 0.201384C21.6041 0.00691609 21.3125 -0.0529472 21.0571 0.0491922L1.0549 8.05009L1.0529 8.05089L0.432178 8.29918C0.192688 8.39498 0.0269699 8.61677 0.00298757 8.87359C-0.0209947 9.13041 0.100795 9.37904 0.318407 9.51752L0.881634 9.87594L0.884242 9.87761L7.75201 14.248L12.1224 21.1158L12.1245 21.119L12.4825 21.6816C12.621 21.8992 12.8696 22.021 13.1264 21.997C13.3832 21.973 13.605 21.8073 13.7008 21.5678L21.9508 0.94285ZM19.4302 3.54204L9.12609 13.8462L8.83002 13.3809C8.77599 13.296 8.70399 13.224 8.6191 13.17L8.15382 12.8739L18.4579 2.56981L20.0784 1.92162L19.4302 3.54204Z"
-                fill="#7C40FF"
-              />
-            </svg>
-            <span class="font-semibold text-soft-purple"> Send Invoice </span>
-          </button>
-
           <button
             type="button"
             @click="$router.push('/edit-invoice')"
@@ -316,6 +324,18 @@ import backComp from "@/components/NewInvoice/backComp.vue";
 import Vue from "vue";
 import axios from "axios";
 import DeleteConfirmModal from "@/components/Modal-Comp/DeleteConfirmModal.vue";
+
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "@firebase/firestore";
+import db from "../firebase/firebase";
+
 Vue.directive("click-outside", {
   bind(el, binding, vnode) {
     el.clickOutsideEvent = (event) => {
@@ -336,6 +356,8 @@ export default {
   },
   data() {
     return {
+      idDataFirestore: "",
+
       isShow: false,
       isModalDeleteShow: false,
       totalAllInvoices: 0,
@@ -362,8 +384,28 @@ export default {
 
   methods: {
     async deleteInvoice() {
-      await axios.delete(`/api/v1/invoices/${this.$route.params.no_invoice}`);
-      this.$router.push("/invoice");
+
+      let a = confirm("Yakin untuk hapus ?");
+      if (a) {
+        let date = new Date().toISOString().slice(0, 10);
+
+        //Add data to firebase
+        await addDoc(collection(db, "recent_activities"), {
+          message: "Invoice has been deleted",
+          user_id: this.$store.state.usersInfo.id,
+          created_at: date,
+          id_invoice: this.$route.params.no_invoice,
+          date_sort: Date.now(),
+        });
+
+        //delete data from firebase
+        let hasilDelete = await deleteDoc(
+          doc(db, "new_invoice", this.idDataFirestore)
+        );
+        console.log("hasil delete : ", hasilDelete);
+        await axios.delete(`/api/v1/invoices/${this.$route.params.no_invoice}`);
+        this.$router.push("/invoice");
+      }
     },
     onClickOutside() {
       this.isShow = false;
@@ -409,12 +451,25 @@ export default {
         this.client.zipCode = hasilFilter[0].zip_code;
       });
     },
+    async fetchIdFirebaseFromFirestore() {
+      const q = query(
+        collection(db, "new_invoice"),
+        where("id_invoice", "==", Number(this.$route.params.no_invoice))
+      );
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        console.log("jalan nda ?");
+        console.log(doc.id);
+        this.idDataFirestore = doc.id;
+      });
+    },
     async fetchDataInvoices() {
       await axios
         .get(`/api/v1/invoices/${this.$route.params.no_invoice}`)
-        .then((res) => {
+        .then(async (res) => {
+          this.fetchIdFirebaseFromFirestore();
+
           let data = res.data.data;
-          console.log("data : ", data);
           this.client.fullname = data.client;
           this.fetchDataClients(data.client);
           this.invoices = data.Items;
@@ -423,7 +478,6 @@ export default {
 
           this.dateInvoiceAndNo.dateInvoice = data.date;
           this.dateInvoiceAndNo.dueDate = data.post_due;
-
           this.totalAllInvoices = data.Amount;
         })
         .catch((err) => {
@@ -438,8 +492,11 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
+    await this.fetchIdFirebaseFromFirestore();
+
     this.fetchDataInvoices();
+    console.log("id Data Firestore : ", this.idDataFirestore);
   },
 };
 </script>
