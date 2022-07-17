@@ -1,0 +1,77 @@
+<template>
+  <div
+    class="flex flex-col items-center rounded-xl bg-white py-5 px-8 w-[500px]"
+  >
+    <div class="py-4">
+      <svg
+        width="90"
+        height="90"
+        viewBox="0 0 52 52"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M26 0C11.642 0 0 11.642 0 26C0 40.358 11.642 52 26 52C40.358 52 52 40.358 52 26C52 11.642 40.358 0 26 0ZM26 41.0893C24.7174 41.0893 23.6786 40.0504 23.6786 38.7679C23.6786 37.4853 24.7174 36.4464 26 36.4464C27.2826 36.4464 28.3214 37.4853 28.3214 38.7679C28.3214 40.0504 27.2826 41.0893 26 41.0893ZM29.6504 28.3504C29.1249 28.5534 28.6726 28.91 28.3527 29.3738C28.0329 29.8376 27.8601 30.387 27.8571 30.9504V32.2679C27.8571 32.5232 27.6482 32.7321 27.3929 32.7321H24.6071C24.3518 32.7321 24.1429 32.5232 24.1429 32.2679V31.0201C24.1429 29.6795 24.5317 28.3562 25.2978 27.2536C26.0464 26.1741 27.0911 25.35 28.3214 24.8799C30.2946 24.1196 31.5714 22.4656 31.5714 20.6607C31.5714 18.1013 29.0701 16.0179 26 16.0179C22.9299 16.0179 20.4286 18.1013 20.4286 20.6607V21.1018C20.4286 21.3571 20.2196 21.5661 19.9643 21.5661H17.1786C16.9232 21.5661 16.7143 21.3571 16.7143 21.1018V20.6607C16.7143 18.3799 17.7125 16.25 19.5232 14.6656C21.2643 13.1393 23.5625 12.3036 26 12.3036C28.4375 12.3036 30.7357 13.1451 32.4768 14.6656C34.2875 16.25 35.2857 18.3799 35.2857 20.6607C35.2857 24.0152 33.0746 27.033 29.6504 28.3504Z"
+          fill="#9B6DFF"
+        />
+      </svg>
+    </div>
+    <div class="mt-5 text-center">
+      <span class="text-xl font-bold px-2">{{ message }}</span>
+    </div>
+    <div class="flex justify-between w-full mt-10">
+      <div>
+        <button
+          v-ripple
+          type="button"
+          class="button button-primary flex justify-center items-center w-32"
+          @click="executeParentAction"
+        >
+          <simple-loading-animation v-if="isLoading" class="flex" />
+          <span v-else>Yes</span>
+        </button>
+      </div>
+      <div>
+        <button
+          v-ripple
+          type="button"
+          class="button button-outline-primary px-12"
+          @click="closeModal"
+        >
+          <span>No</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
+export default {
+  components: { SimpleLoadingAnimation },
+  name: "DeleteConfirmModal",
+  props: ["message", "loading"],
+  data() {
+    return {
+      isLoading: true,
+    };
+  },
+  methods: {
+    executeParentAction() {
+      this.isLoading = true;
+      this.$emit("executeAction");
+    },
+    closeModal() {
+      this.$emit("closeModalDelete");
+    },
+  },
+  watch: {
+    loading(newVal, oldVal) {
+      console.log(newVal + oldVal);
+      this.isLoading = false;
+    },
+  },
+};
+</script>
+
+<style></style>

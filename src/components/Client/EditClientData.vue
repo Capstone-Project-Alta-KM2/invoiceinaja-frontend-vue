@@ -1,28 +1,51 @@
 <template>
   <div class="z-30 new-client">
     <div
-      class="bg-white my-5 p-6 border-1 rounded-lg text-left max-h-[95vh] overflow-y-auto"
+      class="bg-white my-5 border-1 rounded-lg text-left max-h-[95vh] overflow-hidden"
     >
-      <div class="mb-5">
-        <span class="font-bold text-lg">Edit Client Data</span>
-      </div>
-
+      <!-- alert start-->
       <div
-        v-if="editClientMessage != ''"
-        class="alert text-center font-semibold mb-4"
-        :class="editClientResponse ? 'alert-success' : 'alert-failed'"
+        :class="` ${
+          responseErr
+            ? 'bg-red-500 scale-100 opacity-100 py-1'
+            : 'h-0 scale-0 opacity-0'
+        }     
+                text-white
+                transition-all duration-300
+                top-0 left-0 right-0
+                col-span-5
+                origin-center
+              `"
       >
-        <span>{{ editClientMessage }}</span>
+        <div class="flex space-x-5 justify-center items-center">
+          <div>
+            <p v-if="responseErr">
+              {{ responseErr }}
+            </p>
+          </div>
+          <i
+            class="bx bx-x bx-md cursor-pointer justify-self-end"
+            @click="responseErr = ''"
+          ></i>
+        </div>
       </div>
-      <!-- Form Client Component Start -->
-      <client-form
-        @closeEditClient="closeEditDialog"
-        @sendingMessage="receiveMessage"
-        @showAlertSuccess="showAlert"
-        :statusForm="thisForm"
-        :dataField="currentData"
-      ></client-form>
-      <!-- Form Client Component End -->
+      <!-- alert end-->
+      <div class="p-6 overflow-y-auto">
+        <div class="mb-10">
+          <span class="font-bold text-xl">Edit Client Data</span>
+        </div>
+
+        <!-- Form Client Component Start -->
+        <client-form
+          @closeEditClient="closeEditDialog"
+          @hideAlertErr="resetResponse"
+          @sendingMessage="actionError"
+          @showAlertSuccess="showAlert"
+          :statusForm="thisForm"
+          :dataField="currentData"
+        ></client-form>
+        <!-- Form Client Component End -->
+      </div>
     </div>
   </div>
 </template>
@@ -41,22 +64,25 @@ export default {
   data() {
     return {
       thisForm: "edit",
+      responseErr: "",
       currentData: this.editedData,
-
-      editClientResponse: false,
-      editClientMessage: "",
     };
   },
   methods: {
     closeEditDialog() {
       this.$emit("hideDialogClient");
     },
-    receiveMessage(value) {
-      this.editClientResponse = value.status;
-      this.editClientMessage = value.message;
-    },
     showAlert() {
       this.$emit("showDialogAlert");
+    },
+    resetResponse() {
+      this.responseErr = "";
+    },
+    actionError(value) {
+      this.responseErr = value;
+      setTimeout(() => {
+        this.responseErr = "";
+      }, 5000);
     },
   },
 };

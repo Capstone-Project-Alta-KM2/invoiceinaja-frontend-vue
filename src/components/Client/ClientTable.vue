@@ -223,7 +223,7 @@
                     Edit
                   </button>
                   <button
-                    @click="deleteClient(item.id)"
+                    @click="switchModalDelete(item.id)"
                     v-ripple
                     class="
                       flex
@@ -309,19 +309,38 @@
         ></i>
       </div>
     </div>
+    <!-- modal delete start -->
+    <div
+      class="fixed inset-0 z-50 bg-black bg-opacity-10 min-w-full min-h-screen flex justify-center items-center"
+      :class="
+        isModalDeleteShow ? 'dialog-animation-show' : 'dialog-animation-hide'
+      "
+    >
+      <delete-confirm-modal
+        :message="deleteMessage"
+        :loading="isModalDeleteShow"
+        @executeAction="deleteClient"
+        @closeModalDelete="switchModalDelete"
+      >
+      </delete-confirm-modal>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
+import DeleteConfirmModal from "../Modal-Comp/DeleteConfirmModal.vue";
 import EmptyClients from "../NotFound/EmptyClients.vue";
+
 export default {
   name: "ClientTable",
-  components: { SimpleLoadingAnimation, EmptyClients },
+  components: { SimpleLoadingAnimation, EmptyClients,DeleteConfirmModal },
   props: ["trigger"],
   data() {
     return {
+      idDeleted: "",
+      isModalDeleteShow: false,
       isLoading: true,
       searchClient: "",
       showChangePage: false,
@@ -348,6 +367,7 @@ export default {
         },
       ],
       items: [],
+      deleteMessage: "Are you sure to delete this client ?",
     };
   },
   methods: {
@@ -366,20 +386,15 @@ export default {
       }
       this.fetchDataClients();
     },
-    async deleteClient(id) {
-      console.log(id);
-      let isDelet = confirm("Are you sure you delete the client ?");
-
-      if (isDelet === true) {
-        await axios
-          .delete(`api/v1/clients/${id}`)
-          .then((res) => {
-            console.log("deleted : ", res.data);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+    async deleteClient() {
+      await axios
+        .delete(`api/v1/clients/${this.idDeleted}`)
+        .then((res) => {
+          console.log("deleted : ", res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
       this.fetchDataClients();
     },
     async PreviousPage() {
@@ -426,6 +441,7 @@ export default {
           this.currPage = res.data.info_data.page;
           this.lastPage = res.data.info_data.last_page;
           this.isLoading = false;
+          this.isModalDeleteShow = false;
         })
         .catch((err) => {
           console.log("err : ", err);
@@ -434,6 +450,7 @@ export default {
             this.$router.push("/login");
           }
           this.isLoading = false;
+          this.isModalDeleteShow = false;
         });
     },
     toEditClient(params) {
@@ -441,6 +458,14 @@ export default {
     },
     redirectTo(path) {
       this.$router.push(path);
+    },
+    switchModalDelete(id) {
+      this.idDeleted = id;
+      if (this.isModalDeleteShow) {
+        this.isModalDeleteShow = false;
+      } else {
+        this.isModalDeleteShow = true;
+      }
     },
   },
   computed: {},
