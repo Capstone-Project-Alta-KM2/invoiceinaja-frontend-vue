@@ -1,5 +1,5 @@
 <template>
-  <div class="container px-16 pb-4">
+  <div class="container pb-4">
     <div class="flex justify-between px-4 py-5">
       <div class="flex">
         <svg

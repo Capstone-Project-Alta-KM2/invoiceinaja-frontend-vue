@@ -265,7 +265,7 @@
           </div>
         </div>
       </div>
-      <div class="px-10">
+      <div class="p-4">
         <Transition name="slide-fade">
           <slot />
         </Transition>

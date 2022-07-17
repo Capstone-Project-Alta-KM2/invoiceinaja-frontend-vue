@@ -1,12 +1,27 @@
 <template>
-  <div class="container flex flex-col space-y-10 my-10">
+  <div class="container flex flex-col space-y-10">
     <div class="py-4 bg-white rounded-xl">
       <total-invoice />
     </div>
-    <div class="flex space-x-10">
+    <div
+      class="
+        flex
+        justify-center
+        lg:flex-row
+        flex-col
+        space-y-5
+        lg:space-y-0 lg:space-x-5
+      "
+    >
       <div class="flex flex-col space-y-10">
         <div
-          class="bg-white rounded-xl drop-shadow-[4px_5px_8px_rgba(0,0,0,0.1)]"
+          class="
+            bg-white
+            lg:w-[800px]
+            w-[600px]
+            rounded-xl
+            drop-shadow-[4px_5px_8px_rgba(0,0,0,0.1)]
+          "
         >
           <graph />
         </div>
@@ -14,7 +29,7 @@
           <invoice-activity />
         </div>
       </div>
-      <div class="bg-white rounded-xl mb-5">
+      <div class="bg-white h-screen rounded-xl overflow-y-scroll">
         <recent-activity />
       </div>
     </div>
