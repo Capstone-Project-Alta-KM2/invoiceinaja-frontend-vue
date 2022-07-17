@@ -33,21 +33,29 @@
       </a>
       <label
         for="upload"
-        class="
+        :class="`
+        ${isLoading ? 'h-60' : ''}
           cursor-pointer
           bg-white
           w-72
           py-4
           rounded-md
           flex flex-col
+          items-center
+          justify-center
           space-y-4
           shadow-card-import-export
           text-center text-soft-purple
-        "
+        `"
       >
-        <export-icon />
-        <strong>Upload Invoice</strong>
-        <p>{{ fileName === "" ? "Import csv file here!" : fileName }}</p>
+        <template v-if="isLoading">
+          <simple-loading-animation />
+        </template>
+        <template v-else>
+          <export-icon />
+          <strong>Upload Invoice</strong>
+          <p>{{ fileName === "" ? "Upload csv file here!" : fileName }}</p>
+        </template>
       </label>
       <input
         @input="uploadFile"
@@ -57,6 +65,13 @@
         class="hidden"
       />
     </div>
+    <div
+      :class="`${
+        showModal ? 'scale-100' : 'scale-0'
+      } inset-0 fixed z-50 bg-[rgba(0,0,0,0.5)] flex justify-center items-center duration-300 transition-all`"
+    >
+      <success-comp />
+    </div>
   </div>
 </template>
 
@@ -64,16 +79,26 @@
 import axios from "axios";
 import ExportIcon from "../IconComp/ExportIcon.vue";
 import ImportInvoiceIcon from "../IconComp/ImportInvoiceIcon.vue";
+import SuccessComp from "../ImportPage/SuccessComp.vue";
+import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
 export default {
-  components: { ImportInvoiceIcon, ExportIcon },
+  components: {
+    SimpleLoadingAnimation,
+    ImportInvoiceIcon,
+    ExportIcon,
+    SuccessComp,
+  },
   data() {
     return {
       fileName: "",
       errorMessage: "",
+      showModal: false,
+      isLoading: false,
     };
   },
   methods: {
     async uploadFile() {
+      this.isLoading = true;
       this.fileName = this.$refs.uploadFile.files[0].name;
 
       let CSVFile = this.$refs.uploadFile.files[0];
@@ -85,9 +110,12 @@ export default {
         .then((res) => {
           console.log("hasil : ", res.data);
           this.errorMessage = "";
+          this.showModal = true;
+          this.isLoading = false;
         })
         .catch((err) => {
           this.errorMessage = err.response.data.meta.message;
+          this.isLoading = false;
         });
     },
   },
