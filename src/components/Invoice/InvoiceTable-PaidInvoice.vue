@@ -74,7 +74,7 @@
         <tbody v-if="items.length !== 0">
           <tr
             @click="$router.push(`/full-invoices/${item.id}`)"
-            v-for="(item, index) in items"
+            v-for="(item, index) in filteredDataInvoice"
             :key="index"
             class="
               text-center
@@ -91,7 +91,7 @@
             <td class="lg:px-0 px-10">{{ item.client }}</td>
             <td class="lg:px-0 px-10">{{ item.date }}</td>
             <td class="lg:px-0 px-10">{{ item.post_due }}</td>
-            <td class="text-center lg:px-0 px-10">{{ item.Amount }}</td>
+            <td class="text-center lg:px-0 px-10">Rp {{ item.Amount }}</td>
             <td class="text-center lg:px-0 px-10">
               <span
                 :class="`${
@@ -111,9 +111,21 @@
           </tr>
         </tbody>
         <tbody v-else>
-          <tr>
+          <tr
+            @click="$router.push('/add-invoice')"
+            class="
+              text-center
+              py-3
+              my-10
+              shadow-invoicein
+              hover:bg-[rgba(155,109,255,0.2)]
+              duration-300
+              transition-all
+              cursor-pointer
+            "
+          >
             <td colspan="6" class="py-5 lg:px-0 px-10">
-              Paid Invoice data is empty
+              <empty-invoice />
             </td>
           </tr>
         </tbody>
@@ -125,8 +137,9 @@
 <script>
 import axios from "axios";
 import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
+import EmptyInvoice from "../NotFound/EmptyInvoice.vue";
 export default {
-  components: { SimpleLoadingAnimation },
+  components: { SimpleLoadingAnimation, EmptyInvoice },
   name: "InvoiceTable",
   data() {
     return {
@@ -136,9 +149,20 @@ export default {
       items: [],
     };
   },
-  computed: {},
+  computed: {
+    filteredDataInvoice() {
+      return this.items.filter((invoice) => {
+        return (
+          invoice.client
+            .toLowerCase()
+            .match(this.searchInvoice.toLowerCase()) ||
+          invoice.id.toString().match(this.searchInvoice.toLowerCase())
+        );
+      });
+    },
+  },
   mounted() {
-    // this.fetchPaidInvoice();
+    this.fetchPaidInvoice();
   },
   methods: {
     async fetchPaidInvoice() {
@@ -146,8 +170,10 @@ export default {
       await axios
         .get("api/v1/invoices")
         .then((res) => {
-          console.log("paid invoice : ", res.data);
-          this.items = res.data.data;
+          let dataInvoice = res.data.data;
+          this.items = dataInvoice.filter((data) => {
+            return data.status === "PAID";
+          });
           this.isLoading = false;
         })
         .catch((err) => {

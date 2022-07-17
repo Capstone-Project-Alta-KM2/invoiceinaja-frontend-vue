@@ -41,79 +41,155 @@
                 </th>
               </tr>
             </thead>
+            <template v-if="isLoading">
+              <tbody>
+                <tr
+                  class="
+                    cursor-pointer
+                    text-left
+                    hover:bg-soft-purple-outline-hover
+                    transition-all
+                    duration-300
+                  "
+                >
+                  <td
+                    colspan="5"
+                    class="
+                      px-6
+                      text-center
+                      py-4
+                      whitespace-nowrap
+                      text-sm
+                      font-medium
+                      text-gray-900
+                      mx-auto
+                    "
+                  >
+                    <simple-loading-animation />
+                  </td>
+                </tr>
+              </tbody>
+            </template>
+            <template v-else>
+              <tbody v-if="dataInvoiceActivity.length !== 0">
+                <tr
+                  @click="
+                    $router.push(
+                      `/invoice/full-invoices/${invoiceData.invoice_data.id}`
+                    )
+                  "
+                  class="
+                    cursor-pointer
+                    text-left
+                    hover:bg-soft-purple-outline-hover
+                    transition-all
+                    duration-300
+                  "
+                  v-for="invoiceData in dataInvoiceActivity"
+                  :key="invoiceData.invoice_data.id"
+                >
+                  <td
+                    class="
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                      text-sm
+                      font-medium
+                      text-gray-900
+                    "
+                  >
+                    {{ invoiceData.invoice_data.id }}
+                  </td>
+                  <td
+                    class="
+                      text-sm text-gray-900
+                      font-light
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                    "
+                  >
+                    {{ invoiceData.invoice_data.client_name }}
+                  </td>
+                  <td
+                    class="
+                      text-sm text-gray-900
+                      font-light
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                    "
+                  >
+                    {{ invoiceData.invoice_data.date }}
+                  </td>
+                  <td
+                    class="
+                      text-sm text-gray-900
+                      font-light
+                      px-6
+                      py-4
+                      whitespace-nowrap
+                    "
+                  >
+                    Rp {{ invoiceData.invoice_data.jumlah }}
+                  </td>
+                  <td
+                    class="
+                      text-sm text-gray-900
+                      font-light
+                      px-6
+                      py-4
+                      text-center
+                      whitespace-nowrap
+                    "
+                  >
+                    <span
+                      :class="`${
+                        invoiceData.invoice_data.status === 'PAID'
+                          ? 'bg-[rgba(135,228,96,0.2)] text-paid-color'
+                          : invoiceData.invoice_data.status === 'UNPAID'
+                          ? 'bg-[rgba(255,204,0,0.2)] text-unpaid-color'
+                          : invoiceData.invoice_data.status === 'OVERDUE'
+                          ? 'bg-[rgba(255,48,76,0.2)] text-overdue-color'
+                          : ''
+                      } 
+                  inline-block w-20 leading-8 status`"
+                    >
+                      {{ invoiceData.invoice_data.status }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
 
-            <tbody>
-              <tr
-                class="
-                  text-left
-                  hover:bg-soft-purple-outline-hover
-                  transition-all
-                  duration-300
-                "
-                v-for="invoiceData in dataInvoiceActivity"
-                :key="invoiceData.invoiceId"
-              >
-                <td
+              <tbody v-else>
+                <tr
                   class="
-                    px-6
-                    py-4
-                    whitespace-nowrap
-                    text-sm
-                    font-medium
-                    text-gray-900
+                    cursor-pointer
+                    text-left
+                    hover:bg-soft-purple-outline-hover
+                    transition-all
+                    duration-300
                   "
                 >
-                  {{ invoiceData.invoiceId }}
-                </td>
-                <td
-                  class="
-                    text-sm text-gray-900
-                    font-light
-                    px-6
-                    py-4
-                    whitespace-nowrap
-                  "
-                >
-                  {{ invoiceData.clientName }}
-                </td>
-                <td
-                  class="
-                    text-sm text-gray-900
-                    font-light
-                    px-6
-                    py-4
-                    whitespace-nowrap
-                  "
-                >
-                  {{ invoiceData.DateInvoice }}
-                </td>
-                <td
-                  class="
-                    text-sm text-gray-900
-                    font-light
-                    px-6
-                    py-4
-                    whitespace-nowrap
-                  "
-                >
-                  Rp {{ invoiceData.Jumlah }}
-                </td>
-                <td
-                  class="
-                    text-sm text-gray-900
-                    font-light
-                    px-6
-                    py-4
-                    text-center
-                    whitespace-nowrap
-                  "
-                >
-                  <span class="inline-block w-20 leading-8 status">
-                    {{ invoiceData.Status }}
-                  </span>
-                </td>
-              </tr>
-            </tbody>
+                  <td
+                    @click="$router.push('/add-invoice')"
+                    class="
+                      px-6
+                      text-center
+                      py-4
+                      whitespace-nowrap
+                      text-sm
+                      font-medium
+                      text-gray-900
+                      mx-auto
+                    "
+                    colspan="5"
+                  >
+                    <empty-invoice />
+                  </td>
+                </tr>
+              </tbody>
+            </template>
           </table>
         </div>
       </div>
@@ -122,7 +198,20 @@
 </template>
 
 <script>
+import {
+  collection,
+  query,
+  getDocs,
+  where,
+  limit,
+  orderBy,
+} from "firebase/firestore";
+import db from "@/firebase/firebase";
+
+import EmptyInvoice from "../NotFound/EmptyInvoice.vue";
+import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
 export default {
+  components: { EmptyInvoice, SimpleLoadingAnimation },
   data() {
     return {
       invoiceId: "",
@@ -130,63 +219,28 @@ export default {
       DateInvoice: "",
       Jumlah: 0,
       Status: "",
-      dataInvoiceActivity: [
-        {
-          invoiceId: "0001234",
-          clientName: "Restu Averian",
-          DateInvoice: "Juni 06, 2022",
-          Jumlah: 250000,
-          Status: "Paid",
-        },
-        {
-          invoiceId: "0001235",
-          clientName: "Ilham Ganteng",
-          DateInvoice: "Juni 08, 2022",
-          Jumlah: 350000,
-          Status: "Unpaid",
-        },
-        {
-          invoiceId: "0001236",
-          clientName: "Ilham Ganteng",
-          DateInvoice: "Juni 08, 2022",
-          Jumlah: 350000,
-          Status: "Overdue",
-        },
-      ],
+      dataInvoiceActivity: [],
+      isLoading: true,
     };
   },
   methods: {
-    async checkStatus(statusCheck) {
-      let activity = this.dataInvoiceActivity;
-      let a = await activity.some((status) => {
-        return status.Status === statusCheck;
+    async fetchDataFromFirebase() {
+      const q = query(
+        collection(db, "new_invoice"),
+        where("user_id", "==", this.$store.state.usersInfo.id),
+        limit(5),
+        orderBy("date_sort", "desc")
+      );
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        this.dataInvoiceActivity.push(doc.data());
       });
-      console.log("Hasil Status : ", a);
+      this.isLoading = false;
     },
   },
   async mounted() {
-    // let status = document.querySelectorAll("tbody > tr>td>span");
-    // for (let i = 0; i < status.length; i++) {
-    //   console.log("aaaaaa : ", status[i]);
-    // }
-    let status = document.querySelectorAll(".status");
-
-    for (let i = 0; i < status.length; i++) {
-      if (status[i].textContent.match("Paid")) {
-        status[i].classList.add("bg-[rgba(135,228,96,0.2)]");
-        status[i].classList.add("text-paid-color");
-      }
-      if (status[i].textContent.match("Unpaid")) {
-        status[i].classList.add("bg-[rgba(255,204,0,0.2)]");
-        status[i].classList.add("text-unpaid-color");
-        //   console.log("Unpaid");
-      }
-      if (status[i].textContent.match("Overdue")) {
-        status[i].classList.add("bg-[rgba(255,48,76,0.2)]");
-        status[i].classList.add("text-overdue-color");
-        //   console.log("Unpaid");
-      }
-    }
+    this.fetchDataFromFirebase();
   },
 };
 </script>

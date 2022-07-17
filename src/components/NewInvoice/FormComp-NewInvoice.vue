@@ -390,7 +390,7 @@
         <div v-if="isLoading">
           <simple-loading-animation />
         </div>
-        Save Invoice
+        Create Invoice
       </button>
     </div>
   </form>
@@ -399,7 +399,9 @@
 <script>
 import axios from "axios";
 import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
-
+import { collection, addDoc } from "firebase/firestore";
+import db from "@/firebase/firebase";
+// import db from "../firebase/firebase";
 // import InvoiceDate from "./InvoiceDate-NewInvoice.vue";
 // import FormDataClient from "./DataClientFormComp.vue";
 export default {
@@ -471,6 +473,27 @@ export default {
       console.log(index);
       this.invoices.splice(index, 1);
     },
+
+    async addInvoiceToFirebase(invoice_data, userId) {
+      const docRef = await addDoc(collection(db, "new_invoice"), {
+        invoice_data: invoice_data,
+        user_id: userId,
+        date_sort: Date.now(),
+        id_invoice: invoice_data.id,
+      });
+      console.log("Document written with ID: ", docRef.id);
+
+      let date = new Date().toISOString().slice(0, 10);
+      const refDoc = await addDoc(collection(db, "recent_activities"), {
+        message: "New invoice created",
+        user_id: userId,
+        id_invoice: invoice_data.id,
+        created_at: date,
+        date_sort: Date.now(),
+      });
+      console.log("Document written with ID: ", refDoc.id);
+    },
+
     async addInvoices() {
       this.isLoading = true;
       const newArrInvoices = this.invoices.map((invo) => {
@@ -492,6 +515,19 @@ export default {
       await axios
         .post("api/v1/invoices", invoicesData)
         .then((res) => {
+          let dataInvoiceFirebase = {
+            id: res.data.data.id,
+            client_name: this.clients.fullname,
+            date: this.invoice_date,
+            jumlah: this.totalAllInvoices,
+            status: "UNPAID",
+          };
+
+          this.addInvoiceToFirebase(
+            dataInvoiceFirebase,
+            this.$store.state.usersInfo.id
+          );
+          console.log("id : ", res.data);
           console.log("nambah : ", res.data.meta.message);
           this.$store.dispatch(
             "actionOfSuccessAddInvoice",

@@ -12,7 +12,18 @@
         />
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          class="h-6 w-6 absolute top-2 hidden peer-focus:animate-showIcon peer-focus:block transition-all duration-500 left-2 peer-focus:text-soft-purple"
+          class="
+            h-6
+            w-6
+            absolute
+            top-2
+            hidden
+            peer-focus:animate-showIcon peer-focus:block
+            transition-all
+            duration-500
+            left-2
+            peer-focus:text-soft-purple
+          "
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -102,41 +113,102 @@
             </thead>
             <tbody v-if="items.length !== 0">
               <tr
-                class="text-left hover:bg-[#e3daf7] transition-all duration-300 my-10 shadow-invoicein"
+                class="
+                  text-left
+                  hover:bg-[#e3daf7]
+                  transition-all
+                  duration-300
+                  my-10
+                  shadow-invoicein
+                "
                 v-for="item in items"
                 :key="item.id"
               >
                 <td
-                  class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                  class="
+                    px-6
+                    py-4
+                    whitespace-nowrap
+                    text-sm
+                    font-medium
+                    text-gray-900
+                  "
                 >
                   {{ item.id }}
                 </td>
                 <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  class="
+                    text-sm text-gray-900
+                    font-light
+                    px-6
+                    py-4
+                    whitespace-nowrap
+                  "
                 >
                   {{ item.fullname }}
                 </td>
                 <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  class="
+                    text-sm text-gray-900
+                    font-light
+                    px-6
+                    py-4
+                    whitespace-nowrap
+                  "
                 >
                   {{ item.email }}
                 </td>
                 <td
-                  class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                  class="
+                    text-sm text-gray-900
+                    font-light
+                    px-6
+                    py-4
+                    whitespace-nowrap
+                  "
                 >
                   {{ item.city }}
                 </td>
                 <td
-                  class="text-sm text-gray-900 font-light px-6 flex items-center space-x-4 py-4 text-center whitespace-nowrap"
+                  class="
+                    text-sm text-gray-900
+                    font-light
+                    px-6
+                    flex
+                    items-center
+                    space-x-4
+                    py-4
+                    text-center
+                    whitespace-nowrap
+                  "
                 >
                   <button
                     v-ripple
-                    class="flex rounded-lg bg-[#ebe2ff] text-soft-purple px-3 py-2 items-center"
+                    class="
+                      flex
+                      rounded-lg
+                      bg-[#ebe2ff]
+                      text-soft-purple
+                      px-3
+                      py-2
+                      items-center
+                    "
                     @click="toEditClient(item)"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      class="h-6 w-6 absolute top-2 hidden peer-focus:animate-showIcon peer-focus:block transition-all duration-500 left-2 peer-focus:text-soft-purple"
+                      class="
+                        h-6
+                        w-6
+                        absolute
+                        top-2
+                        hidden
+                        peer-focus:animate-showIcon peer-focus:block
+                        transition-all
+                        duration-500
+                        left-2
+                        peer-focus:text-soft-purple
+                      "
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -153,7 +225,18 @@
                   <button
                     @click="deleteClient(item.id)"
                     v-ripple
-                    class="flex rounded-lg bg-[rgba(255,48,76,0.4)] transition-all duration-300 hover:bg-[rgba(255,48,76,0.3)] text-overdue-color px-3 py-2 items-center"
+                    class="
+                      flex
+                      rounded-lg
+                      bg-[rgba(255,48,76,0.4)]
+                      transition-all
+                      duration-300
+                      hover:bg-[rgba(255,48,76,0.3)]
+                      text-overdue-color
+                      px-3
+                      py-2
+                      items-center
+                    "
                   >
                     Delete
                   </button>
@@ -162,9 +245,21 @@
             </tbody>
 
             <tbody v-else>
-              <tr>
+              <tr
+                @click="toAddClient"
+                class="
+                  text-center
+                  py-3
+                  my-10
+                  shadow-invoicein
+                  hover:bg-[rgba(155,109,255,0.2)]
+                  duration-300
+                  transition-all
+                  cursor-pointer
+                "
+              >
                 <td colspan="5" class="py-5 lg:px-0 px-10">
-                  Client data is empty
+                  <empty-clients />
                 </td>
               </tr>
             </tbody>
@@ -220,9 +315,10 @@
 <script>
 import axios from "axios";
 import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
+import EmptyClients from "../NotFound/EmptyClients.vue";
 export default {
   name: "ClientTable",
-  components: { SimpleLoadingAnimation },
+  components: { SimpleLoadingAnimation, EmptyClients },
   props: ["trigger"],
   data() {
     return {
