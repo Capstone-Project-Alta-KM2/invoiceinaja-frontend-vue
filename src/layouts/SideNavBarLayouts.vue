@@ -212,7 +212,7 @@
       </div>
       <div class="px-4">
         <button
-          @click="logOut"
+          @click="switchModalDelete"
           v-ripple
           class="flex w-full items-center button button-primary py-2"
         >
@@ -226,19 +226,7 @@
     <div class="w-full">
       <div
         id="navbar"
-        class="
-          bg-white
-          sticky
-          top-0
-          right-0
-          px-4
-          z-10
-          py-3
-          flex-1 flex
-          space-x-4
-          justify-end
-          items-center
-        "
+        class="bg-white sticky top-0 right-0 px-4 z-10 py-3 flex-1 flex space-x-4 justify-end items-center"
       >
         <svg
           width="23"
@@ -270,26 +258,46 @@
           <slot />
         </Transition>
       </div>
+      <div
+        class="fixed inset-0 z-50 bg-black bg-opacity-10 min-w-full min-h-screen flex justify-center items-center"
+        :class="
+          isModalDeleteShow ? 'dialog-animation-show' : 'dialog-animation-hide'
+        "
+      >
+        <delete-confirm-modal
+          :message="deleteMessage"
+          :loading="isModalDeleteShow"
+          @executeAction="logOut"
+          @closeModalDelete="switchModalDelete"
+        ></delete-confirm-modal>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import DeleteConfirmModal from "@/components/Modal-Comp/DeleteConfirmModal.vue";
 export default {
+  components: { DeleteConfirmModal },
   data() {
     return {
+      isModalDeleteShow: false,
+      deleteMessage: "Do you want to log out from this website ?",
       activeClass: "bg-[#e5d9ff] text-[#7c40ff]",
     };
   },
   methods: {
-    logOut() {
-      let a = confirm("Logout ?");
-      if (a) {
-        this.$store.dispatch("actionOfToken", "");
-        localStorage.removeItem("token");
-        this.$router.push("/login");
-        // this.$store.dispatch("actionUsersInfo", null);
+    switchModalDelete() {
+      if (this.isModalDeleteShow) {
+        this.isModalDeleteShow = false;
+      } else {
+        this.isModalDeleteShow = true;
       }
+    },
+    logOut() {
+      this.$store.dispatch("actionOfToken", "");
+      localStorage.removeItem("token");
+      this.$router.push("/login");
     },
   },
   computed: {

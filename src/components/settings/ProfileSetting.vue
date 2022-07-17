@@ -172,6 +172,7 @@ export default {
   methods: {
     updateProfile() {
       this.isLoading = true;
+      this.$emit("hideAlert");
       const userData = {
         fullname: this.userName,
         email: this.email,
@@ -182,14 +183,12 @@ export default {
       axios
         .put("/api/v1/users", userData)
         .then((res) => {
-          console.log("sukses");
-          console.log(res);
           this.$store.dispatch("actionUsersInfo", res.data.data);
+          this.$emit("sendSuccess", res.data.meta.message);
           this.isLoading = false;
         })
         .catch((err) => {
-          console.log("Error");
-          console.log(err);
+          this.$emit("sendError", err.response.data.meta.message);
           this.isLoading = false;
         });
     },

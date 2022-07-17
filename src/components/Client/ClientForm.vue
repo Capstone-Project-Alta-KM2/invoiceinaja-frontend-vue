@@ -270,47 +270,33 @@ export default {
     // To add new data
     async addClient(params) {
       this.isLoading = true;
-      console.log("Params :");
-      console.log(params);
+      this.$emit("hideAlertErr");
       await axios
         .post("/api/v1/clients", params)
         .then(() => {
-          // this.$emit("sendingMessage", {
-          //   status: true,
-          //   message: res.data.meta.message,
-          // });
           this.$emit("showAlertSuccess");
           this.clearForm();
           this.isLoading = false;
           this.buttonOut = "Close";
         })
         .catch((err) => {
-          this.$emit("sendingMessage", {
-            status: false,
-            message: err.response.data.meta.message,
-          });
+          this.$emit("sendingMessageErr", err.response.data.meta.message);
           this.isLoading = false;
         });
     },
     // to edit client data
     async editClient(params) {
       this.isLoading = true;
+      this.$emit("hideAlertErr");
       await axios
         .put(`/api/v1/clients/${this.id}`, params)
         .then(() => {
-          // this.$emit("sendingMessage", {
-          //   status: true,
-          //   message: res.data.meta.message,
-          // });
           this.$emit("showAlertSuccess");
           this.isLoading = false;
           this.buttonOut = "Close";
         })
         .catch((err) => {
-          this.$emit("sendingMessage", {
-            status: false,
-            message: err.message,
-          });
+          this.$emit("sendingMessage", err.response.data.meta.message);
           this.isLoading = false;
         });
     },
@@ -328,9 +314,6 @@ export default {
         this.emailValidationMessage = "Enter email correctly";
         this.isEmailValid = false;
         return false;
-        // } else if ( ) {
-        //     this.emailValidationMessage = "Enter email correctly";
-        //     this.isEmailValid = false;
       } else {
         this.emailValidationMessage = "";
         this.isEmailValid = true;
