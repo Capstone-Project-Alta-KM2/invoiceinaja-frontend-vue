@@ -1,6 +1,6 @@
 <template>
   <div class="client-page">
-    <div class="rounded-lg border-2 bg-white p-5">
+    <div class="rounded-lg border bg-white p-5">
       <h4 class="text-left pb-4 text-2xl font-bold text-black">Clients</h4>
       <client-table
         @showDialogAdd="showAddForm"

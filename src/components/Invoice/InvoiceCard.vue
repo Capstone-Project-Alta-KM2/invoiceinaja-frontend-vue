@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-white rounded-md border-2 my-10">
+  <div class="bg-white rounded-md border">
     <div
       :class="`${
         responseSuccess ? 'scale-100' : 'scale-0'
@@ -12,16 +12,7 @@
     <div class="px-5 py-0">
       <h4 class="text-left text-2xl font-bold text-black">Invoices</h4>
       <ul
-        class="
-          mt-8
-          mb-6
-          flex flex-wrap
-          text-sm
-          space-x-2
-          font-medium
-          text-center text-gray-500
-          dark:text-gray-400
-        "
+        class="mt-8 mb-6 flex flex-wrap text-sm space-x-2 font-medium text-center text-gray-500 dark:text-gray-400"
         id="tabExample"
         role="tablist"
       >
