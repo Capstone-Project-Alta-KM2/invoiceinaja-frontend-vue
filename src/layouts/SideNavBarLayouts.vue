@@ -1,15 +1,23 @@
 <template>
-  <div class="relative flex">
-    <div class="sticky z-30 min-h-screen top-0 left-0 flex flex-col bg-white">
-      <div class="px-3 py-4">
-        <img src="../assets/images/invoiceinaja_logo.png" alt="" class="w-48" />
-      </div>
-      <div class="">
-        <nav class="px-3 py-5 flex flex-col space-y-4">
+  <div class="grid grid-cols-6 grid-rows-[55px]">
+    <aside
+      class="col-span-1 row-span-2 self-start sticky top-0 left-0 z-40 min-h-screen bg-white px-2 box-border flex flex-col justify-between"
+    >
+      <div class="w-full box-border flex flex-col space-y-12">
+        <div class="px-3 py-4">
+          <img
+            src="../assets/images/invoiceinaja_logo.png"
+            alt=""
+            class="w-48"
+          />
+        </div>
+
+        <div class="flex flex-col space-y-4 px-3">
+          <!-- Dashboard -->
           <button
             v-ripple="'rgba(255,255,255,0.3)'"
             @click="$router.push('/dashboard')"
-            class="no-underline flex items-center px-4 py-2 rounded-lg"
+            class="no-underline flex items-center px-4 py-2.5 rounded-lg"
             :class="$route.path == '/dashboard' ? activeClass : ''"
           >
             <svg
@@ -27,11 +35,13 @@
             </svg>
             <span>Dashboard</span>
           </button>
+          <!-- Dashboard -->
 
+          <!-- Invoices -->
           <button
             v-ripple="'rgba(255,255,255,0.3)'"
             @click="$router.push('/invoice')"
-            class="no-underline flex items-center px-4 py-2 rounded-lg w-full"
+            class="no-underline flex items-center px-4 py-2.5 rounded-lg w-full"
             :class="
               $route.path == '/invoice' ||
               $route.path == '/add-invoice' ||
@@ -126,11 +136,13 @@
 
             <span>Invoices</span>
           </button>
+          <!-- Invoices -->
 
+          <!-- Clients -->
           <button
             v-ripple="'rgba(255,255,255,0.3)'"
             @click="$router.push('/client')"
-            class="no-underline flex items-center px-4 py-2 rounded-lg w-full"
+            class="no-underline flex items-center px-4 py-2.5 rounded-lg w-full"
             :class="
               $route.path == '/client' || $route.path == '/import-clients'
                 ? activeClass
@@ -158,10 +170,13 @@
 
             <span>Clients</span>
           </button>
+          <!-- Clients -->
+
+          <!-- Settings -->
           <button
             v-ripple="'rgba(255,255,255,0.3)'"
             @click="$router.push('/settings')"
-            class="no-underline flex items-center px-4 py-2 rounded-lg w-full"
+            class="no-underline flex items-center px-4 py-2.5 rounded-lg w-full"
             :class="
               $route.path == '/settings' ||
               $route.path == '/settings/profile' ||
@@ -171,74 +186,48 @@
             "
           >
             <svg
-              class="mr-5 -ml-1"
-              width="32"
-              height="32"
-              viewBox="0 0 32 32"
+              width="24"
+              height="25"
+              viewBox="0 0 24 25"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
-              xmlns:xlink="http://www.w3.org/1999/xlink"
+              class="mr-6"
             >
-              <rect
-                width="32"
-                height="32"
-                fill="url(#pattern0)"
-                fill-opacity="0.6"
+              <path
+                d="M21.1754 13.4035C21.2268 13.0285 21.2525 12.641 21.2525 12.2285C21.2525 11.8285 21.2268 11.4285 21.1626 11.0535L23.7713 9.07852C24.0026 8.90351 24.0668 8.56602 23.9255 8.31602L21.4581 4.16602C21.3039 3.89102 20.9827 3.80352 20.6999 3.89102L17.6286 5.09102C16.9861 4.61602 16.305 4.21602 15.5468 3.91602L15.0842 0.741015C15.0328 0.441015 14.7758 0.228516 14.4673 0.228516H9.53266C9.22425 0.228516 8.98008 0.441015 8.92868 0.741015L8.46605 3.91602C7.70786 4.21602 7.01392 4.62852 6.38424 5.09102L3.31292 3.89102C3.0302 3.79102 2.70893 3.89102 2.55472 4.16602L0.100236 8.31602C-0.0539726 8.57852 -0.00256984 8.90351 0.254445 9.07852L2.86314 11.0535C2.79889 11.4285 2.74748 11.841 2.74748 12.2285C2.74748 12.616 2.77319 13.0285 2.83744 13.4035L0.228743 15.3785C-0.00256982 15.5535 -0.0668233 15.891 0.0745346 16.141L2.54187 20.291C2.69608 20.566 3.01735 20.6535 3.30006 20.566L6.37139 19.366C7.01392 19.841 7.69501 20.241 8.4532 20.541L8.91583 23.716C8.98008 24.016 9.22425 24.2285 9.53266 24.2285H14.4673C14.7758 24.2285 15.0328 24.016 15.0713 23.716L15.5339 20.541C16.2921 20.241 16.9861 19.841 17.6158 19.366L20.6871 20.566C20.9698 20.666 21.2911 20.566 21.4453 20.291L23.9126 16.141C24.0668 15.866 24.0026 15.5535 23.7584 15.3785L21.1754 13.4035ZM12 16.7285C9.45556 16.7285 7.37374 14.7035 7.37374 12.2285C7.37374 9.75352 9.45556 7.72852 12 7.72852C14.5444 7.72852 16.6263 9.75352 16.6263 12.2285C16.6263 14.7035 14.5444 16.7285 12 16.7285Z"
+                :fill="
+                  $route.path == '/settings' ||
+                  $route.path == '/settings/profile' ||
+                  $route.path == '/settings/password'
+                    ? '#9B6DFF'
+                    : '#717171'
+                "
               />
-              <defs>
-                <pattern
-                  id="pattern0"
-                  patternContentUnits="objectBoundingBox"
-                  width="1"
-                  height="1"
-                >
-                  <use
-                    xlink:href="#image0_332_341"
-                    transform="scale(0.0111111)"
-                  />
-                </pattern>
-                <image
-                  id="image0_332_341"
-                  width="90"
-                  height="90"
-                  xlink:href="data:image/png;base64,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"
-                />
-              </defs>
             </svg>
 
             <span>Settings</span>
           </button>
-        </nav>
+          <!-- Settings -->
+        </div>
       </div>
-      <div class="px-4">
+
+      <div class="w-full mb-16 px-3">
         <button
           @click="switchModalDelete"
           v-ripple
           class="flex w-full items-center button button-primary py-2"
         >
-          <img src="../assets/images/Logout.png" alt="" class="mr-5" />
+          <img src="../assets/images/Logout.png" alt="" class="mr-6" />
 
           <span class="font-normal text-base">Logout</span>
         </button>
       </div>
-    </div>
+    </aside>
 
-    <div class="w-full">
+    <nav class="col-start-2 col-span-5 row-span-1 sticky top-0 z-30 bg-white">
       <div
         id="navbar"
-        class="
-          bg-white
-          sticky
-          top-0
-          right-0
-          px-4
-          z-10
-          py-3
-          flex-1 flex
-          space-x-4
-          justify-end
-          items-center
-        "
+        class="px-4 py-3 flex space-x-6 justify-end items-center h-full"
       >
         <svg
           width="23"
@@ -246,6 +235,7 @@
           viewBox="0 0 23 28"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          class="cursor-pointer"
         >
           <path
             d="M9.58325 1.66669H13.0833V3.60969V4.40289L13.8556 4.58344C15.3858 4.9411 16.5367 5.75673 17.3226 6.97575C18.1212 8.21453 18.5833 9.9356 18.5833 12.1417V19.5667V20.1898L19.1426 20.4644L21.3333 21.5398V22.6167H1.33325V21.5398L3.52393 20.4644L4.08325 20.1898V19.5667V12.1417V12.1227L4.08253 12.1037C4.01707 10.3826 4.41149 8.67382 5.22769 7.14699C5.60106 6.50285 6.10927 5.94167 6.7203 5.5009C7.33542 5.05718 8.04047 4.74579 8.78915 4.58826L9.58325 4.42117V3.60969V1.66669ZM11.7667 26.6127H11.7174L11.6182 26.633C11.522 26.6527 11.424 26.6639 11.3256 26.6666C10.8575 26.6612 10.4133 26.4767 10.0866 26.1575C10.0252 26.0975 9.96889 26.0337 9.91784 25.9667H12.7398C12.654 26.0788 12.5542 26.1813 12.4421 26.2715C12.2448 26.4302 12.0146 26.5467 11.7667 26.6127Z"
@@ -256,31 +246,35 @@
         <div v-if="Object.keys(usersInfo).length === 0">
           <p>Belum login</p>
         </div>
-        <div v-else class="flex space-x-3 items-center">
+        <div
+          v-else
+          class="flex space-x-3 items-center cursor-pointer"
+          @click="$router.push('/settings/profile')"
+        >
           <p>
-            {{ usersInfo.nama_lengkap }}
+            {{ usersInfo.fullname }}
           </p>
-          <div class="bg-gray-400 p-2 rounded-full">
+          <div
+            class="bg-gray-400 w-10 h-10 flex justify-center items-center rounded-full overflow-hidden"
+            v-ripple
+          >
             <img :src="usersInfo.avatar" />
           </div>
         </div>
       </div>
-      <div class="p-4">
-        <Transition name="slide-fade">
+    </nav>
+
+    <main
+      class="col-start-2 col-span-5 row-span-1 p-7 flex justify-center container"
+    >
+      <Transition name="slide-fade">
+        <container class="container">
           <slot />
-        </Transition>
-      </div>
+        </container>
+      </Transition>
+
       <div
-        class="
-          fixed
-          inset-0
-          z-50
-          bg-black bg-opacity-10
-          min-w-full min-h-screen
-          flex
-          justify-center
-          items-center
-        "
+        class="fixed inset-0 z-50 bg-black bg-opacity-10 min-w-full min-h-screen flex justify-center items-center"
         :class="
           isModalDeleteShow ? 'dialog-animation-show' : 'dialog-animation-hide'
         "
@@ -292,7 +286,7 @@
           @closeModalDelete="switchModalDelete"
         ></delete-confirm-modal>
       </div>
-    </div>
+    </main>
   </div>
 </template>
 
@@ -331,7 +325,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .slide-fade-enter-active {

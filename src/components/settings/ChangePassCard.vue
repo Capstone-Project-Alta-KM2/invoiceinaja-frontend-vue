@@ -1,5 +1,5 @@
 <template>
-  <div class="p-5 my-5 bg-white relative rounded-lg">
+  <div class="p-5 bg-white relative rounded-lg border">
     <div class="grid grid-cols-5">
       <div class="col-span-1">
         <div class="text-left">
@@ -9,19 +9,7 @@
           <nav class="flex flex-col items-start pr-3">
             <button
               v-ripple="'rgba(155, 109, 255, 0.2)'"
-              class="
-                flex
-                justify-start
-                items-center
-                rounded-lg
-                py-2.5
-                px-3
-                my-2
-                w-full
-                border
-                bg-white
-                text-[#131313]
-              "
+              class="flex justify-start items-center rounded-lg py-2.5 px-3 my-2 w-full border bg-white text-[#131313]"
               @click="toPage('/settings/profile')"
             >
               <svg
@@ -63,18 +51,7 @@
             </button>
             <button
               v-ripple="'rgba(155, 109, 255, 0.2)'"
-              class="
-                flex
-                justify-start
-                items-center
-                rounded-lg
-                py-2.5
-                px-3
-                my-2
-                w-full
-                bg-[#e5d9ff]
-                text-[#7c40ff]
-              "
+              class="flex justify-start items-center rounded-lg py-2.5 px-3 my-2 w-full bg-[#e5d9ff] text-[#7c40ff]"
               @click="toPage('/settings/password')"
             >
               <svg
