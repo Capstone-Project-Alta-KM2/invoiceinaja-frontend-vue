@@ -4,7 +4,7 @@
       class="col-span-1 row-span-2 self-start sticky top-0 left-0 z-40 min-h-screen bg-white px-2 box-border flex flex-col justify-between"
     >
       <div class="w-full box-border flex flex-col space-y-14">
-        <div class="self-center py-6 pt-10">
+        <div class="self-center py-6 px-1 pt-10">
           <img
             src="../assets/images/invoiceinaja_logo.png"
             alt=""
