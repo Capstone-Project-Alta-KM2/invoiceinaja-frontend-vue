@@ -587,7 +587,6 @@ export default {
     },
     switchModalDelete() {
       this.isModalDeleteShow = !this.isModalDeleteShow;
-      console.log("kalau isModalDeleteShow is :", this.isModalDeleteShow);
     },
   },
   async mounted() {
