@@ -1,6 +1,6 @@
 <template>
   <div class="h-screen flex justify-center items-center flex-col space-y-5">
-    <h1>Not Found</h1>
+    <not-found-comp />
     <button @click="$router.push('/')" class="button button-primary" v-ripple>
       Back Home
     </button>
@@ -8,7 +8,10 @@
 </template>
 
 <script>
-export default {};
+import NotFoundComp from "@/components/NotFound/NotFoundComp.vue";
+export default {
+  components: { NotFoundComp },
+};
 </script>
 
 <style>
