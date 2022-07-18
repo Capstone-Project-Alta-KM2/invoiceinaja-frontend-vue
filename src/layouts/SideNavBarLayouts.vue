@@ -3,12 +3,12 @@
     <aside
       class="col-span-1 row-span-2 self-start sticky top-0 left-0 z-40 min-h-screen bg-white px-2 box-border flex flex-col justify-between"
     >
-      <div class="w-full box-border flex flex-col space-y-12">
-        <div class="px-3 py-4">
+      <div class="w-full box-border flex flex-col space-y-14">
+        <div class="self-center py-6 pt-10">
           <img
             src="../assets/images/invoiceinaja_logo.png"
             alt=""
-            class="w-48"
+            class="w-40"
           />
         </div>
 
@@ -227,7 +227,7 @@
     <nav class="col-start-2 col-span-5 row-span-1 sticky top-0 z-30 bg-white">
       <div
         id="navbar"
-        class="px-4 py-3 flex space-x-6 justify-end items-center h-full"
+        class="px-4 py-3.5 flex space-x-6 justify-end items-center h-full"
       >
         <svg
           width="23"
