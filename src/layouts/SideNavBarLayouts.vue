@@ -226,7 +226,19 @@
     <div class="w-full">
       <div
         id="navbar"
-        class="bg-white sticky top-0 right-0 px-4 z-10 py-3 flex-1 flex space-x-4 justify-end items-center"
+        class="
+          bg-white
+          sticky
+          top-0
+          right-0
+          px-4
+          z-10
+          py-3
+          flex-1 flex
+          space-x-4
+          justify-end
+          items-center
+        "
       >
         <svg
           width="23"
@@ -259,14 +271,23 @@
         </Transition>
       </div>
       <div
-        class="fixed inset-0 z-50 bg-black bg-opacity-10 min-w-full min-h-screen flex justify-center items-center"
+        class="
+          fixed
+          inset-0
+          z-50
+          bg-black bg-opacity-10
+          min-w-full min-h-screen
+          flex
+          justify-center
+          items-center
+        "
         :class="
           isModalDeleteShow ? 'dialog-animation-show' : 'dialog-animation-hide'
         "
       >
         <delete-confirm-modal
-          :message="deleteMessage"
-          :loading="isModalDeleteShow"
+          :message="`Do you want to log out from this website ?`"
+          :loading="isLoading"
           @executeAction="logOut"
           @closeModalDelete="switchModalDelete"
         ></delete-confirm-modal>
@@ -282,7 +303,7 @@ export default {
   data() {
     return {
       isModalDeleteShow: false,
-      deleteMessage: "Do you want to log out from this website ?",
+      isLoading: false,
       activeClass: "bg-[#e5d9ff] text-[#7c40ff]",
     };
   },
@@ -295,6 +316,7 @@ export default {
       }
     },
     logOut() {
+      this.isLoading = true;
       this.$store.dispatch("actionOfToken", "");
       localStorage.removeItem("token");
       this.$router.push("/login");

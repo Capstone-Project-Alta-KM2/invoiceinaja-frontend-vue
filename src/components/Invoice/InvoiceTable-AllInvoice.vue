@@ -92,7 +92,9 @@
             <td class="lg:px-0 px-10">{{ item.client }}</td>
             <td class="lg:px-0 px-10">{{ item.date }}</td>
             <td class="lg:px-0 px-10">{{ item.post_due }}</td>
-            <td class="text-center lg:px-0 px-10">Rp {{ item.Amount }}</td>
+            <td class="text-center lg:px-0 px-10">
+              Rp {{ formatPrice(item.Amount) }}
+            </td>
             <td class="text-center lg:px-0 px-10">
               <span
                 :class="`${
@@ -171,6 +173,10 @@ export default {
     this.fetchUnpaidInvoice();
   },
   methods: {
+    formatPrice(value) {
+      let val = (value / 1).toFixed(2).replace(".", ",");
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
     async fetchUnpaidInvoice() {
       await axios
         .get("api/v1/invoices")

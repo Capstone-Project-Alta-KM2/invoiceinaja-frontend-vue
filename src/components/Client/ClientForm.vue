@@ -191,7 +191,7 @@
               class="button button-outline-primary px-4"
               @click="closeForm()"
             >
-              {{ buttonOut }}
+              Cancel
             </button>
           </div>
         </div>
@@ -237,7 +237,6 @@ export default {
       emailValidationMessage: "",
 
       // compnent
-      buttonOut: "Cancel",
     };
   },
   methods: {
@@ -277,7 +276,6 @@ export default {
           this.$emit("showAlertSuccess");
           this.clearForm();
           this.isLoading = false;
-          this.buttonOut = "Close";
         })
         .catch((err) => {
           this.$emit("sendingMessageErr", err.response.data.meta.message);
@@ -293,7 +291,6 @@ export default {
         .then(() => {
           this.$emit("showAlertSuccess");
           this.isLoading = false;
-          this.buttonOut = "Close";
         })
         .catch((err) => {
           this.$emit("sendingMessage", err.response.data.meta.message);

@@ -36,7 +36,6 @@
 
       <!-- from - invoice date - due date -->
       <div
-
         class="
           grid grid-cols-3
           gap-y-8
@@ -99,25 +98,53 @@
                   <tr>
                     <th
                       scope="col"
-                      class="text-sm font-semibold text-gray-900 px-6 py-4 text-center"
+                      class="
+                        text-sm
+                        font-semibold
+                        text-gray-900
+                        px-6
+                        py-4
+                        text-center
+                      "
                     >
                       Item Name
                     </th>
                     <th
                       scope="col"
-                      class="text-sm font-semibold text-gray-900 px-6 py-4 text-center"
+                      class="
+                        text-sm
+                        font-semibold
+                        text-gray-900
+                        px-6
+                        py-4
+                        text-center
+                      "
                     >
                       Price
                     </th>
                     <th
                       scope="col"
-                      class="text-sm font-semibold text-gray-900 px-6 py-4 text-center"
+                      class="
+                        text-sm
+                        font-semibold
+                        text-gray-900
+                        px-6
+                        py-4
+                        text-center
+                      "
                     >
                       Qty
                     </th>
                     <th
                       scope="col"
-                      class="text-sm font-semibold text-gray-900 px-6 py-4 text-center"
+                      class="
+                        text-sm
+                        font-semibold
+                        text-gray-900
+                        px-6
+                        py-4
+                        text-center
+                      "
                     >
                       Total
                     </th>
@@ -125,42 +152,133 @@
                 </thead>
                 <tbody>
                   <tr
-                    class="border-b odd:bg-white even:bg-[rgba(155,109,255,0.1)]"
+                    class="
+                      border-b
+                      odd:bg-white
+                      even:bg-[rgba(155,109,255,0.1)]
+                    "
                     v-for="(invoice, index) in invoices"
                     :key="index"
                   >
                     <td
-                      class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center text-gray-900"
+                      class="
+                        px-6
+                        py-4
+                        whitespace-nowrap
+                        text-sm
+                        font-medium
+                        text-center text-gray-900
+                      "
                     >
                       <p
-                        class="form-add-invoice h-0 py-6 flex items-center justify-center mx-auto rounded-none my-2 text-center border-dashed w-52"
+                        class="
+                          form-add-invoice
+                          h-0
+                          py-6
+                          flex
+                          items-center
+                          justify-center
+                          mx-auto
+                          rounded-none
+                          my-2
+                          text-center
+                          border-dashed
+                          w-52
+                        "
                       >
                         {{ invoice.item_name }}
                       </p>
                     </td>
                     <td
-                      class="text-sm text-gray-900 font-light px-6 text-center py-4 whitespace-nowrap"
+                      class="
+                        text-sm text-gray-900
+                        font-light
+                        px-6
+                        text-center
+                        py-4
+                        whitespace-nowrap
+                      "
                     >
                       <p
-                        class="form-add-invoice h-0 py-6 flex items-center justify-center mx-auto rounded-none my-2 text-center border-dashed w-52 total"
+                        class="
+                          form-add-invoice
+                          h-0
+                          py-6
+                          flex
+                          items-center
+                          justify-center
+                          mx-auto
+                          rounded-none
+                          my-2
+                          text-center
+                          border-dashed
+                          w-52
+                          total
+                        "
                       >
                         {{ invoice.price }}
                       </p>
                     </td>
                     <td
-                      class="text-sm text-gray-900 font-light px-6 text-center py-4 whitespace-nowrap"
+                      class="
+                        text-sm text-gray-900
+                        font-light
+                        px-6
+                        text-center
+                        py-4
+                        whitespace-nowrap
+                      "
                     >
                       <p
-                        class="form-add-invoice h-0 py-6 flex items-center justify-center mx-auto rounded-none leading-6 my-2 text-center border-dashed w-12 total"
+                        class="
+                          form-add-invoice
+                          h-0
+                          py-6
+                          flex
+                          items-center
+                          justify-center
+                          mx-auto
+                          rounded-none
+                          leading-6
+                          my-2
+                          text-center
+                          border-dashed
+                          w-12
+                          total
+                        "
                       >
                         {{ invoice.quantity }}
                       </p>
                     </td>
                     <td
-                      class="text-sm text-gray-900 font-light px-6 text-center py-4 whitespace-nowrap flex items-center"
+                      class="
+                        text-sm text-gray-900
+                        font-light
+                        px-6
+                        text-center
+                        py-4
+                        whitespace-nowrap
+                        flex
+                        items-center
+                      "
                     >
                       <p
-                        class="form-add-invoice h-0 py-6 flex items-center justify-center mx-auto rounded-none leading-6 my-2 text-center border-dashed w-52 total"
+                        class="
+                          form-add-invoice
+                          h-0
+                          py-6
+                          flex
+                          items-center
+                          justify-center
+                          mx-auto
+                          rounded-none
+                          leading-6
+                          my-2
+                          text-center
+                          border-dashed
+                          w-52
+                          total
+                        "
                       >
                         {{ invoice.total }}
                       </p>
@@ -174,7 +292,6 @@
       </div>
 
       <div
-
         class="
           text-2xl
           font-semibold
@@ -230,45 +347,22 @@
             flex-col
             border-soft-purple
             rounded-lg
-          `     
-          "
+          `"
         >
-          <button
-            type="button"
-            @click="$router.push('/edit-invoice')"
-            v-ripple
-            class="flex items-center hover:bg-[#ebe2ff] pr-10 pl-4 transition-all duration-300 py-3"
-          >
-            <svg
-              class="mr-4"
-              width="22"
-              height="22"
-              viewBox="0 0 22 22"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M21.3147 2.66659C21.5832 2.93508 21.5832 3.37038 21.3147 3.63886L19.8807 5.07283L17.1307 2.32283L18.5647 0.888864C18.8332 0.620379 19.2685 0.620379 19.537 0.888864L21.3147 2.66659Z"
-                fill="#7C40FF"
-              />
-              <path
-                d="M18.9085 6.0451L16.1585 3.2951L6.79059 12.663C6.71512 12.7384 6.65826 12.8304 6.62451 12.9317L5.51823 16.2505C5.42866 16.5192 5.68432 16.7749 5.95305 16.6853L9.27186 15.5791C9.37311 15.5453 9.46512 15.4884 9.54059 15.413L18.9085 6.0451Z"
-                fill="#7C40FF"
-              />
-              <path
-                fill-rule="evenodd"
-                clip-rule="evenodd"
-                d="M1.375 18.5625C1.375 19.7016 2.29841 20.625 3.4375 20.625H18.5625C19.7016 20.625 20.625 19.7016 20.625 18.5625V10.3125C20.625 9.9328 20.3172 9.625 19.9375 9.625C19.5578 9.625 19.25 9.9328 19.25 10.3125V18.5625C19.25 18.9422 18.9422 19.25 18.5625 19.25H3.4375C3.0578 19.25 2.75 18.9422 2.75 18.5625V3.4375C2.75 3.0578 3.0578 2.75 3.4375 2.75H12.375C12.7547 2.75 13.0625 2.4422 13.0625 2.0625C13.0625 1.6828 12.7547 1.375 12.375 1.375H3.4375C2.29841 1.375 1.375 2.29841 1.375 3.4375V18.5625Z"
-                fill="#7C40FF"
-              />
-            </svg>
-            <span class="font-semibold text-soft-purple"> Edit </span>
-          </button>
           <button
             type="button"
             @click="switchModalDelete"
             v-ripple
-            class="flex items-center hover:bg-[#ebe2ff] pr-10 pl-4 transition-all duration-300 py-3"
+            class="
+              flex
+              items-center
+              hover:bg-[#ebe2ff]
+              pr-10
+              pl-4
+              transition-all
+              duration-300
+              py-3
+            "
           >
             <svg
               class="mr-4"
@@ -304,14 +398,23 @@
       </div>
     </div>
     <div
-      class="fixed inset-0 z-50 bg-black bg-opacity-10 min-w-full min-h-screen flex justify-center items-center"
+      class="
+        fixed
+        inset-0
+        z-50
+        bg-black bg-opacity-10
+        min-w-full min-h-screen
+        flex
+        justify-center
+        items-center
+      "
       :class="
         isModalDeleteShow ? 'dialog-animation-show' : 'dialog-animation-hide'
       "
     >
       <delete-confirm-modal
-        :message="deleteMessage"
-        :loading="isModalDeleteShow"
+        :message="`Are you sure to delete this invoice ?`"
+        :loading="isLoading"
         @executeAction="deleteInvoice"
         @closeModalDelete="switchModalDelete"
       ></delete-confirm-modal>
@@ -326,10 +429,10 @@ import axios from "axios";
 import DeleteConfirmModal from "@/components/Modal-Comp/DeleteConfirmModal.vue";
 
 import {
-  addDoc,
+  // addDoc,
   collection,
-  deleteDoc,
-  doc,
+  // deleteDoc,
+  // doc,
   getDocs,
   query,
   where,
@@ -360,6 +463,8 @@ export default {
 
       isShow: false,
       isModalDeleteShow: false,
+
+      isLoading: false,
       totalAllInvoices: 0,
       id: "",
       status: "",
@@ -378,34 +483,32 @@ export default {
         zipCode: "",
         company: "",
       },
-      deleteMessage: "Are you sure to delete this invoice ?",
     };
   },
 
   methods: {
     async deleteInvoice() {
+      this.isLoading = true;
 
-      let a = confirm("Yakin untuk hapus ?");
-      if (a) {
-        let date = new Date().toISOString().slice(0, 10);
+      // let date = new Date().toISOString().slice(0, 10);
+      //
+      // //Add data to firebase
+      // await addDoc(collection(db, "recent_activities"), {
+      //   message: "Invoice has been deleted",
+      //   user_id: this.$store.state.usersInfo.id,
+      //   created_at: date,
+      //   id_invoice: this.$route.params.no_invoice,
+      //   date_sort: Date.now(),
+      // });
 
-        //Add data to firebase
-        await addDoc(collection(db, "recent_activities"), {
-          message: "Invoice has been deleted",
-          user_id: this.$store.state.usersInfo.id,
-          created_at: date,
-          id_invoice: this.$route.params.no_invoice,
-          date_sort: Date.now(),
-        });
-
-        //delete data from firebase
-        let hasilDelete = await deleteDoc(
-          doc(db, "new_invoice", this.idDataFirestore)
-        );
-        console.log("hasil delete : ", hasilDelete);
-        await axios.delete(`/api/v1/invoices/${this.$route.params.no_invoice}`);
-        this.$router.push("/invoice");
-      }
+      // //delete data from firebase
+      // let hasilDelete = await deleteDoc(
+      //   doc(db, "new_invoice", this.idDataFirestore)
+      // );
+      // console.log("hasil delete : ", hasilDelete);
+      await axios.delete(`/api/v1/invoices/${this.$route.params.no_invoice}`);
+      this.isLoading = false;
+      this.$router.push("/invoice");
     },
     onClickOutside() {
       this.isShow = false;
@@ -458,8 +561,6 @@ export default {
       );
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
-        console.log("jalan nda ?");
-        console.log(doc.id);
         this.idDataFirestore = doc.id;
       });
     },
@@ -485,11 +586,8 @@ export default {
         });
     },
     switchModalDelete() {
-      if (this.isModalDeleteShow) {
-        this.isModalDeleteShow = false;
-      } else {
-        this.isModalDeleteShow = true;
-      }
+      this.isModalDeleteShow = !this.isModalDeleteShow;
+      console.log("kalau isModalDeleteShow is :", this.isModalDeleteShow);
     },
   },
   async mounted() {
