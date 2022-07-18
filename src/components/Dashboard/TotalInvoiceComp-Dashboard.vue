@@ -5,10 +5,6 @@
         <h4 class="text-2xl">Total Paid</h4>
         <h3 class="font-semibold text-2xl">Rp. {{ formatPrice(totalPaid) }}</h3>
       </div>
-
-      <span class="text-paid-color bg-[#f3fcef] rounded-xl py-[2px] px-2">
-        +21,55%
-      </span>
     </div>
     <div class="flex">
       <div class="border-r h-12 border-black"></div>
@@ -20,10 +16,6 @@
           Rp. {{ formatPrice(totalUnpaid) }}
         </h3>
       </div>
-
-      <span class="text-overdue-color bg-[#ffd6db] rounded-xl py-[2px] px-2">
-        -5,55%
-      </span>
     </div>
     <div class="flex">
       <div class="border-r h-12 border-black"></div>
@@ -35,9 +27,6 @@
           {{ formatNumber(totalCustomer) }}
         </h3>
       </div>
-      <span class="text-notif-created bg-[#e9f6ff] rounded-xl py-[2px] px-2">
-        +5,55%
-      </span>
     </div>
   </div>
 </template>
@@ -48,9 +37,9 @@ export default {
   name: "TotalInvoiceComp",
   data() {
     return {
-      totalPaid: 1000000,
-      totalUnpaid: 100000,
-      totalCustomer: 10000,
+      totalPaid: 0,
+      totalUnpaid: 0,
+      totalCustomer: 0,
     };
   },
   methods: {

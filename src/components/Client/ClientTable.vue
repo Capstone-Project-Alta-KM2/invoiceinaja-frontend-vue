@@ -311,14 +311,23 @@
     </div>
     <!-- modal delete start -->
     <div
-      class="fixed inset-0 z-50 bg-black bg-opacity-10 min-w-full min-h-screen flex justify-center items-center"
+      class="
+        fixed
+        inset-0
+        z-50
+        bg-black bg-opacity-10
+        min-w-full min-h-screen
+        flex
+        justify-center
+        items-center
+      "
       :class="
         isModalDeleteShow ? 'dialog-animation-show' : 'dialog-animation-hide'
       "
     >
       <delete-confirm-modal
         :message="deleteMessage"
-        :loading="isModalDeleteShow"
+        :loading="isLoading"
         @executeAction="deleteClient"
         @closeModalDelete="switchModalDelete"
       >
@@ -335,13 +344,13 @@ import EmptyClients from "../NotFound/EmptyClients.vue";
 
 export default {
   name: "ClientTable",
-  components: { SimpleLoadingAnimation, EmptyClients,DeleteConfirmModal },
+  components: { SimpleLoadingAnimation, EmptyClients, DeleteConfirmModal },
   props: ["trigger"],
   data() {
     return {
       idDeleted: "",
       isModalDeleteShow: false,
-      isLoading: true,
+      isLoading: false,
       searchClient: "",
       showChangePage: false,
       lastPage: "",
@@ -387,13 +396,16 @@ export default {
       this.fetchDataClients();
     },
     async deleteClient() {
+      this.isLoading = true;
       await axios
         .delete(`api/v1/clients/${this.idDeleted}`)
         .then((res) => {
           console.log("deleted : ", res.data);
+          this.isLoading = false;
         })
         .catch((err) => {
           console.log(err);
+          this.isLoading = false;
         });
       this.fetchDataClients();
     },

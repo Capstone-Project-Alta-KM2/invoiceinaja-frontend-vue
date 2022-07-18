@@ -25,9 +25,11 @@
           v-ripple
           type="button"
           class="button button-primary flex justify-center items-center w-32"
-          @click="executeParentAction"
+          @click="$emit('executeAction')"
         >
-          <simple-loading-animation v-if="isLoading" class="flex" />
+          <div v-if="loading" class="flex">
+            <simple-loading-animation />
+          </div>
           <span v-else>Yes</span>
         </button>
       </div>
@@ -36,7 +38,7 @@
           v-ripple
           type="button"
           class="button button-outline-primary px-12"
-          @click="closeModal"
+          @click="$emit('closeModalDelete')"
         >
           <span>No</span>
         </button>
@@ -51,26 +53,6 @@ export default {
   components: { SimpleLoadingAnimation },
   name: "DeleteConfirmModal",
   props: ["message", "loading"],
-  data() {
-    return {
-      isLoading: true,
-    };
-  },
-  methods: {
-    executeParentAction() {
-      this.isLoading = true;
-      this.$emit("executeAction");
-    },
-    closeModal() {
-      this.$emit("closeModalDelete");
-    },
-  },
-  watch: {
-    loading(newVal, oldVal) {
-      console.log(newVal + oldVal);
-      this.isLoading = false;
-    },
-  },
 };
 </script>
 
