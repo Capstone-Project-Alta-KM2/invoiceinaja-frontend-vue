@@ -429,10 +429,10 @@ import axios from "axios";
 import DeleteConfirmModal from "@/components/Modal-Comp/DeleteConfirmModal.vue";
 
 import {
-  // addDoc,
+  addDoc,
   collection,
-  // deleteDoc,
-  // doc,
+  deleteDoc,
+  doc,
   getDocs,
   query,
   where,
@@ -490,22 +490,22 @@ export default {
     async deleteInvoice() {
       this.isLoading = true;
 
-      // let date = new Date().toISOString().slice(0, 10);
-      //
-      // //Add data to firebase
-      // await addDoc(collection(db, "recent_activities"), {
-      //   message: "Invoice has been deleted",
-      //   user_id: this.$store.state.usersInfo.id,
-      //   created_at: date,
-      //   id_invoice: this.$route.params.no_invoice,
-      //   date_sort: Date.now(),
-      // });
+      let date = new Date().toISOString().slice(0, 10);
 
-      // //delete data from firebase
-      // let hasilDelete = await deleteDoc(
-      //   doc(db, "new_invoice", this.idDataFirestore)
-      // );
-      // console.log("hasil delete : ", hasilDelete);
+      //Add data to firebase
+      await addDoc(collection(db, "recent_activities"), {
+        message: "Invoice has been deleted",
+        user_id: this.$store.state.usersInfo.id,
+        created_at: date,
+        id_invoice: this.$route.params.no_invoice,
+        date_sort: Date.now(),
+      });
+
+      //delete data from firebase
+      let hasilDelete = await deleteDoc(
+        doc(db, "new_invoice", this.idDataFirestore)
+      );
+      console.log("hasil delete : ", hasilDelete);
       await axios.delete(`/api/v1/invoices/${this.$route.params.no_invoice}`);
       this.isLoading = false;
       this.$router.push("/invoice");
