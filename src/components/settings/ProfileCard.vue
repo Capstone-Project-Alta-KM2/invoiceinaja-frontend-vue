@@ -1,6 +1,6 @@
 <template>
   <div class="setting-card">
-    <div class="bg-white rounded-lg overflow-hidden border">
+    <div class="bg-white rounded-lg overflow-hidden min-h-[85vh] border">
       <!-- alert start-->
       <div
         :class="` ${

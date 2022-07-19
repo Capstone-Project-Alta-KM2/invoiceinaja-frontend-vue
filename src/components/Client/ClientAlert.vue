@@ -6,8 +6,8 @@
     <h1 class="text-2xl font-semibold">
       Congratulation! You have successfully saved clients
     </h1>
-    <button class="button button-primary" v-ripple @click="toClients()">
-      Go to my clients
+    <button class="button button-primary px-3" v-ripple @click="toClients()">
+      {{ checkForm(statusForm) }}
     </button>
   </div>
 </template>
@@ -15,6 +15,7 @@
 <script>
 import SuccessIcon from "../IconComp/SuccessIcon.vue";
 export default {
+  props: ["statusForm"],
   components: { SuccessIcon },
   methods: {
     toClients() {
@@ -23,6 +24,13 @@ export default {
         this.$router.push("/client");
       } else if (this.$router.currentRoute.path == "/client") {
         console.log(this.$router.currentRoute.path);
+      }
+    },
+    checkForm(form) {
+      if (form == "addData") {
+        return "Back to form";
+      } else {
+        return "Go to my clients";
       }
     },
   },

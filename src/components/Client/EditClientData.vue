@@ -1,7 +1,7 @@
 <template>
   <div class="z-30 new-client">
     <div
-      class="bg-white my-5 border-1 rounded-lg text-left max-h-[95vh] overflow-hidden"
+      class="bg-white my-5 rounded-lg text-left max-h-[95vh] overflow-hidden"
     >
       <!-- alert start-->
       <div

@@ -268,9 +268,9 @@
       class="col-start-2 col-span-5 row-span-1 p-7 flex justify-center container"
     >
       <Transition name="slide-fade">
-        <container class="container">
+        <div class="container">
           <slot />
-        </container>
+        </div>
       </Transition>
 
       <div
