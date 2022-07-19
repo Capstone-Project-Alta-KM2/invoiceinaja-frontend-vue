@@ -55,6 +55,7 @@
         <label
           for="upload"
           class="cursor-pointer bg-white w-72 py-4 rounded-md flex flex-col items-center space-y-4 shadow-card-import-export text-center text-soft-purple"
+          :class="isProgress || isUpload ? 'pointer-events-none' : ''"
         >
           <!-- animation start -->
           <div

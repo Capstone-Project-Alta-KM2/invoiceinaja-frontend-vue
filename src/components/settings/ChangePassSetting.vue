@@ -286,7 +286,7 @@ export default {
   name: "ChangePassword",
   data() {
     return {
-      isLoading: true,
+      isLoading: false,
 
       oldPassword: "",
       newPassword: "",
