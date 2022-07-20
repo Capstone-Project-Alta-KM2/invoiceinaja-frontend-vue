@@ -53,6 +53,11 @@ export default {
   components: { SimpleLoadingAnimation },
   name: "DeleteConfirmModal",
   props: ["message", "loading"],
+  // watch: {
+  //   loading(newVal, oldVal) {
+
+  //   }
+  // }
 };
 </script>
 

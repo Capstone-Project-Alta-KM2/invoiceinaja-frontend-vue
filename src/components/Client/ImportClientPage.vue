@@ -1,5 +1,5 @@
 <template>
-  <div class="my-10 bg-white rounded-lg">
+  <div class="bg-white rounded-lg border">
     <back-to-clients></back-to-clients>
     <template-clients @showAlert="setClientAlert"></template-clients>
     <clients-instructions></clients-instructions>

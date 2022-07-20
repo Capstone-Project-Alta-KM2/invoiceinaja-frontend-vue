@@ -1,6 +1,41 @@
 <template>
-  <div class="p-5 bg-white relative rounded-lg border">
-    <div class="grid grid-cols-5">
+  <div class="bg-white rounded-lg min-h-[85vh] border overflow-hidden">
+    <!-- alert start-->
+    <div
+      :class="` ${
+        responseErr
+          ? 'bg-red-500 scale-100 opacity-100 py-1'
+          : responseSuccess
+          ? 'bg-green-500 scale-100 opacity-100 py-1'
+          : 'h-0 scale-0 opacity-0'
+      }     
+                text-white
+                transition-all duration-300
+                top-0 left-0 right-0
+                col-span-5
+                origin-center
+              `"
+    >
+      <div class="flex space-x-5 justify-center items-center">
+        <div>
+          <p v-if="responseErr">
+            {{ responseErr }}
+          </p>
+          <p v-if="responseSuccess">
+            {{ responseSuccess }}
+          </p>
+        </div>
+        <i
+          class="bx bx-x bx-md cursor-pointer justify-self-end"
+          @click="
+            responseErr = '';
+            responseSuccess = '';
+          "
+        ></i>
+      </div>
+    </div>
+    <!-- alert end-->
+    <div class="grid grid-cols-5 p-5">
       <div class="col-span-1">
         <div class="text-left">
           <h2 class="text-xl font-bold">Settings</h2>
@@ -73,7 +108,11 @@
         </div>
       </div>
       <div class="col-span-4">
-        <change-pass-setting></change-pass-setting>
+        <change-pass-setting
+          @hideAlert="resetRespose"
+          @sendError="actionError"
+          @sendSuccess="actionSuccess"
+        ></change-pass-setting>
       </div>
     </div>
   </div>
@@ -90,12 +129,29 @@ export default {
     return {
       classActive: "bg-[#e5d9ff] text-[#7c40ff]",
       classInactive: "bg-white text-[#131313]",
-      pageActive: "profile",
+      responseErr: "",
+      responseSuccess: "",
     };
   },
   methods: {
     toPage(path) {
       this.$router.push(path);
+    },
+    resetRespose() {
+      this.responseSuccess = "";
+      this.responseErr = "";
+    },
+    actionError(value) {
+      this.responseErr = value;
+      setTimeout(() => {
+        this.responseErr = "";
+      }, 5000);
+    },
+    actionSuccess(value) {
+      this.responseSuccess = value;
+      setTimeout(() => {
+        this.responseSuccess = "";
+      }, 5000);
     },
   },
 };

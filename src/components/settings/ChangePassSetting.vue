@@ -1,39 +1,5 @@
 <template>
   <div class="change-password px-10 mt-20 mb-10">
-    <div
-      :class="` ${
-        responseErr
-          ? 'bg-red-500 scale-100'
-          : responseSuccess
-          ? 'bg-green-500 scale-100'
-          : 'scale-0'
-      } 
-        text-white
-        transition-all duration-300
-        py-3
-        absolute top-10 left-0
-        w-full
-        rounded-md
-      `"
-    >
-      <div class="flex space-x-5 justify-center items-center">
-        <div>
-          <p v-if="responseErr">
-            {{ responseErr }}
-          </p>
-          <p v-if="responseSuccess">
-            {{ responseSuccess }}
-          </p>
-        </div>
-        <i
-          class="bx bx-x bx-md cursor-pointer"
-          @click="
-            responseErr = '';
-            responseSuccess = '';
-          "
-        ></i>
-      </div>
-    </div>
     <!-- check Password First -->
     <div v-if="!isChangePassState" class="text-left">
       <!-- Old Password -->
@@ -117,7 +83,7 @@
         </div>
       </div>
 
-      <div class="text-center">
+      <div class="text-center mt-6">
         <button
           v-ripple
           class="my-5 button button-primary"
@@ -298,19 +264,12 @@
           <button
             v-ripple
             :disabled="isLoading"
-            class="
-              my-5
-              justify-center
-              flex
-              items-center
-              space-x-5
-              button button-primary
-            "
+            class="my-6 justify-center flex items-center space-x-3 button button-primary"
           >
-            <div v-if="isLoading">
+            <div v-if="isLoading" class="flex">
               <simple-loading-animation />
             </div>
-            Change Password
+            <span>Change Password</span>
           </button>
         </div>
       </div>
@@ -339,9 +298,6 @@ export default {
       isShowPass: false,
 
       isChangePassState: false,
-
-      responseErr: "",
-      responseSuccess: "",
     };
   },
   computed: {
@@ -409,6 +365,7 @@ export default {
       }
     },
     async changePassword() {
+      this.$emit("hideAlert");
       this.isLoading = true;
       const data = {
         old_password: this.oldPassword,
@@ -422,7 +379,7 @@ export default {
         this.oldPasswordState
       );
       if (bcryptCompare) {
-        this.responseErr = "New password same with old Password";
+        this.$emit("sendError", "New password same with old Password");
         this.isLoading = false;
         document.body.scrollTop = 0; // For Safari
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
@@ -430,8 +387,7 @@ export default {
         await axios
           .post("api/v1/change_passwords", data)
           .then((res) => {
-            this.responseSuccess = res.data.meta.message;
-            this.responseErr = "";
+            this.$emit("sendSuccess", res.data.meta.message);
             let passHash = bcrypt.hashSync(this.newPassword, 10);
             this.$store.dispatch("actionOfChangePass", passHash);
             this.isLoading = false;
@@ -443,8 +399,7 @@ export default {
           })
           .catch((err) => {
             console.log("err : ", err.response);
-            this.responseSuccess = "";
-            this.responseErr = err.response.data.meta.message;
+            this.$emit("sendError", err.response.data.meta.message);
             this.isLoading = false;
           });
       } else {

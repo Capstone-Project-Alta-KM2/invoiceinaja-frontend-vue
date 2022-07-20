@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white my-10 p-10">
+  <div class="bg-white p-7 rounded-lg border overflow-hidden">
     <back-comp />
     <import-invoices />
   </div>
@@ -13,5 +13,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

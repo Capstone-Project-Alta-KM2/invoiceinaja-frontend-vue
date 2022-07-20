@@ -297,12 +297,12 @@
         container
       "
     >
+
       <div class="container">
         <Transition name="slide-fade">
           <slot />
         </Transition>
       </div>
-
       <div
         class="
           fixed

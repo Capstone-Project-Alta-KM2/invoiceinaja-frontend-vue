@@ -22,7 +22,7 @@
             <import-invoice-icon></import-invoice-icon>
             <div class="flex flex-col text-soft-purple font-bold">
               <span>Import</span>
-              <span class="my-2">File template client</span>
+              <span class="my-2 font-medium">File template client</span>
             </div>
           </div>
         </a>
@@ -54,12 +54,51 @@
       <div>
         <label
           for="upload"
-          class="cursor-pointer bg-white w-72 py-4 rounded-md flex flex-col space-y-4 shadow-card-import-export text-center text-soft-purple"
+          class="cursor-pointer bg-white w-72 py-4 rounded-md flex flex-col items-center space-y-4 shadow-card-import-export text-center text-soft-purple"
+          :class="isProgress || isUpload ? 'pointer-events-none' : ''"
         >
-          <export-icon></export-icon>
+          <!-- animation start -->
+          <div
+            v-if="isUpload"
+            class="relative flex justify-center items-center w-24 h-24 overflow-hidden m-3"
+          >
+            <div
+              class="absolute inset-0 flex justify-center items-center w-full h-full rounded-full overflow-hidden border-4 border-soft-purple"
+            >
+              <span v-if="isProgress">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-9 w-9 animate-pulse z-20"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                  />
+                </svg>
+              </span>
+            </div>
+            <div
+              v-if="isProgress"
+              class="absolute spinner-border inset-0 z-10 rounded-full animate-spin flex justify-start items-center"
+              role="status"
+            >
+              <span
+                class="bg-white text-white h-8 w-3 -ml-0.5 border-2 border-white overflow-hidden"
+              ></span>
+            </div>
+          </div>
+          <div v-else>
+            <export-icon></export-icon>
+          </div>
           <div class="flex flex-col text-soft-purple font-bold">
-            <span>Upload</span>
-            <span v-if="fileName === ''" class="my-2">
+            <span v-if="isProgress" class="animate-pulse">Uploading...</span>
+            <span v-else>Upload</span>
+            <span v-if="fileName === ''" class="my-2 font-medium">
               File template client
             </span>
             <span
@@ -96,11 +135,15 @@ export default {
     return {
       fileName: "",
       errorMessage: "",
+      isUpload: false,
+      isProgress: false,
     };
   },
   methods: {
     uploadFile() {
       this.errorMessage = "";
+      this.isUpload = true;
+      this.isProgress = true;
       this.fileName = this.$refs.uploadFile.files[0].name;
 
       let CSVFile = this.$refs.uploadFile.files[0];
@@ -112,11 +155,15 @@ export default {
         .then((res) => {
           console.log("hasil : ", res.data);
           this.errorMessage = "";
+          this.isUpload = false;
+          this.isProgress = false;
           this.$emit("showAlert");
         })
         .catch((err) => {
           console.log(err);
           this.errorMessage = err.response.data.meta.message;
+          this.isUpload = false;
+          this.isProgress = false;
         });
     },
   },
