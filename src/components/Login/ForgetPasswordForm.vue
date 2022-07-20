@@ -63,14 +63,23 @@
             <div class="flex flex-col justify-items-start">
               <div class="pb-5">
                 <div class="flex flex-col text-left">
-                  <label class="mt-3.5 mb-2 font-semibold text-lg">Email</label>
+                  <label
+                    :class="`${
+                      inputMessage ? 'text-red-500' : ''
+                    } mt-3.5 mb-2 font-semibold text-lg`"
+                    >Email</label
+                  >
                   <input
                     type="email"
                     v-model="email"
                     pattern="\s*\S+.*"
                     placeholder="Enter your email"
                     class="form w-full lowercase"
-                    :class="this.isEmailValid ? '' : 'border-failed'"
+                    :class="`${
+                      inputMessage
+                        ? 'border-red-500 focus:border-red-500 focus:ring-0'
+                        : ''
+                    } form w-full lowerca`"
                     @input="emailValidation(email)"
                   />
                 </div>
@@ -205,8 +214,7 @@ export default {
         });
     },
     emailValidation(email) {
-      var reg =
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<script>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      var reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
       if (email == "") {
         this.isEmailValid = false;
         this.inputMessage = "Email cannot be empty";
