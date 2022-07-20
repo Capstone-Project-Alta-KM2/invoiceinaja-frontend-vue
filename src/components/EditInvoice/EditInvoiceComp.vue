@@ -4,16 +4,23 @@
     @submit.prevent="editInvoices"
     class="text-left px-3 rounded-lg"
   >
-    <h1 class="text-2xl font-semibold mb-5">New Invoice</h1>
+    <h1 class="text-2xl font-semibold mb-5">Edit Invoice</h1>
     <!-- <invoice-date v-model="dateInvoiceAndNo" /> -->
-    <div class="flex space-x-10 mb-5">
+    <div
+      class="
+        grid grid-cols-3
+        gap-y-8
+        my-5
+        text-left
+        justify-items-start
+        place-items-center
+      "
+    >
       <div>
         <h3 class="font-semibold text-lg">From</h3>
-        <div class="mt-3">
-          <p class="leading-3">Indah Aisyah</p>
-          <p class="leading-3gaa">Jl. Kebangn</p>
-          <p class="leading-3">Jakarta</p>
-        </div>
+        <p class="">{{ user.fullname }}</p>
+        <p class="">{{ user.company }}</p>
+        <p class="">{{ user.email }}</p>
       </div>
       <div>
         <label for="" class="font-semibold mb-2">Invoice Date</label>
@@ -37,63 +44,174 @@
           class="form-add-invoice"
         />
       </div>
-    </div>
-
-    <!-- <form-data-client v-model="clients" /> -->
-    <div class="grid grid-cols-3 gap-y-8">
+      <div
+        v-if="errMsgClient"
+        :class="`transition-all duration-300 bg-red-500 text-white w-full text-center py-3`"
+      >
+        {{ errMsgClient }}
+      </div>
       <div class="">
-        <label for="" class="font-semibold mb-2">Invoice To</label>
-        <input
+        <label for="" class="font-semibold mb-2 inline-block">Invoice To</label>
+        <p
           type="text"
           list="clientList"
           @mousedown="fetchDataClient"
           name=""
-          v-model="clients.fullname"
+          @click="showClientData = !showClientData"
+          v-html="clients.fullname"
           ref="invoiceTo"
           id=""
-          class="form-add-invoice w-72 transition-all duration-300"
-        />
-        <div>
-          <ul v-for="clientData in dataClients" :key="clientData.id">
-            <li @click="generate(clientData.id)">{{ clientData.fullname }}</li>
-          </ul>
+          class="form-generate-add-invoice cursor-pointer"
+        ></p>
+        <div :class="` relative`" v-if="showClientData">
+          <div
+            :class="`${
+              showClientData ? 'h-32 overflow-y-scroll' : 'h-0 overflow-hidden'
+            } transition-all duration-300 
+              absolute
+              w-full
+              -left-2
+              border
+              rounded-md
+              border-soft-purple
+              top-0
+            `"
+            v-if="dataClients.length !== 0"
+          >
+            <ul
+              :class="`bg-white hover:bg-[#cdb6ff] `"
+              v-for="clientData in dataClients"
+              :key="clientData.id"
+            >
+              <li
+                @click="generate(clientData.id)"
+                class="
+                  cursor-pointer
+                  shadow-invoicein
+                  px-2
+                  py-4
+                  border-b border-b-black
+                "
+              >
+                {{ clientData.fullname }}
+              </li>
+            </ul>
+          </div>
+          <div v-else>
+            <div>
+              <p>Client is empty</p>
+              <router-link
+                to="/client"
+                class="text-soft-purple no-underline font-semibold"
+                >Add client</router-link
+              >
+            </div>
+          </div>
         </div>
       </div>
       <div class="">
         <label for="" class="font-semibold mb-2">Email</label>
-        <p class="form-add-invoice w-72" v-html="clients.email"></p>
+        <p
+          v-if="isEdit"
+          @click="isEdit = true"
+          class="form-generate-add-invoice cursor-text"
+          v-html="clients.email"
+        ></p>
+        <input
+          v-else
+          type="email"
+          class="form-generate-add-invoice"
+          v-model="clients.email"
+          @blur="updateDataClient"
+          @keydown.enter="updateDataClient"
+          name=""
+          id=""
+        />
       </div>
       <div class="">
         <label for="" class="font-semibold mb-2">Street Address</label>
-        <p class="form-add-invoice w-72" v-html="clients.address"></p>
+        <p
+          v-if="isEdit"
+          @click="isEdit = true"
+          class="form-generate-add-invoice cursor-text"
+          v-html="clients.address"
+        ></p>
+        <textarea
+          v-else
+          class="form-generate-add-invoice"
+          v-model="clients.address"
+          @blur="updateDataClient"
+          name=""
+          id=""
+        />
       </div>
       <div class="">
         <label for="" class="font-semibold mb-2">City</label>
-        <p class="form-add-invoice w-72 text-black" v-html="clients.city"></p>
+        <p
+          v-if="isEdit"
+          @click="isEdit = true"
+          class="form-generate-add-invoice cursor-text text-black"
+          v-html="clients.city"
+        ></p>
+        <input
+          v-else
+          type="text"
+          class="form-generate-add-invoice"
+          v-model="clients.city"
+          @blur="updateDataClient"
+          @keydown.enter="updateDataClient"
+          name=""
+          id=""
+        />
       </div>
       <div class="">
         <label for="" class="font-semibold mb-2">Zip Code</label>
         <p
+          v-if="isEdit"
+          @click="isEdit = true"
           type="text"
           name=""
           id=""
           ref="zipCode"
-          class="form-add-invoice w-72"
+          class="form-generate-add-invoice cursor-text"
           v-html="clients.zip_code"
         ></p>
+        <input
+          v-else
+          type="text"
+          class="form-generate-add-invoice"
+          v-model="clients.zip_code"
+          @blur="updateDataClient"
+          @keydown.enter="updateDataClient"
+          name=""
+          id=""
+        />
       </div>
       <div class="">
         <label for="" class="font-semibold mb-2">Company</label>
         <p
+          v-if="isEdit"
+          @click="isEdit = true"
           type="text"
           name=""
           ref="company"
           id=""
-          class="form-add-invoice w-72"
+          class="form-generate-add-invoice cursor-text"
           v-html="clients.company"
         ></p>
+        <input
+          v-else
+          type="text"
+          class="form-generate-add-invoice"
+          v-model="clients.company"
+          @blur="updateDataClient"
+          @keydown.enter="updateDataClient"
+          name=""
+          id=""
+        />
       </div>
     </div>
+
     <div class="flex flex-col mt-5 mb-3">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
@@ -314,7 +432,7 @@
         justify-end
         items-center
         px-10
-        pt-3
+        py-3
         border-y-4 border-y-[#B0B0B0]
         mb-5
       "
@@ -325,21 +443,22 @@
 
     <div class="text-right px-4">
       <button
+        @click="$router.push('/preview-invoice')"
         v-ripple
-        type="submit"
+        type="button"
         name=""
         id=""
         class="button button-outline-primary"
       >
-        Save as Draft
+        Cancel Edit
       </button>
       <button
         @click="previewInvoice"
-        type="button"
+        type="submit"
         v-ripple
         class="button button-primary ml-5 ripple-effect"
       >
-        Preview Invoice
+        Edit Data
       </button>
     </div>
   </form>
@@ -357,7 +476,14 @@ export default {
   },
   data() {
     return {
+      isEdit: false,
+      showClientData: false,
       dataClients: [],
+      user: {
+        fullname: "",
+        company: "",
+        email: "",
+      },
       clients: {
         id: "",
         fullname: "",
@@ -380,6 +506,8 @@ export default {
       validateMessage: "",
       invoice_date: "",
       invoice_due: "",
+
+      errMsgClient: "",
     };
   },
   computed: {
@@ -388,6 +516,34 @@ export default {
     },
   },
   methods: {
+    async updateDataClient() {
+      const dataClient = {
+        fullname: this.clients.fullname,
+        email: this.clients.email,
+        address: this.clients.address,
+        city: this.clients.city,
+        zip_code: this.clients.zip_code,
+        company: this.clients.company,
+      };
+      console.log("id client choosed : ", this.clients.id);
+      if (!this.clients.id) {
+        this.errMsgClient =
+          "Choose the client who you want to edit and empty field doesn't allowed";
+      } else {
+        await axios
+          .put(`api/v1/clients/${this.clients.id}`, dataClient)
+          .then(async () => {
+            await this.editInvoicess();
+            this.errMsgClient = "";
+          });
+      }
+    },
+    fetchUserData() {
+      let dataUser = this.$store.state.usersInfo;
+      this.user.fullname = dataUser.fullname;
+      this.user.company = dataUser.company;
+      this.user.email = dataUser.email;
+    },
     previewInvoice() {
       console.log("dapat ga nilai totalnya : ", this.invoices);
       const data = {
@@ -410,6 +566,7 @@ export default {
       this.invoices.splice(index, 1);
     },
     async editInvoicess() {
+      console.log("jalan nda y ?");
       const newArrInvoices = this.invoices.map((invo) => {
         return {
           item_name: invo.item_name,
@@ -419,16 +576,14 @@ export default {
       });
       const invoicesData = {
         invoice: {
-          client_id: this.clients.id,
+          client_id: this.clients,
           total_amount: this.totalAllInvoices,
           invoice_date: this.invoice_date,
           invoice_due: this.invoice_due,
         },
         detail_invoice: newArrInvoices,
       };
-      await axios.post("api/v1/invoices", invoicesData).then((res) => {
-        console.log("nambah : ", res);
-      });
+      this.$store.dispatch("actionOfPreview", invoicesData);
       console.log(invoicesData);
     },
     validateNumber() {
@@ -461,22 +616,30 @@ export default {
       this.clients.zip_code = filteredClients[0].zip_code;
       this.clients.company = filteredClients[0].company;
       this.dataClients = [];
+      this.showClientData = false;
     },
     fetchDataInvoice() {
-      this.clients.fullname = this.dataInvoice.invoice.client_id.fullname;
-      this.clients.email = this.dataInvoice.invoice.client_id.email;
-      this.clients.address = this.dataInvoice.invoice.client_id.address;
-      this.clients.city = this.dataInvoice.invoice.client_id.city;
-      this.clients.zip_code = this.dataInvoice.invoice.client_id.zip_code;
-      this.clients.company = this.dataInvoice.invoice.client_id.company;
+      if (this.dataInvoice) {
+        this.clients.id = this.dataInvoice.invoice.client_id.id;
+        this.clients.fullname = this.dataInvoice.invoice.client_id.fullname;
+        this.clients.email = this.dataInvoice.invoice.client_id.email;
+        this.clients.address = this.dataInvoice.invoice.client_id.address;
+        this.clients.city = this.dataInvoice.invoice.client_id.city;
+        this.clients.zip_code = this.dataInvoice.invoice.client_id.zip_code;
+        this.clients.company = this.dataInvoice.invoice.client_id.company;
 
-      this.invoices = this.dataInvoice.detail_invoice;
-      this.invoice_date = this.dataInvoice.invoice.invoice_date;
-      this.invoice_due = this.dataInvoice.invoice.invoice_due;
+        this.invoices = this.dataInvoice.detail_invoice;
+        this.invoice_date = this.dataInvoice.invoice.invoice_date;
+        this.invoice_due = this.dataInvoice.invoice.invoice_due;
+        this.totalAllInvoices = this.dataInvoice.invoice.total_amount;
+      } else {
+        this.$router.push("add-invoice");
+      }
     },
   },
   mounted() {
     this.fetchDataInvoice();
+    this.fetchUserData();
   },
   updated() {
     let total = 0;

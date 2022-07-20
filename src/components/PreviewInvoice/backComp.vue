@@ -2,7 +2,7 @@
   <div class="text-left mb-5">
     <button
       class="button button-primary flex items-center"
-      @click="$router.push('/add-invoice')"
+      @click="GoToAddInvoice"
       v-ripple
     >
       <svg
@@ -25,7 +25,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    GoToAddInvoice() {
+      this.$store.dispatch("actionOfPreview", "");
+      this.$router.push("/add-invoice");
+    },
+  },
+};
 </script>
 
 <style>

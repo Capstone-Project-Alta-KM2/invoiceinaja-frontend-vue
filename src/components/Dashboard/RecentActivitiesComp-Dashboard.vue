@@ -1,5 +1,5 @@
 <template>
-  <div class="container px-5 py-8">
+  <div class="px-5 py-8">
     <h2 class="text-left sm:text-xl lg:text-2xl font-semibold">
       Recent Activites
     </h2>
