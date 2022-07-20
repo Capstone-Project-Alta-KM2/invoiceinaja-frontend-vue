@@ -131,6 +131,13 @@
           </tr>
         </tbody>
       </table>
+      <div
+        :class="`${
+          isShowModalJWT ? 'scale-100' : 'scale-0'
+        } inset-0 bg-[rgba(0,0,0,0.5)] fixed flex justify-center items-center z-50`"
+      >
+        <JWTModal />
+      </div>
     </div>
   </div>
 </template>
@@ -139,8 +146,9 @@
 import axios from "axios";
 import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
 import EmptyInvoice from "../NotFound/EmptyInvoice.vue";
+import JWTModal from "../JWTModal.vue";
 export default {
-  components: { SimpleLoadingAnimation, EmptyInvoice },
+  components: { SimpleLoadingAnimation, EmptyInvoice, JWTModal },
   name: "InvoiceTable",
   data() {
     return {
@@ -148,6 +156,7 @@ export default {
       searchInvoice: "",
       isLoading: false,
       items: [],
+      isShowModalJWT: false,
     };
   },
   computed: {
@@ -180,8 +189,7 @@ export default {
         .catch((err) => {
           console.log("err : ", err);
           if (err.response.status === 401) {
-            localStorage.removeItem("token");
-            this.$router.push("/login");
+            this.isShowModalJWT = true;
           }
           this.isLoading = false;
         });

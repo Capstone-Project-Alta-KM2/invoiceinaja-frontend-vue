@@ -1,7 +1,21 @@
 <template>
   <div class="grid grid-cols-6 grid-rows-[55px]">
     <aside
-      class="col-span-1 row-span-2 self-start sticky top-0 left-0 z-40 min-h-screen bg-white px-2 box-border flex flex-col justify-between"
+      class="
+        col-span-1
+        row-span-2
+        self-start
+        sticky
+        top-0
+        left-0
+        z-40
+        min-h-screen
+        bg-white
+        px-2
+        box-border
+        flex flex-col
+        justify-between
+      "
     >
       <div class="w-full box-border flex flex-col space-y-14">
         <div class="self-center py-6 px-1 pt-10">
@@ -255,26 +269,51 @@
             {{ usersInfo.fullname }}
           </p>
           <div
-            class="bg-gray-400 w-10 h-10 flex justify-center items-center rounded-full overflow-hidden"
+            class="
+              bg-gray-400
+              w-10
+              h-10
+              flex
+              justify-center
+              items-center
+              rounded-full
+              overflow-hidden
+            "
             v-ripple
           >
-            <img :src="usersInfo.avatar" />
+            <img :src="`http://103.176.78.214:8080/${usersInfo.avatar}`" />
           </div>
         </div>
       </div>
     </nav>
 
     <main
-      class="col-start-2 col-span-5 row-span-1 p-7 flex justify-center container"
+      class="
+        col-start-2 col-span-5
+        row-span-1
+        p-7
+        flex
+        justify-center
+        container
+      "
     >
-      <Transition name="slide-fade">
-        <div class="container">
-          <slot />
-        </div>
-      </Transition>
 
+      <div class="container">
+        <Transition name="slide-fade">
+          <slot />
+        </Transition>
+      </div>
       <div
-        class="fixed inset-0 z-50 bg-black bg-opacity-10 min-w-full min-h-screen flex justify-center items-center"
+        class="
+          fixed
+          inset-0
+          z-50
+          bg-black bg-opacity-10
+          min-w-full min-h-screen
+          flex
+          justify-center
+          items-center
+        "
         :class="
           isModalDeleteShow ? 'dialog-animation-show' : 'dialog-animation-hide'
         "

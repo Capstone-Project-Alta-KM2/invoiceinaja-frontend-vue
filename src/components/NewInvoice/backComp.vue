@@ -2,7 +2,7 @@
   <div class="text-left mb-5">
     <button
       class="button button-primary flex items-center"
-      @click="$router.push('/invoice')"
+      @click="backTo"
       v-ripple
     >
       <svg
@@ -25,7 +25,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    backTo() {
+      console.log("current Route : ", this.$router.currentRoute);
+      if (this.$router.currentRoute.path.match("edit-invoice")) {
+        this.$router.push("/preview-invoice");
+      } else {
+        this.$router.push("/invoice");
+      }
+    },
+  },
+};
 </script>
 
 <style>
