@@ -3,7 +3,7 @@
     <div class="flex items-center">
       <div class="rounded-full overflow-hidden bg-black mr-5 w-14 h-14">
         <img
-          :src="userProfile.avatar"
+          :src="`http://103.176.78.214:8080/${userProfile.avatar}`"
           alt="Your Photo Profile"
           class="min-w-full"
         />
@@ -112,7 +112,14 @@
           <button
             type="submit"
             v-ripple
-            class="button flex items-center justify-center button-primary w-full"
+            class="
+              button
+              flex
+              items-center
+              justify-center
+              button-primary
+              w-full
+            "
             name=""
             id=""
             :disabled="

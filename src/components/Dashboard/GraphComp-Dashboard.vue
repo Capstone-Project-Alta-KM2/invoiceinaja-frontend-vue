@@ -88,12 +88,21 @@
       </div>
     </div>
     <canvas id="canvas" class="-z-10"></canvas>
+    <div
+      :class="`${
+        isShowModalJWT ? 'scale-100' : 'scale-0'
+      } inset-0 bg-[rgba(0,0,0,0.5)] fixed flex justify-center items-center z-[999px]`"
+    >
+      <JWTModal />
+    </div>
   </div>
 </template>
 
 <script>
 import Chart from "chart.js/auto";
 import axios from "axios";
+import JWTModal from "../JWTModal.vue";
+
 import Vue from "vue";
 Vue.directive("click-outside", {
   bind(el, binding, vnode) {
@@ -116,7 +125,11 @@ export default {
       date: [],
       paid: [],
       unpaid: [],
+      isShowModalJWT: false,
     };
+  },
+  components: {
+    JWTModal,
   },
   methods: {
     onClickOutside() {
@@ -211,8 +224,7 @@ export default {
         .catch((err) => {
           console.log("err : ", err);
           if (err.response.status === 401) {
-            localStorage.removeItem("token");
-            this.$router.push("/login");
+            this.isShowModalJWT = true;
           }
         });
     },

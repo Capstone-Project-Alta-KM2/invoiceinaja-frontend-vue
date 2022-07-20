@@ -1,5 +1,5 @@
 <template>
-  <div class="container flex flex-col space-y-10">
+  <div class="flex flex-col space-y-10">
     <div class="py-4 bg-white rounded-xl">
       <total-invoice />
     </div>
