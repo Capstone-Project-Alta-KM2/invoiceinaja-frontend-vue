@@ -22,7 +22,7 @@
             <import-invoice-icon></import-invoice-icon>
             <div class="flex flex-col text-soft-purple font-bold">
               <span>Import</span>
-              <span class="my-2">File template client</span>
+              <span class="my-2 font-medium">File template client</span>
             </div>
           </div>
         </a>
@@ -89,8 +89,7 @@
             >
               <span
                 class="bg-white text-white h-8 w-3 -ml-0.5 border-2 border-white overflow-hidden"
-                >Loading...</span
-              >
+              ></span>
             </div>
           </div>
           <div v-else>
@@ -99,7 +98,7 @@
           <div class="flex flex-col text-soft-purple font-bold">
             <span v-if="isProgress" class="animate-pulse">Uploading...</span>
             <span v-else>Upload</span>
-            <span v-if="fileName === ''" class="my-2">
+            <span v-if="fileName === ''" class="my-2 font-medium">
               File template client
             </span>
             <span
