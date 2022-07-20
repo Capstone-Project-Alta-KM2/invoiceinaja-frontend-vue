@@ -275,7 +275,7 @@ export default {
         password: this.password,
       };
       await axios
-        .post("/api/sessions", userLogin)
+        .post("/api/v1/sessions", userLogin)
         .then((res) => {
           console.log("response login : ", res);
           this.loginRespons = res.data.meta.message;
