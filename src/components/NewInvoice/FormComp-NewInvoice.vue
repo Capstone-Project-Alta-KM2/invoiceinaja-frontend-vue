@@ -1,9 +1,5 @@
 <template>
-  <form
-    action=""
-    @submit.prevent="addInvoices"
-    class="text-left px-3 rounded-lg"
-  >
+  <div class="text-left px-3 rounded-lg">
     <div v-if="errMsg">
       <p class="bg-red-500 my-10 text-center text-white py-2 rounded-md">
         {{ errMsg }}
@@ -50,6 +46,13 @@
     </div>
 
     <!-- <form-data-client v-model="clients" /> -->
+    <div
+      :class="`${
+        errMsgClient ? 'scale-100' : 'scale-0'
+      } transition-all duration-300 bg-red-500 text-white w-full text-center py-3`"
+    >
+      {{ errMsgClient }}
+    </div>
     <div class="grid grid-cols-3 gap-y-8">
       <div class="">
         <label for="" class="font-semibold mb-2 inline-block">Invoice To</label>
@@ -98,40 +101,99 @@
               </li>
             </ul>
           </div>
-          <div v-else>Data kosong</div>
+          <div v-else>
+            <div>
+              <p>Client is empty</p>
+              <router-link
+                to="/client"
+                class="text-soft-purple no-underline font-semibold"
+                >Add client</router-link
+              >
+            </div>
+          </div>
         </div>
       </div>
       <div class="">
         <label for="" class="font-semibold mb-2 inline-block">Email</label>
-        <p class="form-generate-add-invoice" v-html="clients.email"></p>
+        <p
+          v-if="!isEdit"
+          @click="isEdit = true"
+          class="form-generate-add-invoice cursor-text"
+          v-html="clients.email"
+        ></p>
+        <input
+          v-else
+          type="email"
+          class="form-generate-add-invoice"
+          v-model="clients.email"
+          @blur="updateDataClient"
+          @keydown.enter="updateDataClient"
+          name=""
+          id=""
+        />
       </div>
       <div class="">
         <label for="" class="font-semibold mb-2 inline-block"
           >Street Address</label
         >
-        <p class="form-generate-add-invoice" v-html="clients.address"></p>
+        <p
+          v-if="!isEdit"
+          @click="isEdit = true"
+          class="form-generate-add-invoice"
+          v-html="clients.address"
+        ></p>
+        <textarea
+          v-else
+          class="form-generate-add-invoice"
+          v-model="clients.address"
+          @blur="updateDataClient"
+          name=""
+          id=""
+        />
       </div>
       <div class="">
         <label for="" class="font-semibold mb-2 inline-block">City</label>
         <p
-          class="form-generate-add-invoice text-black"
+          v-if="!isEdit"
+          @click="isEdit = true"
+          class="form-generate-add-invoice"
           v-html="clients.city"
         ></p>
+        <input
+          v-else
+          type="text"
+          class="form-generate-add-invoice"
+          v-model="clients.city"
+          @blur="updateDataClient"
+          @keydown.enter="updateDataClient"
+          name=""
+          id=""
+        />
       </div>
       <div class="">
         <label for="" class="font-semibold mb-2 inline-block">Zip Code</label>
         <p
-          type="text"
-          name=""
-          id=""
-          ref="zipCode"
+          v-if="!isEdit"
+          @click="isEdit = true"
           class="form-generate-add-invoice"
           v-html="clients.zip_code"
         ></p>
+        <input
+          v-else
+          type="text"
+          class="form-generate-add-invoice"
+          v-model="clients.zip_code"
+          @blur="updateDataClient"
+          @keydown.enter="updateDataClient"
+          name=""
+          id=""
+        />
       </div>
       <div class="">
         <label for="" class="font-semibold mb-2 inline-block">Company</label>
         <p
+          v-if="!isEdit"
+          @click="isEdit = true"
           type="text"
           name=""
           ref="company"
@@ -139,6 +201,16 @@
           class="form-generate-add-invoice"
           v-html="clients.company"
         ></p>
+        <input
+          v-else
+          type="text"
+          class="form-generate-add-invoice"
+          v-model="clients.company"
+          @blur="updateDataClient"
+          @keydown.enter="updateDataClient"
+          name=""
+          id=""
+        />
       </div>
     </div>
     <div class="flex flex-col mt-5 mb-3">
@@ -380,6 +452,7 @@
         Preview Invoice
       </button>
       <button
+        @click="addInvoices"
         v-ripple
         type="submit"
         name=""
@@ -393,7 +466,7 @@
         Create Invoice
       </button>
     </div>
-  </form>
+  </div>
 </template>
 
 <script>
@@ -401,17 +474,14 @@ import axios from "axios";
 import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
 import { collection, addDoc } from "firebase/firestore";
 import db from "@/firebase/firebase";
-// import db from "../firebase/firebase";
-// import InvoiceDate from "./InvoiceDate-NewInvoice.vue";
-// import FormDataClient from "./DataClientFormComp.vue";
+
 export default {
   components: {
     SimpleLoadingAnimation,
-    // InvoiceDate,
-    // FormDataClient,
   },
   data() {
     return {
+      isEdit: false,
       isLoading: false,
       showClientData: false,
       user: {
@@ -443,9 +513,31 @@ export default {
       invoice_due: "",
 
       errMsg: "",
+      errMsgClient: "",
     };
   },
   methods: {
+    async updateDataClient() {
+      const dataClient = {
+        fullname: this.clients.fullname,
+        email: this.clients.email,
+        address: this.clients.address,
+        city: this.clients.city,
+        zip_code: this.clients.zip_code,
+        company: this.clients.company,
+      };
+      console.log("id client choosed : ", this.clients.id);
+      if (!this.clients.id) {
+        this.errMsgClient =
+          "Choose the client who you want to edit and empty field doesn't allowed";
+      } else {
+        await axios
+          .put(`api/v1/clients/${this.clients.id}`, dataClient)
+          .then(() => {
+            this.errMsgClient = "";
+          });
+      }
+    },
     fetchUserData() {
       let dataUser = this.$store.state.usersInfo;
       this.user.fullname = dataUser.fullname;
@@ -474,12 +566,13 @@ export default {
       this.invoices.splice(index, 1);
     },
 
-    async addInvoiceToFirebase(invoice_data, userId) {
+    async addInvoiceToFirebase(invoice_data, userId, clientId) {
       const docRef = await addDoc(collection(db, "new_invoice"), {
         invoice_data: invoice_data,
         user_id: userId,
         date_sort: Date.now(),
         id_invoice: invoice_data.id,
+        client_id: clientId,
       });
       console.log("Document written with ID: ", docRef.id);
 
@@ -523,9 +616,11 @@ export default {
             status: "UNPAID",
           };
 
+          // function for add data to firebase
           this.addInvoiceToFirebase(
             dataInvoiceFirebase,
-            this.$store.state.usersInfo.id
+            this.$store.state.usersInfo.id,
+            this.clients.id
           );
           console.log("id : ", res.data);
           console.log("nambah : ", res.data.meta.message);

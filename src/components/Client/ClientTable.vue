@@ -7,7 +7,7 @@
           @input="searchClientByName"
           v-model="searchClient"
           name="searchInvoice"
-          placeholder="Search name, Invoice, Item"
+          placeholder="Search by client name"
           class="form-add-invoice w-80 peer pl-4 focus:pl-10"
         />
         <svg
@@ -193,6 +193,7 @@
           </div>
         </div>
       </div>
+
     </div>
     <div
       v-if="totPage > 5"
@@ -202,13 +203,11 @@
         <i
           @click="PreviousPage"
           :class="`${
-            isDisablePrevious
-              ? 'hidden text-gray-500'
-              : 'block cursor-pointer text-black'
-          } bx bx-chevron-left bx-md cursor-pointer`"
+            isShowPrevious ? 'scale-100' : 'scale-0'
+          } transition-all duration-300 bx bx-chevron-left bx-md cursor-pointer`"
         ></i>
         <button
-          @click="showChangePage = !showChangePage"
+          @click="isShowModal = true"
           class="px-4 py-2 border-2 border-soft-purple"
         >
           {{ currPage }} of {{ lastPage }}
@@ -216,11 +215,59 @@
         <i
           @click="NextPage"
           :class="`${
-            isDisableNext
-              ? ' hidden text-gray-500'
-              : 'block cursor-pointer text-black'
-          } bx bx-chevron-right bx-md`"
+            isShowNext ? 'scale-100' : 'scale-0'
+          } duration-300 transition-all cursor-pointer text-black bx bx-chevron-right bx-md`"
         ></i>
+      </div>
+
+      <div
+        :class="`${isShowModal ? 'scale-100' : 'scale-0'} 
+          transition-all duration-300
+          inset-0
+          bg-[rgba(0,0,0,0.5)]
+          fixed
+          flex 
+          z-[999]
+          items-center
+          justify-center
+        `"
+      >
+        <div class="bg-white p-5 rounded-md flex flex-col space-y-5">
+          <h2 class="font-semibold text-xl">Jump to page :</h2>
+          <input
+            type="number"
+            @input="limitInputJumpPage"
+            maxlength="3"
+            name=""
+            :class="`${
+              errMsgJump ? 'border-red-500 border' : ''
+            } form-add-invoice text-center`"
+            id=""
+            v-model="currPage"
+            @keydown.enter="jumpPage(currPage)"
+          />
+          <p
+            :class="`${
+              errMsgJump ? 'scale-100' : 'scale-0'
+            } transition-all duration-300 text-red-500`"
+          >
+            {{ errMsgJump }}
+          </p>
+          <div class="flex justify-between items-center">
+            <button @click="jumpPage(currPage)" class="button button-primary">
+              <div v-if="isLoading">
+                <simple-loading-animation />
+              </div>
+              Jump
+            </button>
+            <button
+              @click="closeModalJumpPage"
+              class="button button-outline-primary"
+            >
+              Close
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <!-- modal delete start -->
@@ -246,6 +293,16 @@ import axios from "axios";
 import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
 import DeleteConfirmModal from "../Modal-Comp/DeleteConfirmModal.vue";
 import EmptyClients from "../NotFound/EmptyClients.vue";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+} from "@firebase/firestore";
+import db from "@/firebase/firebase";
 
 export default {
   name: "ClientTable",
@@ -253,16 +310,19 @@ export default {
   props: ["trigger"],
   data() {
     return {
+      isShowModal: false,
+
       idDeleted: "",
       isModalDeleteShow: false,
       isLoading: false,
       searchClient: "",
-      showChangePage: false,
       lastPage: "",
       isDisablePrevious: true,
-      isDisableNext: false,
+       isDisableNext: false,
       currPage: "",
       totPage: 0,
+      idDataFirestore: "",
+
       columns: [
         {
           label: "No. Client",
@@ -283,9 +343,54 @@ export default {
       ],
       items: [],
       deleteMessage: "Are you sure to delete this client ?",
+      errMsgJump: "",
     };
   },
+  computed: {
+    isShowNext() {
+      if (this.currPage < this.lastPage) {
+        return true;
+      } else if (this.currPage === this.lastPage) {
+        return false;
+      } else {
+        return true;
+      }
+    },
+    isShowPrevious() {
+      if (this.currPage > 1) {
+        return true;
+      } else {
+        return false;
+      }
+    },
+  },
   methods: {
+    closeModalJumpPage() {
+      this.isShowModal = false;
+    },
+    limitInputJumpPage() {
+      if (this.currPage > this.lastPage) {
+        this.currPage = this.lastPage;
+      } else if (this.currPage < 0) {
+        this.currPage = 1;
+      }
+    },
+    async jumpPage(page) {
+      this.isLoading = true;
+      console.log("hal : ", page);
+      if (this.currPage == 0) {
+        this.errMsgJump = "Can't 0 or empty";
+        this.isLoading = false;
+      } else if (this.currPage != "") {
+        await axios.get(`api/v1/clients?page=${this.currPage}`).then((res) => {
+          this.items = res.data.data;
+          this.currPage = res.data.info_data.page;
+          this.isLoading = false;
+          this.isShowModal = false;
+          this.errMsgJump = "";
+        });
+      }
+    },
     async searchClientByName() {
       if (this.searchClient !== "") {
         await axios
@@ -301,14 +406,46 @@ export default {
       }
       this.fetchDataClients();
     },
+    async fetchIdFirebaseFromFirestore() {
+      const q = query(
+        collection(db, "new_invoice"),
+        where("client_id", "==", this.idDeleted)
+      );
+      console.log("id deleted : ", this.idDeleted);
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        this.idDataFirestore = doc.id;
+      });
+    },
+    async deleteDataInFirebase() {
+      let date = new Date().toISOString().slice(0, 10);
+
+      //Add data to firebase
+      await addDoc(collection(db, "recent_activities"), {
+        message: "Client has been deleted",
+        user_id: this.$store.state.usersInfo.id,
+        created_at: date,
+        id_invoice: this.idDeleted,
+        date_sort: Date.now(),
+      });
+
+      //delete data from firebase
+      let hasilDelete = await deleteDoc(
+        doc(db, "new_invoice", this.idDataFirestore)
+      );
+      console.log("hasil delete : ", hasilDelete);
+    },
     async deleteClient() {
       this.isLoading = true;
       await axios
         .delete(`api/v1/clients/${this.idDeleted}`)
-        .then((res) => {
+        .then(async (res) => {
           console.log("deleted : ", res.data);
           this.fetchDataClients();
           this.$emit("deleteMessageSuccess", res.data.meta.message);
+           this.isLoading = false;
+          this.deleteDataInFirebase();
+
         })
         .catch((err) => {
           console.log(err);
@@ -318,33 +455,18 @@ export default {
     },
     async PreviousPage() {
       this.currPage--;
-      this.isDisableNext = false;
-      if (this.currPage <= 1) {
-        this.currPage = 1;
-        this.isDisablePrevious = true;
-      } else if (this.currPage > 1) {
-        this.isDisablePrevious = false;
-      }
+
       await axios.get(`api/v1/clients?page=${this.currPage}`).then((res) => {
         this.items = res.data.data;
         this.currPage = res.data.info_data.page;
-        this.showChangePage = false;
       });
     },
     async NextPage() {
       this.currPage++;
-      if (this.currPage == this.lastPage) {
-        this.isDisablePrevious = false;
-        this.currPage = this.lastPage;
-        this.isDisableNext = true;
-      } else {
-        this.isDisableNext = false;
-        this.isDisablePrevious = false;
-      }
+
       await axios.get(`api/v1/clients?page=${this.currPage}`).then((res) => {
         this.items = res.data.data;
         this.currPage = res.data.info_data.page;
-        this.showChangePage = false;
       });
     },
     toAddClient() {
@@ -379,6 +501,8 @@ export default {
     switchModalDelete(id) {
       this.idDeleted = id;
       this.$emit("resetDeleteMessage");
+       this.fetchIdFirebaseFromFirestore();
+
       if (this.isModalDeleteShow) {
         this.isModalDeleteShow = false;
       } else {
@@ -386,7 +510,7 @@ export default {
       }
     },
   },
-  computed: {},
+
   async mounted() {
     this.fetchDataClients();
   },

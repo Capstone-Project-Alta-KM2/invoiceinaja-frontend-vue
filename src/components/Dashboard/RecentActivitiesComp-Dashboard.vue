@@ -59,18 +59,30 @@
             :key="index"
           >
             <div class="flex text-left justify-start items-center space-x-3">
-              <div v-if="activity.message.match('created')">
-                <invoice-created-icon />
+              <div v-if="activity.message.match('invoice created')">
+                <invoice-created-deleted-icon :condition="`#21A9FF`" />
               </div>
-              <div v-else-if="activity.message.match('deleted')">
-                <invoice-deleted-icon />
+              <div
+                v-else-if="activity.message.includes('Client has been deleted')"
+              >
+                <i class="bx bxs-user-rectangle bx-md text-[#FF304C]"></i>
               </div>
+              <div v-else-if="activity.message.includes('New client created')">
+                <i class="bx bxs-user-rectangle bx-md text-[#21A9FF]"></i>
+              </div>
+              <div v-else-if="activity.message.match('has been deleted')">
+                <invoice-created-deleted-icon :condition="`#FF304C`" />
+              </div>
+
               <div class="flex justify-start flex-col">
                 <p class="font-semibold text-sm">{{ activity.message }}</p>
                 <p class="text-gray-400">{{ activity.created_at }}</p>
               </div>
             </div>
-            <p class="whitespace-nowrap">#INV - {{ activity.id_invoice }}</p>
+            <p class="whitespace-nowrap">
+              {{ activity.message.match("Client") ? "#USR" : "#INV" }} -
+              {{ activity.id_invoice }}
+            </p>
           </div>
         </div>
         <div v-else>
@@ -100,15 +112,13 @@
 <script>
 import { collection, query, getDocs, where, orderBy } from "firebase/firestore";
 
-import InvoiceCreatedIcon from "../IconComp/RecentActivities/InvoiceCreatedIcon.vue";
+import InvoiceCreatedDeletedIcon from "../IconComp/RecentActivities/InvoiceCreatedDeletedIcon.vue";
 import SimpleLoadingAnimation from "../SimpleLoadingAnimation.vue";
-import InvoiceDeletedIcon from "../IconComp/RecentActivities/InvoiceDeletedIcon.vue";
 import db from "@/firebase/firebase";
 export default {
   components: {
-    InvoiceCreatedIcon,
+    InvoiceCreatedDeletedIcon,
     SimpleLoadingAnimation,
-    InvoiceDeletedIcon,
   },
   data() {
     return {
