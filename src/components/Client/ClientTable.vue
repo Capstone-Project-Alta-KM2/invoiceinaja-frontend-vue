@@ -94,13 +94,7 @@
                 </th>
                 <th
                   scope="col"
-                  class="
-                    text-sm text-center
-                    font-medium
-                    text-gray-900
-                    px-6
-                    py-4
-                  "
+                  class="text-sm text-center font-medium text-gray-900 px-6 py-4"
                 >
                   Actions
                 </th>
@@ -138,12 +132,12 @@
                   <button
                     v-ripple
                     class="flex rounded-lg bg-[#ebe2ff] text-soft-purple px-3 py-2 items-center"
-                    @click="toEditClient(item)">
+                    @click="toEditClient(item)"
+                  >
                     <svg
                       width="20"
                       height="20"
                       viewBox="0 0 20 20"
-
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
@@ -167,7 +161,8 @@
                   <button
                     @click="switchModalDelete(item.id)"
                     v-ripple
-                    class="flex rounded-lg bg-[rgba(255,48,76,0.4)] transition-all duration-300 hover:bg-[rgba(255,48,76,0.3)] text-overdue-color px-3 py-2 items-center">
+                    class="flex rounded-lg bg-[rgba(255,48,76,0.4)] transition-all duration-300 hover:bg-[rgba(255,48,76,0.3)] text-overdue-color px-3 py-2 items-center"
+                  >
                     <i class="bx bx-trash text-overdue-color bx-sm"></i>
                     <span> Delete </span>
                   </button>
@@ -193,7 +188,7 @@
         v-if="totPage > 5"
         class="flex items-center flex-col justify-end space-x-5 px-4 py-3"
       >
-        <div>
+        <!-- <div>
           <div
             v-for="sumNoPage in lastPage"
             :key="sumNoPage"
@@ -205,9 +200,8 @@
               {{ sumNoPage }}
             </p>
           </div>
-        </div>
+        </div> -->
       </div>
-
     </div>
     <div
       v-if="totPage > 5"
@@ -230,14 +224,7 @@
         </div>
         <div
           @click="isEditedPagination = true"
-          class="
-            px-4
-            py-2
-            flex
-            space-x-2
-            items-center
-            border-2 border-soft-purple
-          "
+          class="px-4 py-2 flex space-x-2 items-center border-2 border-soft-purple"
         >
           <input
             v-if="isEditedPagination"
@@ -248,14 +235,7 @@
             @input="changePagePagination"
             v-model="currPage"
             id=""
-            class="
-              w-6
-              text-center
-              border-none
-              outline-none
-              p-1
-              focus:border-none focus:outline-none
-            "
+            class="w-6 text-center border-none outline-none p-1 focus:border-none focus:outline-none"
           />
           <p v-else>
             {{ currPage }}
@@ -340,7 +320,7 @@ export default {
       searchClient: "",
       lastPage: "",
       isDisablePrevious: true,
-       isDisableNext: false,
+      isDisableNext: false,
       currPage: "",
       totPage: 0,
       idDataFirestore: "",
@@ -438,9 +418,8 @@ export default {
           console.log("deleted : ", res.data);
           this.fetchDataClients();
           this.$emit("deleteMessageSuccess", res.data.meta.message);
-           this.isLoading = false;
+          this.isLoading = false;
           this.deleteDataInFirebase();
-
         })
         .catch((err) => {
           console.log(err);
@@ -521,7 +500,7 @@ export default {
     switchModalDelete(id) {
       this.idDeleted = id;
       this.$emit("resetDeleteMessage");
-       this.fetchIdFirebaseFromFirestore();
+      this.fetchIdFirebaseFromFirestore();
 
       if (this.isModalDeleteShow) {
         this.isModalDeleteShow = false;

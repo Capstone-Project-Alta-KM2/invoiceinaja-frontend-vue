@@ -1,21 +1,10 @@
 <template>
-  <div class="grid grid-cols-6 grid-rows-[55px]">
+  <div
+    class="grid grid-cols-6 grid-rows-[55px]"
+    :class="isNotifShow ? 'max-h-screen overflow-hidden' : ''"
+  >
     <aside
-      class="
-        col-span-1
-        row-span-2
-        self-start
-        sticky
-        top-0
-        left-0
-        z-40
-        min-h-screen
-        bg-white
-        px-2
-        box-border
-        flex flex-col
-        justify-between
-      "
+      class="col-span-1 row-span-2 self-start sticky top-0 left-0 z-40 min-h-screen bg-white px-2 box-border flex flex-col justify-between"
     >
       <div class="w-full box-border flex flex-col space-y-14">
         <div class="self-center py-6 px-1 pt-10">
@@ -243,20 +232,45 @@
         id="navbar"
         class="px-4 py-3.5 flex space-x-6 justify-end items-center h-full"
       >
-        <svg
-          width="23"
-          height="28"
-          viewBox="0 0 23 28"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          class="cursor-pointer"
-        >
-          <path
-            d="M9.58325 1.66669H13.0833V3.60969V4.40289L13.8556 4.58344C15.3858 4.9411 16.5367 5.75673 17.3226 6.97575C18.1212 8.21453 18.5833 9.9356 18.5833 12.1417V19.5667V20.1898L19.1426 20.4644L21.3333 21.5398V22.6167H1.33325V21.5398L3.52393 20.4644L4.08325 20.1898V19.5667V12.1417V12.1227L4.08253 12.1037C4.01707 10.3826 4.41149 8.67382 5.22769 7.14699C5.60106 6.50285 6.10927 5.94167 6.7203 5.5009C7.33542 5.05718 8.04047 4.74579 8.78915 4.58826L9.58325 4.42117V3.60969V1.66669ZM11.7667 26.6127H11.7174L11.6182 26.633C11.522 26.6527 11.424 26.6639 11.3256 26.6666C10.8575 26.6612 10.4133 26.4767 10.0866 26.1575C10.0252 26.0975 9.96889 26.0337 9.91784 25.9667H12.7398C12.654 26.0788 12.5542 26.1813 12.4421 26.2715C12.2448 26.4302 12.0146 26.5467 11.7667 26.6127Z"
-            stroke="black"
-            stroke-width="2"
-          />
-        </svg>
+        <div class="relative" v-click-outside="onClickOutside">
+          <div
+            class="cursor-pointer"
+            @click="isNotifShow ? (isNotifShow = false) : (isNotifShow = true)"
+          >
+            <svg
+              width="23"
+              height="28"
+              viewBox="0 0 23 28"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M9.58325 1.66669H13.0833V3.60969V4.40289L13.8556 4.58344C15.3858 4.9411 16.5367 5.75673 17.3226 6.97575C18.1212 8.21453 18.5833 9.9356 18.5833 12.1417V19.5667V20.1898L19.1426 20.4644L21.3333 21.5398V22.6167H1.33325V21.5398L3.52393 20.4644L4.08325 20.1898V19.5667V12.1417V12.1227L4.08253 12.1037C4.01707 10.3826 4.41149 8.67382 5.22769 7.14699C5.60106 6.50285 6.10927 5.94167 6.7203 5.5009C7.33542 5.05718 8.04047 4.74579 8.78915 4.58826L9.58325 4.42117V3.60969V1.66669ZM11.7667 26.6127H11.7174L11.6182 26.633C11.522 26.6527 11.424 26.6639 11.3256 26.6666C10.8575 26.6612 10.4133 26.4767 10.0866 26.1575C10.0252 26.0975 9.96889 26.0337 9.91784 25.9667H12.7398C12.654 26.0788 12.5542 26.1813 12.4421 26.2715C12.2448 26.4302 12.0146 26.5467 11.7667 26.6127Z"
+                :stroke="isNotifShow ? '#9B6DFF' : 'black'"
+                :fill="isNotifShow ? '#9B6DFF' : 'white'"
+                stroke-width="2"
+              />
+            </svg>
+            <span
+              v-if="!isNotifShow && activities.length != 0"
+              class="absolute top-0 -right-0.5 w-3 h-3 bg-soft-purple rounded-full"
+            ></span>
+          </div>
+          <div
+            class="absolute right-0 z-40 w-[420px] min-h-[200px] max-h-[80vh] overflow-y-auto scroll-smooth mt-1 bg-white rounded-lg origin-top transition-all duration-300 shadow-notif"
+            :class="isNotifShow ? 'scale-y-100' : 'scale-y-0'"
+          >
+            <div class="text-left sticky top-0 bg-white p-4">
+              <h4 class="text-lg font-semibold">Recent Activities</h4>
+            </div>
+            <floating-notification
+              v-if="isNotifShow"
+              :isLoading="isLoadingActivity"
+              :userActivities="activities"
+              @refetchActivities="fetchRecentActivitesFromFirebase"
+            ></floating-notification>
+          </div>
+        </div>
         <div v-if="Object.keys(usersInfo).length === 0">
           <p>Belum login</p>
         </div>
@@ -269,16 +283,7 @@
             {{ usersInfo.fullname }}
           </p>
           <div
-            class="
-              bg-gray-400
-              w-10
-              h-10
-              flex
-              justify-center
-              items-center
-              rounded-full
-              overflow-hidden
-            "
+            class="bg-gray-400 w-10 h-10 flex justify-center items-center rounded-full overflow-hidden"
             v-ripple
           >
             <img :src="`http://103.176.78.214:8080/${usersInfo.avatar}`" />
@@ -288,32 +293,19 @@
     </nav>
 
     <main
-      class="
-        col-start-2 col-span-5
-        row-span-1
-        p-7
-        flex
-        justify-center
-        container
-      "
+      class="col-start-2 col-span-5 row-span-1 p-7 flex justify-center container"
     >
-
+      <div
+        v-if="isNotifShow"
+        class="fixed inset-0 z-20 bg-black bg-opacity-20"
+      ></div>
       <div class="container">
         <Transition name="slide-fade">
           <slot />
         </Transition>
       </div>
       <div
-        class="
-          fixed
-          inset-0
-          z-50
-          bg-black bg-opacity-10
-          min-w-full min-h-screen
-          flex
-          justify-center
-          items-center
-        "
+        class="fixed inset-0 z-50 bg-black bg-opacity-10 min-w-full min-h-screen flex justify-center items-center"
         :class="
           isModalDeleteShow ? 'dialog-animation-show' : 'dialog-animation-hide'
         "
@@ -330,13 +322,34 @@
 </template>
 
 <script>
+import db from "@/firebase/firebase";
+import { collection, query, getDocs, where, orderBy } from "firebase/firestore";
 import DeleteConfirmModal from "@/components/Modal-Comp/DeleteConfirmModal.vue";
+import FloatingNotification from "@/components/Modal-Comp/FloatingNotification.vue";
+
+import Vue from "vue";
+Vue.directive("click-outside", {
+  bind(el, binding, vnode) {
+    el.clickOutsideEvent = (event) => {
+      if (!(el === event.target || el.contains(event.target))) {
+        vnode.context[binding.expression](event);
+      }
+    };
+    document.body.addEventListener("click", el.clickOutsideEvent);
+  },
+  unbind(el) {
+    document.body.removeEventListener("click", el.clickOutsideEvent);
+  },
+});
 export default {
-  components: { DeleteConfirmModal },
+  components: { DeleteConfirmModal, FloatingNotification },
   data() {
     return {
       isModalDeleteShow: false,
       isLoading: false,
+      isNotifShow: false,
+      activities: [],
+      isLoadingActivity: false,
       activeClass: "bg-[#e5d9ff] text-[#7c40ff]",
     };
   },
@@ -354,13 +367,34 @@ export default {
       localStorage.removeItem("token");
       this.$router.push("/login");
     },
+    async fetchRecentActivitesFromFirebase() {
+      this.activities = [];
+      this.isLoadingActivity = true;
+      const q = query(
+        collection(db, "recent_activities"),
+        where("user_id", "==", this.$store.state.usersInfo.id),
+        orderBy("date_sort", "desc")
+      );
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        this.activities.push(doc.data());
+      });
+      this.isLoadingActivity = false;
+    },
+    onClickOutside() {
+      this.isNotifShow = false;
+    },
   },
   computed: {
     usersInfo() {
       return this.$store.state.usersInfo;
     },
   },
-  mounted() {},
+  mounted() {
+    this.isLoadingActivity = true;
+    this.fetchRecentActivitesFromFirebase();
+  },
 };
 </script>
 
@@ -377,5 +411,8 @@ export default {
 /* .slide-fade-leave-active below version 2.1.8 */ {
   transform: translateY(-30px);
   opacity: 0;
+}
+.shadow-notif {
+  box-shadow: 4px 4px 12px 1px rgba(155, 109, 255, 0.2);
 }
 </style>
