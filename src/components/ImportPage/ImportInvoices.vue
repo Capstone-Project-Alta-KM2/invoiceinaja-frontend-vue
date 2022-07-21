@@ -170,7 +170,7 @@ export default {
       fileCsv.append("csv_file", CSVFile);
 
       await axios
-        .post("api/v1/invoices_by_csv", fileCsv)
+        .post("/api/v1/invoices_by_csv", fileCsv)
         .then((res) => {
           console.log("hasil : ", res.data);
           this.errorMessage = "";

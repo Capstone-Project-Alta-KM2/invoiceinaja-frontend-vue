@@ -1,16 +1,46 @@
 <template>
   <div class="profile-settiing px-10 mt-20 mb-10">
     <div class="flex items-center">
-      <div class="rounded-full overflow-hidden bg-black mr-5 w-14 h-14">
-        <img
-          :src="`http://103.176.78.214:8080/${userProfile.avatar}`"
-          alt="Your Photo Profile"
-          class="min-w-full"
+      <div class="relative mr-5 w-20 h-20 rounded-full">
+        <label for="photo-profile" class="cursor-pointer">
+          <div
+            class="rounded-full overflow-hidden bg-gray-200 border border-soft-purple w-full h-full flex justify-center items-center"
+            v-ripple
+          >
+            <img
+              :src="`http://103.176.78.214:8080/${userProfile.avatar}`"
+              class="min-w-full min-h-full"
+            />
+          </div>
+          <div
+            class="absolute -right-1 -bottom-1 p-2 bg-black bg-opacity-30 rounded-full"
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 14 12"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.7037 1.84615H10.5L9.975 0.349451C9.93873 0.247035 9.87226 0.158508 9.78468 0.0959631C9.69709 0.0334177 9.59266 -9.6036e-05 9.48565 2.06708e-07H4.51435C4.2956 2.06708e-07 4.09954 0.14011 4.02662 0.349451L3.5 1.84615H1.2963C0.580093 1.84615 0 2.43626 0 3.16484V10.6813C0 11.4099 0.580093 12 1.2963 12H12.7037C13.4199 12 14 11.4099 14 10.6813V3.16484C14 2.43626 13.4199 1.84615 12.7037 1.84615ZM7 9.36264C5.56759 9.36264 4.40741 8.18242 4.40741 6.72528C4.40741 5.26813 5.56759 4.08791 7 4.08791C8.43241 4.08791 9.59259 5.26813 9.59259 6.72528C9.59259 8.18242 8.43241 9.36264 7 9.36264ZM5.44444 6.72528C5.44444 7.14496 5.60833 7.54745 5.90006 7.84421C6.19178 8.14097 6.58744 8.30769 7 8.30769C7.41256 8.30769 7.80822 8.14097 8.09994 7.84421C8.39167 7.54745 8.55556 7.14496 8.55556 6.72528C8.55556 6.30559 8.39167 5.9031 8.09994 5.60634C7.80822 5.30958 7.41256 5.14286 7 5.14286C6.58744 5.14286 6.19178 5.30958 5.90006 5.60634C5.60833 5.9031 5.44444 6.30559 5.44444 6.72528Z"
+                fill="#7C40FF"
+              />
+            </svg>
+          </div>
+        </label>
+        <input
+          type="file"
+          id="photo-profile"
+          class="hidden"
+          ref="changePhotoProfile"
+          accept="image/*"
+          @input="changePhotoProfile"
         />
       </div>
       <div class="flex flex-col items-start">
-        <span class="font-semibold">{{ userProfile.fullname }}</span>
-        <span class="text-sm">{{ userProfile.email }}</span>
+        <span class="font-semibold text-lg">{{ userProfile.fullname }}</span>
+        <span class="text-base">{{ userProfile.email }}</span>
       </div>
     </div>
     <div class="mt-10">
@@ -112,14 +142,7 @@
           <button
             type="submit"
             v-ripple
-            class="
-              button
-              flex
-              items-center
-              justify-center
-              button-primary
-              w-full
-            "
+            class="button flex items-center justify-center button-primary w-full"
             name=""
             id=""
             :disabled="
@@ -225,12 +248,33 @@ export default {
       this.company = this.userProfile.company;
       this.photoProfile = this.userProfile.avatar;
     },
+    async changePhotoProfile() {
+      this.$emit("hideAlert");
+      const userPhoto = this.$refs.changePhotoProfile.files[0];
+      const formData = new FormData();
+      formData.append("avatar", userPhoto);
+
+      await axios
+        .post("/api/v1/avatars", formData)
+        .then((res) => {
+          console.log("Photo Suk : ");
+          console.log(res);
+          this.$emit("sendSuccess", res.data.meta.message);
+        })
+        .catch((err) => {
+          console.log("Photo Er : ");
+          console.log(err);
+          this.$emit("sendError", err.response.data.meta.message);
+        });
+    },
   },
   mounted() {
     this.setFieldValue();
     console.log(this.userProfile);
+    console.log("Avatar : ");
+    console.log(this.updateProfile.avatar);
   },
 };
 </script>
 
-<style></style>
+<style scoped></style>
