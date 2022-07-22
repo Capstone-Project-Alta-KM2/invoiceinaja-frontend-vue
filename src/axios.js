@@ -1,5 +1,5 @@
 import axios from 'axios'
-axios.defaults.baseURL = "http://103.176.78.214:8080/";
+axios.defaults.baseURL = "http://103.31.39.19:8080/";
 
 axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem("token")
 axios.defaults.headers.common['Content-Type'] = 'multipart/form-data'
